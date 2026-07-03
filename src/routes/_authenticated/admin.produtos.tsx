@@ -19,25 +19,20 @@ type FormState = {
   preco: string;
   estoque: string;
   ativo: boolean;
-  camposJson: string;
+  temTamanho: boolean;
+  tamanhos: string;
 };
 
 const EMPTY: FormState = {
   slug: "",
   nome: "",
   descricao: "",
-  imagem: "/images/destino-chapada.jpg",
+  imagem: "",
   preco: "",
   estoque: "10",
   ativo: true,
-  camposJson: JSON.stringify(
-    [
-      { nome: "tamanho", label: "Tamanho", tipo: "select", opcoes: ["P", "M", "G", "GG"] },
-      { nome: "nome_bordado", label: "Nome bordado (opcional)", tipo: "text" },
-    ] satisfies CampoPersonalizacao[],
-    null,
-    2,
-  ),
+  temTamanho: false,
+  tamanhos: "P, M, G, GG",
 };
 
 function slugify(s: string) {
