@@ -80,8 +80,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Dumas Trekk — Expedições de trekking e ecoturismo" },
       { name: "twitter:description", content: "Trekking, montanhismo e expedições cuidadosamente planejadas. Explore lugares que transformam vidas com guias certificados." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9a8904fc-bb39-468f-ad8c-92656ebd9aee/id-preview-c7b771fc--792b5a1b-2813-4365-ae55-8736a903d739.lovable.app-1783094365209.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9a8904fc-bb39-468f-ad8c-92656ebd9aee/id-preview-c7b771fc--792b5a1b-2813-4365-ae55-8736a903d739.lovable.app-1783094365209.png" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Dumas Trekk",
+          url: "https://dumastrekk.lovable.app",
+          logo: "https://dumastrekk.lovable.app/logo-dumas.png",
+          sameAs: ["https://instagram.com/dumastrekk"],
+        }),
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
