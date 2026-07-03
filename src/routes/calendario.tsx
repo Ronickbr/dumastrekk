@@ -48,7 +48,7 @@ function CalendarioPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {DESTINOS.map((d, i) => (
+              {destinos.map((d, i) => (
                 <tr key={d.slug} className="hover:bg-secondary/30">
                   <td className="px-6 py-5 font-medium">
                     <div className="inline-flex items-center gap-2"><Calendar className="h-4 w-4 text-primary" />{d.data}</div>
