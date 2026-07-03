@@ -41,15 +41,20 @@ function DestinosPage() {
   const [mes, setMes] = useState<string>("");
   const [faixa, setFaixa] = useState<number>(0);
 
+  const { data: destinos = [], isLoading } = useQuery({
+    queryKey: destinosQueryKey,
+    queryFn: fetchDestinos,
+  });
+
   const list = useMemo(() => {
     const { min, max } = FAIXAS_PRECO[faixa];
-    return DESTINOS.filter((d) => {
+    return destinos.filter((d) => {
       if (mes && mesDoDestino(d.data) !== mes) return false;
       if (d.precoDesde < min || d.precoDesde > max) return false;
       if (q && !(`${d.nome} ${d.local} ${d.estado}`.toLowerCase().includes(q.toLowerCase()))) return false;
       return true;
     });
-  }, [q, mes, faixa]);
+  }, [destinos, q, mes, faixa]);
 
   return (
     <>
