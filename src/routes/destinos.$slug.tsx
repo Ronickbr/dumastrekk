@@ -163,12 +163,12 @@ function DestinoDetail() {
               </label>
               <label className="block">
                 <span className="text-xs text-muted-foreground">Pessoas</span>
-                <input type="number" min={1} max={12} defaultValue={1} className="mt-1 w-full rounded-lg border border-input bg-background px-3 py-2" />
+                <input type="number" min={1} max={12} value={pessoas} onChange={(e) => setPessoas(Number(e.target.value))} className="mt-1 w-full rounded-lg border border-input bg-background px-3 py-2" />
               </label>
             </div>
 
-            <button className="mt-6 w-full rounded-full bg-primary py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90">
-              Reservar agora
+            <button onClick={onReservar} disabled={reservando} className="mt-6 w-full rounded-full bg-primary py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50">
+              {reservando ? "Reservando..." : "Reservar agora"}
             </button>
             <a
               href="https://wa.me/5511912345678"
