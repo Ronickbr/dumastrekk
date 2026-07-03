@@ -41,6 +41,31 @@ export const Route = createFileRoute("/destinos/$slug")({
 
 function DestinoDetail() {
   const { destino: d } = Route.useLoaderData();
+  const navigate = useNavigate();
+  const [pessoas, setPessoas] = useState(1);
+  const [reservando, setReservando] = useState(false);
+
+  const onReservar = async () => {
+    setReservando(true);
+    const { data: session } = await supabase.auth.getSession();
+    if (!session.session) {
+      toast.info("Entre ou crie sua conta para reservar");
+      navigate({ to: "/auth" });
+      return;
+    }
+    const { error } = await supabase.from("reservas").insert({
+      user_id: session.session.user.id,
+      destino_slug: d.slug,
+      destino_nome: d.nome,
+      pessoas,
+      status: "pendente",
+    });
+    setReservando(false);
+    if (error) return toast.error("Não foi possível criar a reserva");
+    toast.success("Reserva criada! Confira em Minha conta.");
+    navigate({ to: "/conta" });
+  };
+
 
   return (
     <>
