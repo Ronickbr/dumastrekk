@@ -158,8 +158,8 @@ function Navbar() {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "glass shadow-sm" : "bg-transparent"}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <Link to="/" className="flex items-center gap-2 font-serif text-xl font-semibold">
-          <Mountain className="h-6 w-6 text-primary" strokeWidth={1.5} />
+        <Link to="/" className="flex items-center gap-2.5 font-serif text-xl font-semibold">
+          <img src="/logo-dumas.jpg" alt="Dumas Trekk" className="h-10 w-10 rounded-full object-cover ring-2 ring-white/60 shadow-sm" />
           <span className={scrolled ? "text-foreground" : "text-white drop-shadow"}>Dumas Trekk</span>
         </Link>
         <nav className="hidden items-center gap-8 text-sm font-medium lg:flex">
