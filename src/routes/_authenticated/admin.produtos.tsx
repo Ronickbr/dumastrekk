@@ -141,10 +141,18 @@ function AdminProdutos() {
             <Field label="Estoque"><input type="number" min={0} value={form.estoque} onChange={(e) => setForm({ ...form, estoque: e.target.value })} className={inputCls} /></Field>
           </div>
           <div className="md:col-span-2"><Field label="Descrição *"><textarea required rows={3} value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} className={inputCls} /></Field></div>
-          <div className="md:col-span-2">
-            <Field label='Campos de personalização (JSON) — ex: [{"nome":"cor","label":"Cor","tipo":"select","opcoes":["Preto","Verde"]}]'>
-              <textarea rows={8} value={form.camposJson} onChange={(e) => setForm({ ...form, camposJson: e.target.value })} className={inputCls + " font-mono text-xs"} />
-            </Field>
+          <div className="md:col-span-2 rounded-2xl border border-border bg-secondary/30 p-4">
+            <label className="flex items-center gap-2 text-sm font-medium">
+              <input type="checkbox" checked={form.temTamanho} onChange={(e) => setForm({ ...form, temTamanho: e.target.checked })} />
+              Este produto tem tamanhos (camisas, moletons, etc.)
+            </label>
+            {form.temTamanho && (
+              <div className="mt-3">
+                <Field label="Tamanhos disponíveis (separados por vírgula)">
+                  <input value={form.tamanhos} onChange={(e) => setForm({ ...form, tamanhos: e.target.value })} placeholder="P, M, G, GG" className={inputCls} />
+                </Field>
+              </div>
+            )}
           </div>
           <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.ativo} onChange={(e) => setForm({ ...form, ativo: e.target.checked })} /> Ativo (visível na loja)</label>
         </div>
