@@ -239,9 +239,8 @@ function Footer() {
     <footer className="mt-24 border-t border-border bg-secondary/40">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-4">
         <div>
-          <Link to="/" className="flex items-center gap-2.5 font-serif text-xl font-semibold">
-            <img src="/logo-dumas.jpg" alt="Dumas Trekk" className="h-10 w-10 rounded-full object-cover" />
-            Dumas Trekk
+          <Link to="/" aria-label="Dumas Trekk — Início" className="inline-flex items-center">
+            <img src="/logo-dumas.png" alt="Dumas Trekk — Turismo de Aventura" className="h-20 w-20 object-contain" />
           </Link>
           <p className="mt-4 text-sm text-muted-foreground">
             Expedições de trekking, ecoturismo e aventura com segurança, propósito e respeito à natureza.
