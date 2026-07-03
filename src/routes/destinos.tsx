@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
-import { DESTINOS, type Destino } from "@/lib/destinos";
+import { DESTINOS } from "@/lib/destinos";
 import { DestinoCard } from "@/components/DestinoCard";
 
 export const Route = createFileRoute("/destinos")({
@@ -17,24 +17,38 @@ export const Route = createFileRoute("/destinos")({
   }),
 });
 
-const NIVEIS: Destino["nivel"][] = ["Fácil", "Moderado", "Difícil", "Expedição"];
-const TIPOS: Destino["tipo"][] = ["Trekking", "Cachoeiras", "Montanhismo", "Acampamento"];
+const MESES = [
+  "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
+  "Jul", "Ago", "Set", "Out", "Nov", "Dez",
+];
+
+const FAIXAS_PRECO = [
+  { label: "Qualquer valor", min: 0, max: Infinity },
+  { label: "Até R$ 2.000", min: 0, max: 2000 },
+  { label: "R$ 2.000 – R$ 5.000", min: 2000, max: 5000 },
+  { label: "R$ 5.000 – R$ 10.000", min: 5000, max: 10000 },
+  { label: "Acima de R$ 10.000", min: 10000, max: Infinity },
+];
+
+function mesDoDestino(data: string): string | null {
+  const match = data.match(/(Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez)/);
+  return match ? match[1] : null;
+}
 
 function DestinosPage() {
   const [q, setQ] = useState("");
-  const [nivel, setNivel] = useState<string>("");
-  const [tipo, setTipo] = useState<string>("");
-  const [preco, setPreco] = useState<number>(15000);
+  const [mes, setMes] = useState<string>("");
+  const [faixa, setFaixa] = useState<number>(0);
 
   const list = useMemo(() => {
+    const { min, max } = FAIXAS_PRECO[faixa];
     return DESTINOS.filter((d) => {
-      if (nivel && d.nivel !== nivel) return false;
-      if (tipo && d.tipo !== tipo) return false;
-      if (d.precoDesde > preco) return false;
+      if (mes && mesDoDestino(d.data) !== mes) return false;
+      if (d.precoDesde < min || d.precoDesde > max) return false;
       if (q && !(`${d.nome} ${d.local} ${d.estado}`.toLowerCase().includes(q.toLowerCase()))) return false;
       return true;
     });
-  }, [q, nivel, tipo, preco]);
+  }, [q, mes, faixa]);
 
   return (
     <>
@@ -42,7 +56,7 @@ function DestinosPage() {
         <div className="mx-auto max-w-7xl px-6">
           <p className="text-xs uppercase tracking-widest text-white/70">Destinos</p>
           <h1 className="mt-2 max-w-3xl font-serif text-5xl md:text-6xl">Escolha sua próxima expedição.</h1>
-          <p className="mt-4 max-w-xl text-white/80">Filtre por nível, tipo, preço e duração. Vagas limitadas por saída.</p>
+          <p className="mt-4 max-w-xl text-white/80">Filtre por mês de saída e faixa de preço. Vagas limitadas por saída.</p>
         </div>
       </section>
 
@@ -57,18 +71,23 @@ function DestinosPage() {
               className="w-full rounded-full border border-input bg-background pl-10 pr-4 py-2.5 text-sm outline-none focus:border-primary"
             />
           </div>
-          <select value={nivel} onChange={(e) => setNivel(e.target.value)} className="rounded-full border border-input bg-background px-4 py-2.5 text-sm">
-            <option value="">Todos os níveis</option>
-            {NIVEIS.map((n) => <option key={n} value={n}>{n}</option>)}
+          <select
+            value={mes}
+            onChange={(e) => setMes(e.target.value)}
+            aria-label="Filtrar por mês"
+            className="rounded-full border border-input bg-background px-4 py-2.5 text-sm"
+          >
+            <option value="">Todos os meses</option>
+            {MESES.map((m) => <option key={m} value={m}>{m}</option>)}
           </select>
-          <select value={tipo} onChange={(e) => setTipo(e.target.value)} className="rounded-full border border-input bg-background px-4 py-2.5 text-sm">
-            <option value="">Todos os tipos</option>
-            {TIPOS.map((n) => <option key={n} value={n}>{n}</option>)}
+          <select
+            value={faixa}
+            onChange={(e) => setFaixa(Number(e.target.value))}
+            aria-label="Filtrar por faixa de preço"
+            className="rounded-full border border-input bg-background px-4 py-2.5 text-sm"
+          >
+            {FAIXAS_PRECO.map((f, i) => <option key={f.label} value={i}>{f.label}</option>)}
           </select>
-          <label className="flex items-center gap-3 text-xs text-muted-foreground">
-            Preço até R$ {preco.toLocaleString("pt-BR")}
-            <input type="range" min={1000} max={15000} step={500} value={preco} onChange={(e) => setPreco(Number(e.target.value))} className="accent-primary" />
-          </label>
         </div>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
