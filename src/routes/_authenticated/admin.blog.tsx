@@ -82,18 +82,24 @@ function AdminBlog() {
     qc.invalidateQueries({ queryKey: blogQueryKey });
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSaving(true);
+  const save = async (publicado: boolean) => {
     const slug = form.slug || slugify(form.titulo);
-    const payload = { slug, titulo: form.titulo.trim(), resumo: form.resumo.trim(), conteudo: form.conteudo, imagem: form.imagem.trim(), autor: form.autor.trim() || "Dumas Trekk", publicado: form.publicado };
-    if (!payload.titulo || !payload.resumo || !payload.conteudo || !payload.imagem) { setSaving(false); return toast.error("Preencha todos os campos"); }
+    const payload = { slug, titulo: form.titulo.trim(), resumo: form.resumo.trim(), conteudo: form.conteudo, imagem: form.imagem.trim(), autor: form.autor.trim() || "Dumas Trekk", publicado };
+    if (!payload.titulo || !payload.resumo || !payload.conteudo || !payload.imagem) return toast.error("Preencha todos os campos");
+    setSaving(true);
     const { error } = editingId ? await supabase.from("blog_posts").update(payload).eq("id", editingId) : await supabase.from("blog_posts").insert(payload);
     setSaving(false);
     if (error) return toast.error(error.message);
-    toast.success(editingId ? "Post atualizado" : "Post criado");
+    toast.success(publicado ? "Post publicado" : "Rascunho salvo");
     qc.invalidateQueries({ queryKey: blogQueryKey });
     onCancel();
+  };
+
+  const togglePublicado = async (p: BlogPost) => {
+    const { error } = await supabase.from("blog_posts").update({ publicado: !p.publicado }).eq("id", p.id);
+    if (error) return toast.error(error.message);
+    toast.success(!p.publicado ? "Post publicado" : "Movido para rascunho");
+    qc.invalidateQueries({ queryKey: blogQueryKey });
   };
 
   return (
