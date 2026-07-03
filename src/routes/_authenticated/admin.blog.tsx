@@ -152,6 +152,7 @@ function AdminBlog() {
                   <td className="px-4 py-3">{p.publicado ? <span className="rounded-full bg-primary/10 px-2 py-1 text-xs text-primary">Publicado</span> : <span className="rounded-full bg-muted px-2 py-1 text-xs">Rascunho</span>}</td>
                   <td className="px-4 py-3 text-right">
                     <div className="inline-flex gap-1">
+                      <button onClick={() => togglePublicado(p)} className="rounded-full px-3 py-1 text-xs hover:bg-muted border border-input">{p.publicado ? "Despublicar" : "Publicar"}</button>
                       <button onClick={() => onEdit(p)} className="rounded-full p-2 hover:bg-muted"><Pencil className="h-4 w-4" /></button>
                       <button onClick={() => onDelete(p.id)} className="rounded-full p-2 text-destructive hover:bg-destructive/10"><Trash2 className="h-4 w-4" /></button>
                     </div>
