@@ -11,15 +11,24 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SustentabilidadeRouteImport } from './routes/sustentabilidade'
 import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as ProdutosRouteImport } from './routes/produtos'
 import { Route as DestinosRouteImport } from './routes/destinos'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as CalendarioRouteImport } from './routes/calendario'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProdutosSlugRouteImport } from './routes/produtos.$slug'
+import { Route as PedidoSucessoRouteImport } from './routes/pedido.sucesso'
+import { Route as PedidoPendenteRouteImport } from './routes/pedido.pendente'
+import { Route as PedidoFalhaRouteImport } from './routes/pedido.falha'
 import { Route as DestinosSlugRouteImport } from './routes/destinos.$slug'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
+import { Route as AuthenticatedAdminProdutosRouteImport } from './routes/_authenticated/admin.produtos'
 import { Route as AuthenticatedAdminDestinosRouteImport } from './routes/_authenticated/admin.destinos'
+import { Route as AuthenticatedAdminBlogRouteImport } from './routes/_authenticated/admin.blog'
 
 const SustentabilidadeRoute = SustentabilidadeRouteImport.update({
   id: '/sustentabilidade',
@@ -29,6 +38,11 @@ const SustentabilidadeRoute = SustentabilidadeRouteImport.update({
 const SobreRoute = SobreRouteImport.update({
   id: '/sobre',
   path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProdutosRoute = ProdutosRouteImport.update({
+  id: '/produtos',
+  path: '/produtos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DestinosRoute = DestinosRouteImport.update({
@@ -46,6 +60,11 @@ const CalendarioRoute = CalendarioRouteImport.update({
   path: '/calendario',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -60,110 +79,205 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProdutosSlugRoute = ProdutosSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ProdutosRoute,
+} as any)
+const PedidoSucessoRoute = PedidoSucessoRouteImport.update({
+  id: '/pedido/sucesso',
+  path: '/pedido/sucesso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PedidoPendenteRoute = PedidoPendenteRouteImport.update({
+  id: '/pedido/pendente',
+  path: '/pedido/pendente',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PedidoFalhaRoute = PedidoFalhaRouteImport.update({
+  id: '/pedido/falha',
+  path: '/pedido/falha',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DestinosSlugRoute = DestinosSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => DestinosRoute,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
 } as any)
 const AuthenticatedContaRoute = AuthenticatedContaRouteImport.update({
   id: '/conta',
   path: '/conta',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminProdutosRoute =
+  AuthenticatedAdminProdutosRouteImport.update({
+    id: '/admin/produtos',
+    path: '/admin/produtos',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminDestinosRoute =
   AuthenticatedAdminDestinosRouteImport.update({
     id: '/admin/destinos',
     path: '/admin/destinos',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminBlogRoute = AuthenticatedAdminBlogRouteImport.update({
+  id: '/admin/blog',
+  path: '/admin/blog',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/calendario': typeof CalendarioRoute
   '/contato': typeof ContatoRoute
   '/destinos': typeof DestinosRouteWithChildren
+  '/produtos': typeof ProdutosRouteWithChildren
   '/sobre': typeof SobreRoute
   '/sustentabilidade': typeof SustentabilidadeRoute
   '/conta': typeof AuthenticatedContaRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/destinos/$slug': typeof DestinosSlugRoute
+  '/pedido/falha': typeof PedidoFalhaRoute
+  '/pedido/pendente': typeof PedidoPendenteRoute
+  '/pedido/sucesso': typeof PedidoSucessoRoute
+  '/produtos/$slug': typeof ProdutosSlugRoute
+  '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/destinos': typeof AuthenticatedAdminDestinosRoute
+  '/admin/produtos': typeof AuthenticatedAdminProdutosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/calendario': typeof CalendarioRoute
   '/contato': typeof ContatoRoute
   '/destinos': typeof DestinosRouteWithChildren
+  '/produtos': typeof ProdutosRouteWithChildren
   '/sobre': typeof SobreRoute
   '/sustentabilidade': typeof SustentabilidadeRoute
   '/conta': typeof AuthenticatedContaRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/destinos/$slug': typeof DestinosSlugRoute
+  '/pedido/falha': typeof PedidoFalhaRoute
+  '/pedido/pendente': typeof PedidoPendenteRoute
+  '/pedido/sucesso': typeof PedidoSucessoRoute
+  '/produtos/$slug': typeof ProdutosSlugRoute
+  '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/destinos': typeof AuthenticatedAdminDestinosRoute
+  '/admin/produtos': typeof AuthenticatedAdminProdutosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/calendario': typeof CalendarioRoute
   '/contato': typeof ContatoRoute
   '/destinos': typeof DestinosRouteWithChildren
+  '/produtos': typeof ProdutosRouteWithChildren
   '/sobre': typeof SobreRoute
   '/sustentabilidade': typeof SustentabilidadeRoute
   '/_authenticated/conta': typeof AuthenticatedContaRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/destinos/$slug': typeof DestinosSlugRoute
+  '/pedido/falha': typeof PedidoFalhaRoute
+  '/pedido/pendente': typeof PedidoPendenteRoute
+  '/pedido/sucesso': typeof PedidoSucessoRoute
+  '/produtos/$slug': typeof ProdutosSlugRoute
+  '/_authenticated/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/_authenticated/admin/destinos': typeof AuthenticatedAdminDestinosRoute
+  '/_authenticated/admin/produtos': typeof AuthenticatedAdminProdutosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/auth'
+    | '/blog'
     | '/calendario'
     | '/contato'
     | '/destinos'
+    | '/produtos'
     | '/sobre'
     | '/sustentabilidade'
     | '/conta'
+    | '/blog/$slug'
     | '/destinos/$slug'
+    | '/pedido/falha'
+    | '/pedido/pendente'
+    | '/pedido/sucesso'
+    | '/produtos/$slug'
+    | '/admin/blog'
     | '/admin/destinos'
+    | '/admin/produtos'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
+    | '/blog'
     | '/calendario'
     | '/contato'
     | '/destinos'
+    | '/produtos'
     | '/sobre'
     | '/sustentabilidade'
     | '/conta'
+    | '/blog/$slug'
     | '/destinos/$slug'
+    | '/pedido/falha'
+    | '/pedido/pendente'
+    | '/pedido/sucesso'
+    | '/produtos/$slug'
+    | '/admin/blog'
     | '/admin/destinos'
+    | '/admin/produtos'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/blog'
     | '/calendario'
     | '/contato'
     | '/destinos'
+    | '/produtos'
     | '/sobre'
     | '/sustentabilidade'
     | '/_authenticated/conta'
+    | '/blog/$slug'
     | '/destinos/$slug'
+    | '/pedido/falha'
+    | '/pedido/pendente'
+    | '/pedido/sucesso'
+    | '/produtos/$slug'
+    | '/_authenticated/admin/blog'
     | '/_authenticated/admin/destinos'
+    | '/_authenticated/admin/produtos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  BlogRoute: typeof BlogRouteWithChildren
   CalendarioRoute: typeof CalendarioRoute
   ContatoRoute: typeof ContatoRoute
   DestinosRoute: typeof DestinosRouteWithChildren
+  ProdutosRoute: typeof ProdutosRouteWithChildren
   SobreRoute: typeof SobreRoute
   SustentabilidadeRoute: typeof SustentabilidadeRoute
+  PedidoFalhaRoute: typeof PedidoFalhaRoute
+  PedidoPendenteRoute: typeof PedidoPendenteRoute
+  PedidoSucessoRoute: typeof PedidoSucessoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -180,6 +294,13 @@ declare module '@tanstack/react-router' {
       path: '/sobre'
       fullPath: '/sobre'
       preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/produtos': {
+      id: '/produtos'
+      path: '/produtos'
+      fullPath: '/produtos'
+      preLoaderRoute: typeof ProdutosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/destinos': {
@@ -203,6 +324,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CalendarioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -224,6 +352,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/produtos/$slug': {
+      id: '/produtos/$slug'
+      path: '/$slug'
+      fullPath: '/produtos/$slug'
+      preLoaderRoute: typeof ProdutosSlugRouteImport
+      parentRoute: typeof ProdutosRoute
+    }
+    '/pedido/sucesso': {
+      id: '/pedido/sucesso'
+      path: '/pedido/sucesso'
+      fullPath: '/pedido/sucesso'
+      preLoaderRoute: typeof PedidoSucessoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pedido/pendente': {
+      id: '/pedido/pendente'
+      path: '/pedido/pendente'
+      fullPath: '/pedido/pendente'
+      preLoaderRoute: typeof PedidoPendenteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pedido/falha': {
+      id: '/pedido/falha'
+      path: '/pedido/falha'
+      fullPath: '/pedido/falha'
+      preLoaderRoute: typeof PedidoFalhaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/destinos/$slug': {
       id: '/destinos/$slug'
       path: '/$slug'
@@ -231,11 +387,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DestinosSlugRouteImport
       parentRoute: typeof DestinosRoute
     }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
+    }
     '/_authenticated/conta': {
       id: '/_authenticated/conta'
       path: '/conta'
       fullPath: '/conta'
       preLoaderRoute: typeof AuthenticatedContaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/produtos': {
+      id: '/_authenticated/admin/produtos'
+      path: '/admin/produtos'
+      fullPath: '/admin/produtos'
+      preLoaderRoute: typeof AuthenticatedAdminProdutosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/destinos': {
@@ -245,21 +415,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminDestinosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/blog': {
+      id: '/_authenticated/admin/blog'
+      path: '/admin/blog'
+      fullPath: '/admin/blog'
+      preLoaderRoute: typeof AuthenticatedAdminBlogRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedContaRoute: typeof AuthenticatedContaRoute
+  AuthenticatedAdminBlogRoute: typeof AuthenticatedAdminBlogRoute
   AuthenticatedAdminDestinosRoute: typeof AuthenticatedAdminDestinosRoute
+  AuthenticatedAdminProdutosRoute: typeof AuthenticatedAdminProdutosRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedContaRoute: AuthenticatedContaRoute,
+  AuthenticatedAdminBlogRoute: AuthenticatedAdminBlogRoute,
   AuthenticatedAdminDestinosRoute: AuthenticatedAdminDestinosRoute,
+  AuthenticatedAdminProdutosRoute: AuthenticatedAdminProdutosRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
 interface DestinosRouteChildren {
   DestinosSlugRoute: typeof DestinosSlugRoute
@@ -273,15 +464,32 @@ const DestinosRouteWithChildren = DestinosRoute._addFileChildren(
   DestinosRouteChildren,
 )
 
+interface ProdutosRouteChildren {
+  ProdutosSlugRoute: typeof ProdutosSlugRoute
+}
+
+const ProdutosRouteChildren: ProdutosRouteChildren = {
+  ProdutosSlugRoute: ProdutosSlugRoute,
+}
+
+const ProdutosRouteWithChildren = ProdutosRoute._addFileChildren(
+  ProdutosRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  BlogRoute: BlogRouteWithChildren,
   CalendarioRoute: CalendarioRoute,
   ContatoRoute: ContatoRoute,
   DestinosRoute: DestinosRouteWithChildren,
+  ProdutosRoute: ProdutosRouteWithChildren,
   SobreRoute: SobreRoute,
   SustentabilidadeRoute: SustentabilidadeRoute,
+  PedidoFalhaRoute: PedidoFalhaRoute,
+  PedidoPendenteRoute: PedidoPendenteRoute,
+  PedidoSucessoRoute: PedidoSucessoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

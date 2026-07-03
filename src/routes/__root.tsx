@@ -113,7 +113,8 @@ const NAV = [
   { to: "/", label: "Início" },
   { to: "/destinos", label: "Destinos" },
   { to: "/calendario", label: "Calendário" },
-  { to: "/sustentabilidade", label: "Sustentabilidade" },
+  { to: "/produtos", label: "Loja" },
+  { to: "/blog", label: "Blog" },
   { to: "/sobre", label: "Sobre" },
   { to: "/contato", label: "Contato" },
 ] as const;

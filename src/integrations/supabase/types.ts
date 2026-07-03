@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          autor: string
+          conteudo: string
+          created_at: string
+          id: string
+          imagem: string
+          publicado: boolean
+          resumo: string
+          slug: string
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          autor?: string
+          conteudo: string
+          created_at?: string
+          id?: string
+          imagem: string
+          publicado?: boolean
+          resumo: string
+          slug: string
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          autor?: string
+          conteudo?: string
+          created_at?: string
+          id?: string
+          imagem?: string
+          publicado?: boolean
+          resumo?: string
+          slug?: string
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       destinos: {
         Row: {
           altitude: string | null
@@ -73,6 +112,98 @@ export type Database = {
           slug?: string
           status?: string
           tipo?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      pedidos: {
+        Row: {
+          created_at: string
+          id: string
+          mp_payment_id: string | null
+          mp_preference_id: string | null
+          personalizacao: Json
+          produto_id: string
+          quantidade: number
+          status: string
+          updated_at: string
+          user_id: string
+          valor_total: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          mp_payment_id?: string | null
+          mp_preference_id?: string | null
+          personalizacao?: Json
+          produto_id: string
+          quantidade?: number
+          status?: string
+          updated_at?: string
+          user_id: string
+          valor_total: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          mp_payment_id?: string | null
+          mp_preference_id?: string | null
+          personalizacao?: Json
+          produto_id?: string
+          quantidade?: number
+          status?: string
+          updated_at?: string
+          user_id?: string
+          valor_total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pedidos_produto_id_fkey"
+            columns: ["produto_id"]
+            isOneToOne: false
+            referencedRelation: "produtos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      produtos: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          descricao: string
+          estoque: number
+          id: string
+          imagem: string
+          nome: string
+          personalizacao_campos: Json
+          preco: number
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          descricao: string
+          estoque?: number
+          id?: string
+          imagem: string
+          nome: string
+          personalizacao_campos?: Json
+          preco: number
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          descricao?: string
+          estoque?: number
+          id?: string
+          imagem?: string
+          nome?: string
+          personalizacao_campos?: Json
+          preco?: number
+          slug?: string
           updated_at?: string
         }
         Relationships: []
