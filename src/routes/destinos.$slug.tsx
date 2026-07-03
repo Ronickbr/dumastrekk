@@ -15,6 +15,7 @@ export const Route = createFileRoute("/destinos/$slug")({
   head: ({ loaderData, params }) => {
     if (!loaderData) return { meta: [{ title: "Destino não encontrado — Dumas Trekk" }, { name: "robots", content: "noindex" }] };
     const d = loaderData.destino;
+    const url = `https://dumastrekk.lovable.app/destinos/${params.slug}`;
     return {
       meta: [
         { title: `${d.nome} — Dumas Trekk` },
@@ -22,9 +23,23 @@ export const Route = createFileRoute("/destinos/$slug")({
         { property: "og:title", content: `${d.nome} — Dumas Trekk` },
         { property: "og:description", content: d.descricao },
         { property: "og:image", content: d.imagem },
-        { property: "og:url", content: `/destinos/${params.slug}` },
+        { name: "twitter:image", content: d.imagem },
+        { property: "og:url", content: url },
+        { property: "og:type", content: "product" },
       ],
-      links: [{ rel: "canonical", href: `/destinos/${params.slug}` }],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [{
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "TouristTrip",
+          name: d.nome,
+          description: d.descricao,
+          image: d.imagem,
+          url,
+          provider: { "@type": "Organization", name: "Dumas Trekk" },
+        }),
+      }],
     };
   },
   notFoundComponent: () => (

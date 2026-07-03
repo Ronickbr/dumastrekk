@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /auth
+Disallow: /conta
+Disallow: /admin
+Disallow: /pedido/
+
+Sitemap: https://dumastrekk.lovable.app/sitemap.xml

@@ -8,9 +8,10 @@ export const Route = createFileRoute("/contato")({
       { title: "Contato — Dumas Trekk" },
       { name: "description", content: "Fale com nosso time. WhatsApp, e-mail, telefone e Instagram." },
       { property: "og:title", content: "Contato — Dumas Trekk" },
-      { property: "og:url", content: "/contato" },
+      { property: "og:description", content: "Fale com nosso time. WhatsApp, e-mail, telefone e Instagram." },
+      { property: "og:url", content: "https://dumastrekk.lovable.app/contato" },
     ],
-    links: [{ rel: "canonical", href: "/contato" }],
+    links: [{ rel: "canonical", href: "https://dumastrekk.lovable.app/contato" }],
   }),
 });
 

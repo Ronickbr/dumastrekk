@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SustentabilidadeRouteImport } from './routes/sustentabilidade'
 import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ProdutosRouteImport } from './routes/produtos'
 import { Route as DestinosRouteImport } from './routes/destinos'
 import { Route as ContatoRouteImport } from './routes/contato'
@@ -39,6 +40,11 @@ const SustentabilidadeRoute = SustentabilidadeRouteImport.update({
 const SobreRoute = SobreRouteImport.update({
   id: '/sobre',
   path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProdutosRoute = ProdutosRouteImport.update({
@@ -147,6 +153,7 @@ export interface FileRoutesByFullPath {
   '/contato': typeof ContatoRoute
   '/destinos': typeof DestinosRouteWithChildren
   '/produtos': typeof ProdutosRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/sustentabilidade': typeof SustentabilidadeRoute
   '/conta': typeof AuthenticatedContaRoute
@@ -169,6 +176,7 @@ export interface FileRoutesByTo {
   '/contato': typeof ContatoRoute
   '/destinos': typeof DestinosRouteWithChildren
   '/produtos': typeof ProdutosRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/sustentabilidade': typeof SustentabilidadeRoute
   '/conta': typeof AuthenticatedContaRoute
@@ -193,6 +201,7 @@ export interface FileRoutesById {
   '/contato': typeof ContatoRoute
   '/destinos': typeof DestinosRouteWithChildren
   '/produtos': typeof ProdutosRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/sustentabilidade': typeof SustentabilidadeRoute
   '/_authenticated/conta': typeof AuthenticatedContaRoute
@@ -217,6 +226,7 @@ export interface FileRouteTypes {
     | '/contato'
     | '/destinos'
     | '/produtos'
+    | '/sitemap.xml'
     | '/sobre'
     | '/sustentabilidade'
     | '/conta'
@@ -239,6 +249,7 @@ export interface FileRouteTypes {
     | '/contato'
     | '/destinos'
     | '/produtos'
+    | '/sitemap.xml'
     | '/sobre'
     | '/sustentabilidade'
     | '/conta'
@@ -262,6 +273,7 @@ export interface FileRouteTypes {
     | '/contato'
     | '/destinos'
     | '/produtos'
+    | '/sitemap.xml'
     | '/sobre'
     | '/sustentabilidade'
     | '/_authenticated/conta'
@@ -286,6 +298,7 @@ export interface RootRouteChildren {
   ContatoRoute: typeof ContatoRoute
   DestinosRoute: typeof DestinosRouteWithChildren
   ProdutosRoute: typeof ProdutosRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreRoute: typeof SobreRoute
   SustentabilidadeRoute: typeof SustentabilidadeRoute
   PedidoFalhaRoute: typeof PedidoFalhaRoute
@@ -307,6 +320,13 @@ declare module '@tanstack/react-router' {
       path: '/sobre'
       fullPath: '/sobre'
       preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/produtos': {
@@ -507,6 +527,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContatoRoute: ContatoRoute,
   DestinosRoute: DestinosRouteWithChildren,
   ProdutosRoute: ProdutosRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreRoute: SobreRoute,
   SustentabilidadeRoute: SustentabilidadeRoute,
   PedidoFalhaRoute: PedidoFalhaRoute,

@@ -8,10 +8,12 @@ export const Route = createFileRoute("/sobre")({
       { title: "Sobre a Dumas Trekk" },
       { name: "description", content: "Nossa história, missão, valores e equipe de guias certificados." },
       { property: "og:title", content: "Sobre a Dumas Trekk" },
-      { property: "og:url", content: "/sobre" },
-      { property: "og:image", content: "/images/sobre-equipe.jpg" },
+      { property: "og:description", content: "Nossa história, missão, valores e equipe de guias certificados." },
+      { property: "og:url", content: "https://dumastrekk.lovable.app/sobre" },
+      { property: "og:image", content: "https://dumastrekk.lovable.app/images/sobre-equipe.jpg" },
+      { name: "twitter:image", content: "https://dumastrekk.lovable.app/images/sobre-equipe.jpg" },
     ],
-    links: [{ rel: "canonical", href: "/sobre" }],
+    links: [{ rel: "canonical", href: "https://dumastrekk.lovable.app/sobre" }],
   }),
 });
 
@@ -23,7 +25,7 @@ function SobrePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70" />
         <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-6 pb-16 pt-32 text-white">
           <p className="text-xs uppercase tracking-widest text-white/80">Sobre nós</p>
-          <h1 className="mt-2 max-w-3xl font-serif text-5xl md:text-7xl">Nascemos para tirar você da rotina — com segurança e propósito.</h1>
+          <h1 className="mt-2 max-w-3xl font-serif text-4xl leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">Nascemos para tirar você da rotina — com segurança e propósito.</h1>
         </div>
       </section>
 
