@@ -101,6 +101,8 @@ function ContaPage() {
               <Link to="/admin/produtos" className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/15">
                 <Shield className="h-4 w-4" /> Produtos
               </Link>
+              <Link to="/admin/usuarios" className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/15">
+                <Shield className="h-4 w-4" /> Usuários
             </>
           )}
           <button
