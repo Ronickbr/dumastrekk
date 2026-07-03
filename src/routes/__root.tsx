@@ -85,7 +85,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/logo-dumas.jpg", type: "image/jpeg" },
+      { rel: "icon", href: "/logo-dumas.png", type: "image/png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" },
@@ -158,9 +158,8 @@ function Navbar() {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "glass shadow-sm" : "bg-transparent"}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <Link to="/" className="flex items-center gap-2.5 font-serif text-xl font-semibold">
-          <img src="/logo-dumas.jpg" alt="Dumas Trekk" className="h-10 w-10 rounded-full object-cover ring-2 ring-white/60 shadow-sm" />
-          <span className={scrolled ? "text-foreground" : "text-white drop-shadow"}>Dumas Trekk</span>
+        <Link to="/" aria-label="Dumas Trekk — Início" className="flex items-center">
+          <img src="/logo-dumas.png" alt="Dumas Trekk — Turismo de Aventura" className={`h-14 w-14 object-contain transition-all ${scrolled ? "" : "drop-shadow-lg"}`} />
         </Link>
         <nav className="hidden items-center gap-8 text-sm font-medium lg:flex">
           {NAV.map((n) => (
@@ -240,9 +239,8 @@ function Footer() {
     <footer className="mt-24 border-t border-border bg-secondary/40">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-4">
         <div>
-          <Link to="/" className="flex items-center gap-2.5 font-serif text-xl font-semibold">
-            <img src="/logo-dumas.jpg" alt="Dumas Trekk" className="h-10 w-10 rounded-full object-cover" />
-            Dumas Trekk
+          <Link to="/" aria-label="Dumas Trekk — Início" className="inline-flex items-center">
+            <img src="/logo-dumas.png" alt="Dumas Trekk — Turismo de Aventura" className="h-20 w-20 object-contain" />
           </Link>
           <p className="mt-4 text-sm text-muted-foreground">
             Expedições de trekking, ecoturismo e aventura com segurança, propósito e respeito à natureza.
