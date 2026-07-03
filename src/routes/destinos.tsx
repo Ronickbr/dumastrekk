@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Search } from "lucide-react";
-import { DESTINOS } from "@/lib/destinos";
+import { fetchDestinos, destinosQueryKey } from "@/lib/destinos";
 import { DestinoCard } from "@/components/DestinoCard";
 
 export const Route = createFileRoute("/destinos")({
