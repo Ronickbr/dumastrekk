@@ -14,8 +14,11 @@ import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as DestinosRouteImport } from './routes/destinos'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as CalendarioRouteImport } from './routes/calendario'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DestinosSlugRouteImport } from './routes/destinos.$slug'
+import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
 
 const SustentabilidadeRoute = SustentabilidadeRouteImport.update({
   id: '/sustentabilidade',
@@ -42,6 +45,15 @@ const CalendarioRoute = CalendarioRouteImport.update({
   path: '/calendario',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -52,67 +64,88 @@ const DestinosSlugRoute = DestinosSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => DestinosRoute,
 } as any)
+const AuthenticatedContaRoute = AuthenticatedContaRouteImport.update({
+  id: '/conta',
+  path: '/conta',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/calendario': typeof CalendarioRoute
   '/contato': typeof ContatoRoute
   '/destinos': typeof DestinosRouteWithChildren
   '/sobre': typeof SobreRoute
   '/sustentabilidade': typeof SustentabilidadeRoute
+  '/conta': typeof AuthenticatedContaRoute
   '/destinos/$slug': typeof DestinosSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/calendario': typeof CalendarioRoute
   '/contato': typeof ContatoRoute
   '/destinos': typeof DestinosRouteWithChildren
   '/sobre': typeof SobreRoute
   '/sustentabilidade': typeof SustentabilidadeRoute
+  '/conta': typeof AuthenticatedContaRoute
   '/destinos/$slug': typeof DestinosSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/calendario': typeof CalendarioRoute
   '/contato': typeof ContatoRoute
   '/destinos': typeof DestinosRouteWithChildren
   '/sobre': typeof SobreRoute
   '/sustentabilidade': typeof SustentabilidadeRoute
+  '/_authenticated/conta': typeof AuthenticatedContaRoute
   '/destinos/$slug': typeof DestinosSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/calendario'
     | '/contato'
     | '/destinos'
     | '/sobre'
     | '/sustentabilidade'
+    | '/conta'
     | '/destinos/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/calendario'
     | '/contato'
     | '/destinos'
     | '/sobre'
     | '/sustentabilidade'
+    | '/conta'
     | '/destinos/$slug'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/auth'
     | '/calendario'
     | '/contato'
     | '/destinos'
     | '/sobre'
     | '/sustentabilidade'
+    | '/_authenticated/conta'
     | '/destinos/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   CalendarioRoute: typeof CalendarioRoute
   ContatoRoute: typeof ContatoRoute
   DestinosRoute: typeof DestinosRouteWithChildren
@@ -157,6 +190,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CalendarioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -171,8 +218,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DestinosSlugRouteImport
       parentRoute: typeof DestinosRoute
     }
+    '/_authenticated/conta': {
+      id: '/_authenticated/conta'
+      path: '/conta'
+      fullPath: '/conta'
+      preLoaderRoute: typeof AuthenticatedContaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedContaRoute: typeof AuthenticatedContaRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedContaRoute: AuthenticatedContaRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface DestinosRouteChildren {
   DestinosSlugRoute: typeof DestinosSlugRoute
@@ -188,6 +253,8 @@ const DestinosRouteWithChildren = DestinosRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   CalendarioRoute: CalendarioRoute,
   ContatoRoute: ContatoRoute,
   DestinosRoute: DestinosRouteWithChildren,
