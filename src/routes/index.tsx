@@ -95,7 +95,7 @@ function Home() {
             </Link>
           </div>
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {DESTINOS.map((d) => <DestinoCard key={d.slug} d={d} />)}
+            {destaques.map((d) => <DestinoCard key={d.slug} d={d} />)}
           </div>
         </div>
       </section>
