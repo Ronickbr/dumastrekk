@@ -47,12 +47,14 @@ function ContaPage() {
 
   useEffect(() => {
     (async () => {
-      const [{ data: p }, { data: r }] = await Promise.all([
+      const [{ data: p }, { data: r }, { data: role }] = await Promise.all([
         supabase.from("profiles").select("nome,telefone,cidade,contato_emergencia,avatar_url").eq("id", user.id).maybeSingle(),
         supabase.from("reservas").select("*").order("created_at", { ascending: false }),
+        supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle(),
       ]);
       if (p) setProfile(p as Profile);
       if (r) setReservas(r as Reserva[]);
+      setIsAdmin(!!role);
       setLoading(false);
     })();
   }, [user.id]);
