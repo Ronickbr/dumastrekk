@@ -83,12 +83,10 @@ function ProdutoDetalhe() {
       navigate({ to: "/auth" });
       return;
     }
-    // valida campos obrigatórios
-    for (const campo of produto.personalizacao_campos) {
-      if (campo.tipo === "select" && !personalizacao[campo.nome]) {
-        toast.error(`Selecione ${campo.label}`);
-        return;
-      }
+    const tamanhos = tamanhoOpcoes(produto);
+    if (tamanhos.length > 0 && !tamanho) {
+      toast.error("Selecione o tamanho");
+      return;
     }
     setLoading(true);
     try {
@@ -96,7 +94,7 @@ function ProdutoDetalhe() {
         data: {
           produtoId: produto.id,
           quantidade,
-          personalizacao,
+          personalizacao: tamanho ? { tamanho } : {},
           origin: window.location.origin,
         },
       });
