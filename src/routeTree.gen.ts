@@ -9,38 +9,154 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SustentabilidadeRouteImport } from './routes/sustentabilidade'
+import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as DestinosRouteImport } from './routes/destinos'
+import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as CalendarioRouteImport } from './routes/calendario'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DestinosSlugRouteImport } from './routes/destinos.$slug'
 
+const SustentabilidadeRoute = SustentabilidadeRouteImport.update({
+  id: '/sustentabilidade',
+  path: '/sustentabilidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DestinosRoute = DestinosRouteImport.update({
+  id: '/destinos',
+  path: '/destinos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalendarioRoute = CalendarioRouteImport.update({
+  id: '/calendario',
+  path: '/calendario',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DestinosSlugRoute = DestinosSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => DestinosRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/calendario': typeof CalendarioRoute
+  '/contato': typeof ContatoRoute
+  '/destinos': typeof DestinosRouteWithChildren
+  '/sobre': typeof SobreRoute
+  '/sustentabilidade': typeof SustentabilidadeRoute
+  '/destinos/$slug': typeof DestinosSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/calendario': typeof CalendarioRoute
+  '/contato': typeof ContatoRoute
+  '/destinos': typeof DestinosRouteWithChildren
+  '/sobre': typeof SobreRoute
+  '/sustentabilidade': typeof SustentabilidadeRoute
+  '/destinos/$slug': typeof DestinosSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/calendario': typeof CalendarioRoute
+  '/contato': typeof ContatoRoute
+  '/destinos': typeof DestinosRouteWithChildren
+  '/sobre': typeof SobreRoute
+  '/sustentabilidade': typeof SustentabilidadeRoute
+  '/destinos/$slug': typeof DestinosSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/calendario'
+    | '/contato'
+    | '/destinos'
+    | '/sobre'
+    | '/sustentabilidade'
+    | '/destinos/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/calendario'
+    | '/contato'
+    | '/destinos'
+    | '/sobre'
+    | '/sustentabilidade'
+    | '/destinos/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/calendario'
+    | '/contato'
+    | '/destinos'
+    | '/sobre'
+    | '/sustentabilidade'
+    | '/destinos/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CalendarioRoute: typeof CalendarioRoute
+  ContatoRoute: typeof ContatoRoute
+  DestinosRoute: typeof DestinosRouteWithChildren
+  SobreRoute: typeof SobreRoute
+  SustentabilidadeRoute: typeof SustentabilidadeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sustentabilidade': {
+      id: '/sustentabilidade'
+      path: '/sustentabilidade'
+      fullPath: '/sustentabilidade'
+      preLoaderRoute: typeof SustentabilidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/destinos': {
+      id: '/destinos'
+      path: '/destinos'
+      fullPath: '/destinos'
+      preLoaderRoute: typeof DestinosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calendario': {
+      id: '/calendario'
+      path: '/calendario'
+      fullPath: '/calendario'
+      preLoaderRoute: typeof CalendarioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,12 +164,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/destinos/$slug': {
+      id: '/destinos/$slug'
+      path: '/$slug'
+      fullPath: '/destinos/$slug'
+      preLoaderRoute: typeof DestinosSlugRouteImport
+      parentRoute: typeof DestinosRoute
+    }
   }
 }
 
+interface DestinosRouteChildren {
+  DestinosSlugRoute: typeof DestinosSlugRoute
+}
+
+const DestinosRouteChildren: DestinosRouteChildren = {
+  DestinosSlugRoute: DestinosSlugRoute,
+}
+
+const DestinosRouteWithChildren = DestinosRoute._addFileChildren(
+  DestinosRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CalendarioRoute: CalendarioRoute,
+  ContatoRoute: ContatoRoute,
+  DestinosRoute: DestinosRouteWithChildren,
+  SobreRoute: SobreRoute,
+  SustentabilidadeRoute: SustentabilidadeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
