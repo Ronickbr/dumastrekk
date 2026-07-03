@@ -315,6 +315,8 @@ function RootComponent() {
       </main>
       <Footer />
       <WhatsAppFloat />
+      <Toaster position="top-center" richColors />
     </QueryClientProvider>
   );
 }
+
