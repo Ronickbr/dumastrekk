@@ -7,7 +7,8 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { Mountain, Menu, X, Moon, Sun, MessageCircle, Instagram, Mail, Phone, MapPin } from "lucide-react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -17,16 +18,16 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+        <h2 className="mt-4 text-xl font-semibold">Página não encontrada</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+          A trilha que você procura não existe ou foi movida.
         </p>
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Go home
+            Voltar ao início
           </Link>
         </div>
       </div>
@@ -44,27 +45,17 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
-        </p>
+        <h1 className="text-xl font-semibold tracking-tight">Algo saiu da trilha</h1>
+        <p className="mt-2 text-sm text-muted-foreground">Tente novamente ou volte ao início.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            onClick={() => { router.invalidate(); reset(); }}
+            className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
           >
-            Try again
+            Tentar novamente
           </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
+          <a href="/" className="inline-flex items-center justify-center rounded-full border border-input bg-background px-6 py-2.5 text-sm font-medium hover:bg-accent hover:text-accent-foreground">
+            Início
           </a>
         </div>
       </div>
@@ -77,21 +68,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Vertente Aventuras" },
-      { name: "description", content: "Descubra trilhas, montanhas e paisagens incríveis. Aventuras que transformam." },
-      { name: "author", content: "Vertente" },
-      { property: "og:title", content: "Vertente Aventuras" },
-      { property: "og:description", content: "Descubra trilhas, montanhas e paisagens incríveis. Aventuras que transformam." },
+      { title: "Dumas Trekk — Expedições de trekking e ecoturismo" },
+      { name: "description", content: "Trekking, montanhismo e expedições cuidadosamente planejadas. Explore lugares que transformam vidas com guias certificados." },
+      { name: "author", content: "Dumas Trekk" },
+      { property: "og:title", content: "Dumas Trekk — Expedições que transformam" },
+      { property: "og:description", content: "Trekking, ecoturismo e aventuras planejadas com segurança e propósito." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Dumas Trekk" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Vertente" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -102,10 +93,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
+    <html lang="pt-BR">
+      <head><HeadContent /></head>
       <body>
         {children}
         <Scripts />
@@ -114,13 +103,184 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
-function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
+const NAV = [
+  { to: "/", label: "Início" },
+  { to: "/destinos", label: "Destinos" },
+  { to: "/calendario", label: "Calendário" },
+  { to: "/sustentabilidade", label: "Sustentabilidade" },
+  { to: "/sobre", label: "Sobre" },
+  { to: "/contato", label: "Contato" },
+] as const;
+
+function Navbar() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [dark, setDark] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const saved = typeof window !== "undefined" && localStorage.getItem("dumas-theme");
+    const isDark = saved === "dark";
+    setDark(isDark);
+    document.documentElement.classList.toggle("dark", isDark);
+  }, []);
+
+  const toggleTheme = () => {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.classList.toggle("dark", next);
+    localStorage.setItem("dumas-theme", next ? "dark" : "light");
+  };
 
   return (
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "glass shadow-sm" : "bg-transparent"}`}>
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <Link to="/" className="flex items-center gap-2 font-serif text-xl font-semibold">
+          <Mountain className="h-6 w-6 text-primary" strokeWidth={1.5} />
+          <span className={scrolled ? "text-foreground" : "text-white drop-shadow"}>Dumas Trekk</span>
+        </Link>
+        <nav className="hidden items-center gap-8 text-sm font-medium lg:flex">
+          {NAV.map((n) => (
+            <Link
+              key={n.to}
+              to={n.to}
+              activeOptions={{ exact: n.to === "/" }}
+              className={`transition-colors ${scrolled ? "text-foreground/80 hover:text-foreground" : "text-white/90 hover:text-white drop-shadow"}`}
+              activeProps={{ className: scrolled ? "text-primary" : "text-white font-semibold" }}
+            >
+              {n.label}
+            </Link>
+          ))}
+        </nav>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            aria-label="Alternar tema"
+            className={`hidden rounded-full p-2 transition-colors md:inline-flex ${scrolled ? "hover:bg-muted" : "text-white hover:bg-white/10"}`}
+          >
+            {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
+          <Link
+            to="/destinos"
+            className="hidden rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-sm transition-transform hover:scale-105 md:inline-flex"
+          >
+            Reservar
+          </Link>
+          <button
+            className={`inline-flex rounded-md p-2 lg:hidden ${scrolled ? "text-foreground" : "text-white"}`}
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Menu"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+      </div>
+      {open && (
+        <div className="glass border-t border-border/40 lg:hidden">
+          <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-6 py-4">
+            {NAV.map((n) => (
+              <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 text-sm font-medium hover:bg-muted">
+                {n.label}
+              </Link>
+            ))}
+            <button onClick={toggleTheme} className="mt-2 flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-muted">
+              {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              {dark ? "Modo claro" : "Modo escuro"}
+            </button>
+          </nav>
+        </div>
+      )}
+    </header>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="mt-24 border-t border-border bg-secondary/40">
+      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-4">
+        <div>
+          <Link to="/" className="flex items-center gap-2 font-serif text-xl font-semibold">
+            <Mountain className="h-6 w-6 text-primary" strokeWidth={1.5} />
+            Dumas Trekk
+          </Link>
+          <p className="mt-4 text-sm text-muted-foreground">
+            Expedições de trekking, ecoturismo e aventura com segurança, propósito e respeito à natureza.
+          </p>
+        </div>
+        <div>
+          <h4 className="font-serif text-base font-semibold">Navegue</h4>
+          <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+            {NAV.map((n) => (
+              <li key={n.to}><Link to={n.to} className="hover:text-foreground">{n.label}</Link></li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-serif text-base font-semibold">Contato</h4>
+          <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+            <li className="flex items-center gap-2"><Phone className="h-4 w-4" /> +55 (11) 91234-5678</li>
+            <li className="flex items-center gap-2"><Mail className="h-4 w-4" /> contato@dumastrekk.com.br</li>
+            <li className="flex items-center gap-2"><MapPin className="h-4 w-4" /> São Paulo — Brasil</li>
+            <li className="flex items-center gap-2">
+              <Instagram className="h-4 w-4" />
+              <a href="https://www.instagram.com/dumastrekk/" target="_blank" rel="noreferrer" className="hover:text-foreground">@dumastrekk</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-serif text-base font-semibold">Newsletter</h4>
+          <p className="mt-4 text-sm text-muted-foreground">Receba novas expedições e promoções.</p>
+          <form onSubmit={(e) => e.preventDefault()} className="mt-3 flex gap-2">
+            <input type="email" required placeholder="seu@email.com" className="w-full rounded-full border border-input bg-background px-4 py-2 text-sm outline-none focus:border-primary" />
+            <button className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">OK</button>
+          </form>
+        </div>
+      </div>
+      <div className="border-t border-border">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 py-6 text-xs text-muted-foreground md:flex-row">
+          <p>© {new Date().getFullYear()} Dumas Trekk. Todos os direitos reservados.</p>
+          <div className="flex gap-4">
+            <a href="#" className="hover:text-foreground">Política de cancelamento</a>
+            <a href="#" className="hover:text-foreground">Termos</a>
+            <a href="#" className="hover:text-foreground">LGPD</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function WhatsAppFloat() {
+  return (
+    <a
+      href="https://wa.me/5511912345678?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20as%20expedi%C3%A7%C3%B5es%20da%20Dumas%20Trekk."
+      target="_blank"
+      rel="noreferrer"
+      aria-label="Fale conosco no WhatsApp"
+      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/20 transition-transform hover:scale-110"
+    >
+      <MessageCircle className="h-6 w-6" />
+      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25D366] opacity-20" />
+    </a>
+  );
+}
+
+function RootComponent() {
+  const { queryClient } = Route.useRouteContext();
+  return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <Navbar />
+      <main className="min-h-screen">
+        <Outlet />
+      </main>
+      <Footer />
+      <WhatsAppFloat />
     </QueryClientProvider>
   );
 }
