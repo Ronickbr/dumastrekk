@@ -13,6 +13,7 @@ import { Mountain, Menu, X, Moon, Sun, MessageCircle, Instagram, Mail, Phone, Ma
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { supabase } from "@/integrations/supabase/client";
+import { Toaster } from "sonner";
 
 function NotFoundComponent() {
   return (
