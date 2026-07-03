@@ -99,7 +99,8 @@ function DestinosPage() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((d) => <DestinoCard key={d.slug} d={d} />)}
         </div>
-        {list.length === 0 && <p className="py-20 text-center text-muted-foreground">Nenhuma expedição encontrada com esses filtros.</p>}
+        {!isLoading && list.length === 0 && <p className="py-20 text-center text-muted-foreground">Nenhuma expedição encontrada com esses filtros.</p>}
+        {isLoading && <p className="py-20 text-center text-muted-foreground">Carregando expedições...</p>}
       </section>
     </>
   );
