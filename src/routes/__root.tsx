@@ -182,6 +182,21 @@ function Navbar() {
           >
             {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
+          {signedIn ? (
+            <Link
+              to="/conta"
+              className={`hidden items-center gap-2 rounded-full px-4 py-2 text-sm font-medium md:inline-flex ${scrolled ? "border border-input hover:bg-muted" : "border border-white/40 text-white hover:bg-white/10"}`}
+            >
+              <UserRound className="h-4 w-4" /> Minha conta
+            </Link>
+          ) : (
+            <Link
+              to="/auth"
+              className={`hidden items-center gap-2 rounded-full px-4 py-2 text-sm font-medium md:inline-flex ${scrolled ? "border border-input hover:bg-muted" : "border border-white/40 text-white hover:bg-white/10"}`}
+            >
+              Entrar
+            </Link>
+          )}
           <Link
             to="/destinos"
             className="hidden rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-sm transition-transform hover:scale-105 md:inline-flex"
