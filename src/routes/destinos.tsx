@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
-import { DESTINOS, type Destino } from "@/lib/destinos";
+import { DESTINOS } from "@/lib/destinos";
 import { DestinoCard } from "@/components/DestinoCard";
 
 export const Route = createFileRoute("/destinos")({
