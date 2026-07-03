@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Compass, Leaf, ShieldCheck, Users, Star, Play, Instagram } from "lucide-react";
-import { DESTINOS } from "@/lib/destinos";
+import { fetchDestinos, destinosQueryKey } from "@/lib/destinos";
 import { DestinoCard } from "@/components/DestinoCard";
 
 export const Route = createFileRoute("/")({
@@ -22,6 +23,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const { data: destinos = [] } = useQuery({ queryKey: destinosQueryKey, queryFn: fetchDestinos });
+  const destaques = destinos.filter((d) => d.destaque).length > 0 ? destinos.filter((d) => d.destaque) : destinos.slice(0, 4);
   return (
     <>
       {/* HERO */}
@@ -92,7 +95,7 @@ function Home() {
             </Link>
           </div>
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {DESTINOS.map((d) => <DestinoCard key={d.slug} d={d} />)}
+            {destaques.map((d) => <DestinoCard key={d.slug} d={d} />)}
           </div>
         </div>
       </section>

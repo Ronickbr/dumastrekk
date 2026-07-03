@@ -1,3 +1,6 @@
+import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
+
 export type Destino = {
   slug: string;
   nome: string;
@@ -14,79 +17,50 @@ export type Destino = {
   data: string;
   status: "Vagas abertas" | "Últimas vagas" | "Confirmada" | "Esgotada";
   descricao: string;
+  destaque: boolean;
 };
 
-export const DESTINOS: Destino[] = [
-  {
-    slug: "chapada-diamantina",
-    nome: "Travessia do Vale do Pati",
-    local: "Chapada Diamantina",
-    estado: "BA",
-    pais: "Brasil",
-    imagem: "/images/destino-chapada.jpg",
-    nivel: "Moderado",
-    duracao: "5 dias",
-    precoDesde: 3890,
-    altitude: "1.200 m",
-    clima: "Ameno, 15–28°C",
-    tipo: "Trekking",
-    data: "12–16 Mar 2026",
-    status: "Últimas vagas",
-    descricao:
-      "Uma das travessias mais icônicas do Brasil, passando por vales profundos, cachoeiras e comunidades tradicionais.",
-  },
-  {
-    slug: "pico-da-neblina",
-    nome: "Expedição Pico da Neblina",
-    local: "Amazonas",
-    estado: "AM",
-    pais: "Brasil",
-    imagem: "/images/destino-pico.jpg",
-    nivel: "Expedição",
-    duracao: "10 dias",
-    precoDesde: 12490,
-    altitude: "2.995 m",
-    clima: "Úmido, 8–22°C",
-    tipo: "Montanhismo",
-    data: "05–14 Ago 2026",
-    status: "Confirmada",
-    descricao:
-      "Ao ponto mais alto do Brasil em parceria com comunidades Yanomami. Uma imersão profunda na floresta e na cultura.",
-  },
-  {
-    slug: "vale-cachoeiras",
-    nome: "Vale das Cachoeiras",
-    local: "Serra da Canastra",
-    estado: "MG",
-    pais: "Brasil",
-    imagem: "/images/destino-cachoeira.jpg",
-    nivel: "Fácil",
-    duracao: "3 dias",
-    precoDesde: 1990,
-    altitude: "900 m",
-    clima: "Ameno, 18–26°C",
-    tipo: "Cachoeiras",
-    data: "22–24 Abr 2026",
-    status: "Vagas abertas",
-    descricao:
-      "Três dias entre quedas d'água imponentes, banhos gelados e trilhas suaves. Ideal para primeira aventura.",
-  },
-  {
-    slug: "acampamento-estrelas",
-    nome: "Acampamento sob as Estrelas",
-    local: "Serra do Cipó",
-    estado: "MG",
-    pais: "Brasil",
-    imagem: "/images/destino-acampamento.jpg",
-    nivel: "Fácil",
-    duracao: "2 dias",
-    precoDesde: 1290,
-    altitude: "1.100 m",
-    clima: "Frio à noite, 5–24°C",
-    tipo: "Acampamento",
-    data: "15–16 Mai 2026",
-    status: "Vagas abertas",
-    descricao:
-      "Fotografia noturna, fogueira e um dos céus mais límpidos do Sudeste. Perfeito para desconectar.",
-  },
-];
+type Row = Database["public"]["Tables"]["destinos"]["Row"];
+
+export function mapRowToDestino(r: Row): Destino {
+  return {
+    slug: r.slug,
+    nome: r.nome,
+    local: r.local,
+    estado: r.estado,
+    pais: r.pais,
+    imagem: r.imagem,
+    nivel: r.nivel as Destino["nivel"],
+    duracao: r.duracao,
+    precoDesde: Number(r.preco_desde),
+    altitude: r.altitude ?? "",
+    clima: r.clima ?? "",
+    tipo: r.tipo as Destino["tipo"],
+    data: r.data_expedicao ?? "",
+    status: r.status as Destino["status"],
+    descricao: r.descricao,
+    destaque: r.destaque,
+  };
+}
+
+export async function fetchDestinos(): Promise<Destino[]> {
+  const { data, error } = await supabase
+    .from("destinos")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []).map(mapRowToDestino);
+}
+
+export async function fetchDestino(slug: string): Promise<Destino | null> {
+  const { data, error } = await supabase.from("destinos").select("*").eq("slug", slug).maybeSingle();
+  if (error) throw error;
+  return data ? mapRowToDestino(data) : null;
+}
+
+export const destinosQueryKey = ["destinos"] as const;
+export const destinoQueryKey = (slug: string) => ["destino", slug] as const;
+
+export const NIVEIS: Destino["nivel"][] = ["Fácil", "Moderado", "Difícil", "Expedição"];
+export const TIPOS: Destino["tipo"][] = ["Trekking", "Cachoeiras", "Montanhismo", "Acampamento"];
+export const STATUS_LIST: Destino["status"][] = ["Vagas abertas", "Últimas vagas", "Confirmada", "Esgotada"];

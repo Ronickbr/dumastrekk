@@ -1,6 +1,6 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { CalendarDays, User, LogOut, Trash2, Loader2 } from "lucide-react";
+import { CalendarDays, User, LogOut, Trash2, Loader2, Shield } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -43,15 +43,18 @@ function ContaPage() {
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const [{ data: p }, { data: r }] = await Promise.all([
+      const [{ data: p }, { data: r }, { data: role }] = await Promise.all([
         supabase.from("profiles").select("nome,telefone,cidade,contato_emergencia,avatar_url").eq("id", user.id).maybeSingle(),
         supabase.from("reservas").select("*").order("created_at", { ascending: false }),
+        supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle(),
       ]);
       if (p) setProfile(p as Profile);
       if (r) setReservas(r as Reserva[]);
+      setIsAdmin(!!role);
       setLoading(false);
     })();
   }, [user.id]);
@@ -86,12 +89,22 @@ function ContaPage() {
           <h1 className="mt-2 font-serif text-4xl font-semibold">Olá, {profile.nome || user.email?.split("@")[0]}</h1>
           <p className="mt-1 text-sm text-muted-foreground">{user.email}</p>
         </div>
-        <button
-          onClick={onLogout}
-          className="inline-flex items-center gap-2 rounded-full border border-input px-4 py-2 text-sm font-medium hover:bg-muted"
-        >
-          <LogOut className="h-4 w-4" /> Sair
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          {isAdmin && (
+            <Link
+              to="/admin/destinos"
+              className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/15"
+            >
+              <Shield className="h-4 w-4" /> Painel admin
+            </Link>
+          )}
+          <button
+            onClick={onLogout}
+            className="inline-flex items-center gap-2 rounded-full border border-input px-4 py-2 text-sm font-medium hover:bg-muted"
+          >
+            <LogOut className="h-4 w-4" /> Sair
+          </button>
+        </div>
       </div>
 
       <div className="mt-8 flex gap-1 border-b border-border">

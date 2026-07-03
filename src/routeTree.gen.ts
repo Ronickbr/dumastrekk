@@ -19,6 +19,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DestinosSlugRouteImport } from './routes/destinos.$slug'
 import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
+import { Route as AuthenticatedAdminDestinosRouteImport } from './routes/_authenticated/admin.destinos'
 
 const SustentabilidadeRoute = SustentabilidadeRouteImport.update({
   id: '/sustentabilidade',
@@ -69,6 +70,12 @@ const AuthenticatedContaRoute = AuthenticatedContaRouteImport.update({
   path: '/conta',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminDestinosRoute =
+  AuthenticatedAdminDestinosRouteImport.update({
+    id: '/admin/destinos',
+    path: '/admin/destinos',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/sustentabilidade': typeof SustentabilidadeRoute
   '/conta': typeof AuthenticatedContaRoute
   '/destinos/$slug': typeof DestinosSlugRoute
+  '/admin/destinos': typeof AuthenticatedAdminDestinosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -91,6 +99,7 @@ export interface FileRoutesByTo {
   '/sustentabilidade': typeof SustentabilidadeRoute
   '/conta': typeof AuthenticatedContaRoute
   '/destinos/$slug': typeof DestinosSlugRoute
+  '/admin/destinos': typeof AuthenticatedAdminDestinosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -104,6 +113,7 @@ export interface FileRoutesById {
   '/sustentabilidade': typeof SustentabilidadeRoute
   '/_authenticated/conta': typeof AuthenticatedContaRoute
   '/destinos/$slug': typeof DestinosSlugRoute
+  '/_authenticated/admin/destinos': typeof AuthenticatedAdminDestinosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/sustentabilidade'
     | '/conta'
     | '/destinos/$slug'
+    | '/admin/destinos'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/sustentabilidade'
     | '/conta'
     | '/destinos/$slug'
+    | '/admin/destinos'
   id:
     | '__root__'
     | '/'
@@ -140,6 +152,7 @@ export interface FileRouteTypes {
     | '/sustentabilidade'
     | '/_authenticated/conta'
     | '/destinos/$slug'
+    | '/_authenticated/admin/destinos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -225,15 +238,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedContaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/destinos': {
+      id: '/_authenticated/admin/destinos'
+      path: '/admin/destinos'
+      fullPath: '/admin/destinos'
+      preLoaderRoute: typeof AuthenticatedAdminDestinosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedContaRoute: typeof AuthenticatedContaRoute
+  AuthenticatedAdminDestinosRoute: typeof AuthenticatedAdminDestinosRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedContaRoute: AuthenticatedContaRoute,
+  AuthenticatedAdminDestinosRoute: AuthenticatedAdminDestinosRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

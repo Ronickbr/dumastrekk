@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Search } from "lucide-react";
-import { DESTINOS } from "@/lib/destinos";
+import { fetchDestinos, destinosQueryKey } from "@/lib/destinos";
 import { DestinoCard } from "@/components/DestinoCard";
 
 export const Route = createFileRoute("/destinos")({
@@ -40,15 +41,20 @@ function DestinosPage() {
   const [mes, setMes] = useState<string>("");
   const [faixa, setFaixa] = useState<number>(0);
 
+  const { data: destinos = [], isLoading } = useQuery({
+    queryKey: destinosQueryKey,
+    queryFn: fetchDestinos,
+  });
+
   const list = useMemo(() => {
     const { min, max } = FAIXAS_PRECO[faixa];
-    return DESTINOS.filter((d) => {
+    return destinos.filter((d) => {
       if (mes && mesDoDestino(d.data) !== mes) return false;
       if (d.precoDesde < min || d.precoDesde > max) return false;
       if (q && !(`${d.nome} ${d.local} ${d.estado}`.toLowerCase().includes(q.toLowerCase()))) return false;
       return true;
     });
-  }, [q, mes, faixa]);
+  }, [destinos, q, mes, faixa]);
 
   return (
     <>
@@ -93,7 +99,8 @@ function DestinosPage() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((d) => <DestinoCard key={d.slug} d={d} />)}
         </div>
-        {list.length === 0 && <p className="py-20 text-center text-muted-foreground">Nenhuma expedição encontrada com esses filtros.</p>}
+        {!isLoading && list.length === 0 && <p className="py-20 text-center text-muted-foreground">Nenhuma expedição encontrada com esses filtros.</p>}
+        {isLoading && <p className="py-20 text-center text-muted-foreground">Carregando expedições...</p>}
       </section>
     </>
   );

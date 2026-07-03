@@ -1,14 +1,14 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { Check, X, MapPin, Clock, Mountain, Thermometer, Calendar, ArrowLeft, MessageCircle } from "lucide-react";
 import { useState } from "react";
-import { DESTINOS } from "@/lib/destinos";
+import { fetchDestino } from "@/lib/destinos";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/destinos/$slug")({
   component: DestinoDetail,
-  loader: ({ params }) => {
-    const destino = DESTINOS.find((d) => d.slug === params.slug);
+  loader: async ({ params }) => {
+    const destino = await fetchDestino(params.slug);
     if (!destino) throw notFound();
     return { destino };
   },

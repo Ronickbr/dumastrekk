@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { Calendar, ArrowUpRight } from "lucide-react";
-import { DESTINOS } from "@/lib/destinos";
+import { fetchDestinos, destinosQueryKey } from "@/lib/destinos";
 
 export const Route = createFileRoute("/calendario")({
   component: CalendarioPage,
@@ -23,6 +24,7 @@ const STATUS_BADGE: Record<string, string> = {
 };
 
 function CalendarioPage() {
+  const { data: destinos = [] } = useQuery({ queryKey: destinosQueryKey, queryFn: fetchDestinos });
   return (
     <>
       <section className="relative bg-forest-deep pb-20 pt-40 text-white">
@@ -46,7 +48,7 @@ function CalendarioPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {DESTINOS.map((d, i) => (
+              {destinos.map((d, i) => (
                 <tr key={d.slug} className="hover:bg-secondary/30">
                   <td className="px-6 py-5 font-medium">
                     <div className="inline-flex items-center gap-2"><Calendar className="h-4 w-4 text-primary" />{d.data}</div>
