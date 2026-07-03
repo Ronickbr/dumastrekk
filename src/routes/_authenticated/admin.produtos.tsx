@@ -19,25 +19,20 @@ type FormState = {
   preco: string;
   estoque: string;
   ativo: boolean;
-  camposJson: string;
+  temTamanho: boolean;
+  tamanhos: string;
 };
 
 const EMPTY: FormState = {
   slug: "",
   nome: "",
   descricao: "",
-  imagem: "/images/destino-chapada.jpg",
+  imagem: "",
   preco: "",
   estoque: "10",
   ativo: true,
-  camposJson: JSON.stringify(
-    [
-      { nome: "tamanho", label: "Tamanho", tipo: "select", opcoes: ["P", "M", "G", "GG"] },
-      { nome: "nome_bordado", label: "Nome bordado (opcional)", tipo: "text" },
-    ] satisfies CampoPersonalizacao[],
-    null,
-    2,
-  ),
+  temTamanho: false,
+  tamanhos: "P, M, G, GG",
 };
 
 function slugify(s: string) {
@@ -77,11 +72,13 @@ function AdminProdutos() {
   }
 
   const onEdit = (p: Produto) => {
+    const campoTam = p.personalizacao_campos.find((c) => c.nome === "tamanho");
     setEditingId(p.id);
     setForm({
       slug: p.slug, nome: p.nome, descricao: p.descricao, imagem: p.imagem,
       preco: String(p.preco), estoque: String(p.estoque), ativo: p.ativo,
-      camposJson: JSON.stringify(p.personalizacao_campos, null, 2),
+      temTamanho: !!campoTam,
+      tamanhos: campoTam?.opcoes?.join(", ") ?? "P, M, G, GG",
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -97,13 +94,16 @@ function AdminProdutos() {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    let campos: CampoPersonalizacao[] = [];
-    try { campos = JSON.parse(form.camposJson); if (!Array.isArray(campos)) throw new Error(); }
-    catch { return toast.error("Campos de personalização: JSON inválido"); }
-
     const preco = Number(form.preco);
     const estoque = Number(form.estoque);
     if (!form.nome || !form.descricao || !form.imagem || Number.isNaN(preco)) return toast.error("Preencha os campos obrigatórios");
+
+    let campos: CampoPersonalizacao[] = [];
+    if (form.temTamanho) {
+      const opcoes = form.tamanhos.split(",").map((s) => s.trim()).filter(Boolean);
+      if (opcoes.length === 0) return toast.error("Informe ao menos um tamanho");
+      campos = [{ nome: "tamanho", label: "Tamanho", tipo: "select", opcoes }];
+    }
 
     const slug = form.slug || slugify(form.nome);
     const payload = { slug, nome: form.nome.trim(), descricao: form.descricao.trim(), imagem: form.imagem.trim(), preco, estoque: Number.isFinite(estoque) ? estoque : 0, ativo: form.ativo, personalizacao_campos: campos as unknown as any };
@@ -141,10 +141,18 @@ function AdminProdutos() {
             <Field label="Estoque"><input type="number" min={0} value={form.estoque} onChange={(e) => setForm({ ...form, estoque: e.target.value })} className={inputCls} /></Field>
           </div>
           <div className="md:col-span-2"><Field label="Descrição *"><textarea required rows={3} value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} className={inputCls} /></Field></div>
-          <div className="md:col-span-2">
-            <Field label='Campos de personalização (JSON) — ex: [{"nome":"cor","label":"Cor","tipo":"select","opcoes":["Preto","Verde"]}]'>
-              <textarea rows={8} value={form.camposJson} onChange={(e) => setForm({ ...form, camposJson: e.target.value })} className={inputCls + " font-mono text-xs"} />
-            </Field>
+          <div className="md:col-span-2 rounded-2xl border border-border bg-secondary/30 p-4">
+            <label className="flex items-center gap-2 text-sm font-medium">
+              <input type="checkbox" checked={form.temTamanho} onChange={(e) => setForm({ ...form, temTamanho: e.target.checked })} />
+              Este produto tem tamanhos (camisas, moletons, etc.)
+            </label>
+            {form.temTamanho && (
+              <div className="mt-3">
+                <Field label="Tamanhos disponíveis (separados por vírgula)">
+                  <input value={form.tamanhos} onChange={(e) => setForm({ ...form, tamanhos: e.target.value })} placeholder="P, M, G, GG" className={inputCls} />
+                </Field>
+              </div>
+            )}
           </div>
           <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.ativo} onChange={(e) => setForm({ ...form, ativo: e.target.checked })} /> Ativo (visível na loja)</label>
         </div>

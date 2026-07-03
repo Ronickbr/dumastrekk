@@ -27,12 +27,21 @@ export const criarCheckoutMercadoPago = createServerFn({ method: "POST" })
 
     const { data: produto, error: pErr } = await supabase
       .from("produtos")
-      .select("id,nome,descricao,imagem,preco,estoque,ativo,slug")
+      .select("id,nome,descricao,imagem,preco,estoque,ativo,slug,personalizacao_campos")
       .eq("id", data.produtoId)
       .maybeSingle();
     if (pErr) throw new Error(pErr.message);
     if (!produto || !produto.ativo) throw new Error("Produto indisponível");
     if (produto.estoque < data.quantidade) throw new Error("Estoque insuficiente");
+
+    // Valida tamanho quando o produto tem opções cadastradas
+    const campos = (produto.personalizacao_campos ?? []) as Array<{ nome: string; opcoes?: string[] }>;
+    const campoTamanho = campos.find((c) => c.nome === "tamanho");
+    if (campoTamanho && Array.isArray(campoTamanho.opcoes) && campoTamanho.opcoes.length > 0) {
+      const escolhido = data.personalizacao?.tamanho;
+      if (!escolhido) throw new Error("Selecione um tamanho antes de finalizar a compra");
+      if (!campoTamanho.opcoes.includes(escolhido)) throw new Error(`Tamanho inválido. Opções: ${campoTamanho.opcoes.join(", ")}`);
+    }
 
     const preco = Number(produto.preco);
     const valorTotal = +(preco * data.quantidade).toFixed(2);
