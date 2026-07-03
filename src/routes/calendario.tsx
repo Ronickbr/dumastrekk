@@ -24,6 +24,7 @@ const STATUS_BADGE: Record<string, string> = {
 };
 
 function CalendarioPage() {
+  const { data: destinos = [] } = useQuery({ queryKey: destinosQueryKey, queryFn: fetchDestinos });
   return (
     <>
       <section className="relative bg-forest-deep pb-20 pt-40 text-white">
