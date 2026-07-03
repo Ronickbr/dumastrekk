@@ -112,7 +112,7 @@ function AdminBlog() {
         <Link to="/blog" className="text-sm text-primary hover:underline">Ver blog público →</Link>
       </div>
 
-      <form onSubmit={onSubmit} className="rounded-3xl border border-border bg-card p-6 shadow-sm">
+      <form onSubmit={(e) => { e.preventDefault(); save(true); }} className="rounded-3xl border border-border bg-card p-6 shadow-sm">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="font-serif text-2xl">{editingId ? "Editar post" : "Novo post"}</h2>
           {editingId && <button type="button" onClick={onCancel} className="inline-flex items-center gap-1 rounded-full border border-input px-3 py-1.5 text-xs hover:bg-muted"><X className="h-3 w-3" /> Cancelar</button>}
@@ -126,11 +126,13 @@ function AdminBlog() {
           <Field label="URL da imagem *"><input required value={form.imagem} onChange={(e) => setForm({ ...form, imagem: e.target.value })} className={inputCls} /></Field>
           <div className="md:col-span-2"><Field label="Resumo *"><textarea required rows={2} value={form.resumo} onChange={(e) => setForm({ ...form, resumo: e.target.value })} className={inputCls} /></Field></div>
           <div className="md:col-span-2"><Field label="Conteúdo (markdown) *"><textarea required rows={10} value={form.conteudo} onChange={(e) => setForm({ ...form, conteudo: e.target.value })} className={inputCls + " font-mono"} /></Field></div>
-          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.publicado} onChange={(e) => setForm({ ...form, publicado: e.target.checked })} /> Publicado (visível no site)</label>
         </div>
-        <div className="mt-6 flex justify-end">
+        <div className="mt-6 flex flex-wrap justify-end gap-3">
+          <button type="button" onClick={() => save(false)} disabled={saving} className="inline-flex items-center gap-2 rounded-full border border-input px-6 py-3 text-sm font-medium hover:bg-muted disabled:opacity-50">
+            {saving ? "Salvando..." : "Salvar rascunho"}
+          </button>
           <button type="submit" disabled={saving} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50">
-            <Plus className="h-4 w-4" /> {saving ? "Salvando..." : editingId ? "Salvar" : "Criar post"}
+            <Plus className="h-4 w-4" /> {saving ? "Salvando..." : "Publicar"}
           </button>
         </div>
       </form>
