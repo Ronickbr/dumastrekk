@@ -54,6 +54,11 @@ export const Route = createFileRoute("/produtos/$slug")({
   },
 });
 
+function tamanhoOpcoes(p: { personalizacao_campos: Array<{ nome: string; opcoes?: string[] }> }): string[] {
+  const c = p.personalizacao_campos.find((x) => x.nome === "tamanho");
+  return c?.opcoes ?? [];
+}
+
 function ProdutoDetalhe() {
   const { slug } = Route.useParams();
   const navigate = useNavigate();
