@@ -82,18 +82,24 @@ function AdminBlog() {
     qc.invalidateQueries({ queryKey: blogQueryKey });
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSaving(true);
+  const save = async (publicado: boolean) => {
     const slug = form.slug || slugify(form.titulo);
-    const payload = { slug, titulo: form.titulo.trim(), resumo: form.resumo.trim(), conteudo: form.conteudo, imagem: form.imagem.trim(), autor: form.autor.trim() || "Dumas Trekk", publicado: form.publicado };
-    if (!payload.titulo || !payload.resumo || !payload.conteudo || !payload.imagem) { setSaving(false); return toast.error("Preencha todos os campos"); }
+    const payload = { slug, titulo: form.titulo.trim(), resumo: form.resumo.trim(), conteudo: form.conteudo, imagem: form.imagem.trim(), autor: form.autor.trim() || "Dumas Trekk", publicado };
+    if (!payload.titulo || !payload.resumo || !payload.conteudo || !payload.imagem) return toast.error("Preencha todos os campos");
+    setSaving(true);
     const { error } = editingId ? await supabase.from("blog_posts").update(payload).eq("id", editingId) : await supabase.from("blog_posts").insert(payload);
     setSaving(false);
     if (error) return toast.error(error.message);
-    toast.success(editingId ? "Post atualizado" : "Post criado");
+    toast.success(publicado ? "Post publicado" : "Rascunho salvo");
     qc.invalidateQueries({ queryKey: blogQueryKey });
     onCancel();
+  };
+
+  const togglePublicado = async (p: BlogPost) => {
+    const { error } = await supabase.from("blog_posts").update({ publicado: !p.publicado }).eq("id", p.id);
+    if (error) return toast.error(error.message);
+    toast.success(!p.publicado ? "Post publicado" : "Movido para rascunho");
+    qc.invalidateQueries({ queryKey: blogQueryKey });
   };
 
   return (
@@ -106,7 +112,7 @@ function AdminBlog() {
         <Link to="/blog" className="text-sm text-primary hover:underline">Ver blog público →</Link>
       </div>
 
-      <form onSubmit={onSubmit} className="rounded-3xl border border-border bg-card p-6 shadow-sm">
+      <form onSubmit={(e) => { e.preventDefault(); save(true); }} className="rounded-3xl border border-border bg-card p-6 shadow-sm">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="font-serif text-2xl">{editingId ? "Editar post" : "Novo post"}</h2>
           {editingId && <button type="button" onClick={onCancel} className="inline-flex items-center gap-1 rounded-full border border-input px-3 py-1.5 text-xs hover:bg-muted"><X className="h-3 w-3" /> Cancelar</button>}
@@ -120,11 +126,13 @@ function AdminBlog() {
           <Field label="URL da imagem *"><input required value={form.imagem} onChange={(e) => setForm({ ...form, imagem: e.target.value })} className={inputCls} /></Field>
           <div className="md:col-span-2"><Field label="Resumo *"><textarea required rows={2} value={form.resumo} onChange={(e) => setForm({ ...form, resumo: e.target.value })} className={inputCls} /></Field></div>
           <div className="md:col-span-2"><Field label="Conteúdo (markdown) *"><textarea required rows={10} value={form.conteudo} onChange={(e) => setForm({ ...form, conteudo: e.target.value })} className={inputCls + " font-mono"} /></Field></div>
-          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.publicado} onChange={(e) => setForm({ ...form, publicado: e.target.checked })} /> Publicado (visível no site)</label>
         </div>
-        <div className="mt-6 flex justify-end">
+        <div className="mt-6 flex flex-wrap justify-end gap-3">
+          <button type="button" onClick={() => save(false)} disabled={saving} className="inline-flex items-center gap-2 rounded-full border border-input px-6 py-3 text-sm font-medium hover:bg-muted disabled:opacity-50">
+            {saving ? "Salvando..." : "Salvar rascunho"}
+          </button>
           <button type="submit" disabled={saving} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50">
-            <Plus className="h-4 w-4" /> {saving ? "Salvando..." : editingId ? "Salvar" : "Criar post"}
+            <Plus className="h-4 w-4" /> {saving ? "Salvando..." : "Publicar"}
           </button>
         </div>
       </form>
@@ -144,6 +152,7 @@ function AdminBlog() {
                   <td className="px-4 py-3">{p.publicado ? <span className="rounded-full bg-primary/10 px-2 py-1 text-xs text-primary">Publicado</span> : <span className="rounded-full bg-muted px-2 py-1 text-xs">Rascunho</span>}</td>
                   <td className="px-4 py-3 text-right">
                     <div className="inline-flex gap-1">
+                      <button onClick={() => togglePublicado(p)} className="rounded-full px-3 py-1 text-xs hover:bg-muted border border-input">{p.publicado ? "Despublicar" : "Publicar"}</button>
                       <button onClick={() => onEdit(p)} className="rounded-full p-2 hover:bg-muted"><Pencil className="h-4 w-4" /></button>
                       <button onClick={() => onDelete(p.id)} className="rounded-full p-2 text-destructive hover:bg-destructive/10"><Trash2 className="h-4 w-4" /></button>
                     </div>
