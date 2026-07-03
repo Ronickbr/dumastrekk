@@ -240,8 +240,8 @@ function Footer() {
     <footer className="mt-24 border-t border-border bg-secondary/40">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-4">
         <div>
-          <Link to="/" className="flex items-center gap-2 font-serif text-xl font-semibold">
-            <Mountain className="h-6 w-6 text-primary" strokeWidth={1.5} />
+          <Link to="/" className="flex items-center gap-2.5 font-serif text-xl font-semibold">
+            <img src="/logo-dumas.jpg" alt="Dumas Trekk" className="h-10 w-10 rounded-full object-cover" />
             Dumas Trekk
           </Link>
           <p className="mt-4 text-sm text-muted-foreground">
