@@ -131,10 +131,14 @@ const NAV = [
 ] as const;
 
 function Navbar() {
+  const router = useRouter();
+  const pathname = router.state.location.pathname;
+  const hasDarkHero = pathname === "/";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [dark, setDark] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
+  const solid = scrolled || !hasDarkHero;
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSignedIn(!!data.session));
@@ -168,10 +172,10 @@ function Navbar() {
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "glass shadow-sm" : "bg-transparent"}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${solid ? "glass shadow-sm" : "bg-transparent"}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link to="/" aria-label="Dumas Trekk — Início" className="flex items-center">
-          <img src="/logo-dumas.png" alt="Dumas Trekk — Turismo de Aventura" className={`h-14 w-14 object-contain transition-all ${scrolled ? "" : "drop-shadow-lg"}`} />
+          <img src="/logo-dumas.png" alt="Dumas Trekk — Turismo de Aventura" className={`h-14 w-14 object-contain transition-all ${solid ? "" : "drop-shadow-lg"}`} />
         </Link>
         <nav className="hidden items-center gap-8 text-sm font-medium lg:flex">
           {NAV.map((n) => (
@@ -179,8 +183,8 @@ function Navbar() {
               key={n.to}
               to={n.to}
               activeOptions={{ exact: n.to === "/" }}
-              className={`transition-colors ${scrolled ? "text-foreground/80 hover:text-foreground" : "text-white/90 hover:text-white drop-shadow"}`}
-              activeProps={{ className: scrolled ? "text-primary" : "text-white font-semibold" }}
+              className={`transition-colors ${solid ? "text-foreground/80 hover:text-foreground" : "text-white/90 hover:text-white drop-shadow"}`}
+              activeProps={{ className: solid ? "text-primary" : "text-white font-semibold" }}
             >
               {n.label}
             </Link>
@@ -190,21 +194,21 @@ function Navbar() {
           <button
             onClick={toggleTheme}
             aria-label="Alternar tema"
-            className={`hidden rounded-full p-2 transition-colors md:inline-flex ${scrolled ? "hover:bg-muted" : "text-white hover:bg-white/10"}`}
+            className={`hidden rounded-full p-2 transition-colors md:inline-flex ${solid ? "hover:bg-muted" : "text-white hover:bg-white/10"}`}
           >
             {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
           {signedIn ? (
             <Link
               to="/conta"
-              className={`hidden items-center gap-2 rounded-full px-4 py-2 text-sm font-medium md:inline-flex ${scrolled ? "border border-input hover:bg-muted" : "border border-white/40 text-white hover:bg-white/10"}`}
+              className={`hidden items-center gap-2 rounded-full px-4 py-2 text-sm font-medium md:inline-flex ${solid ? "border border-input hover:bg-muted" : "border border-white/40 text-white hover:bg-white/10"}`}
             >
               <UserRound className="h-4 w-4" /> Minha conta
             </Link>
           ) : (
             <Link
               to="/auth"
-              className={`hidden items-center gap-2 rounded-full px-4 py-2 text-sm font-medium md:inline-flex ${scrolled ? "border border-input hover:bg-muted" : "border border-white/40 text-white hover:bg-white/10"}`}
+              className={`hidden items-center gap-2 rounded-full px-4 py-2 text-sm font-medium md:inline-flex ${solid ? "border border-input hover:bg-muted" : "border border-white/40 text-white hover:bg-white/10"}`}
             >
               Entrar
             </Link>
@@ -216,7 +220,7 @@ function Navbar() {
             Reservar
           </Link>
           <button
-            className={`inline-flex rounded-md p-2 lg:hidden ${scrolled ? "text-foreground" : "text-white"}`}
+            className={`inline-flex rounded-md p-2 lg:hidden ${solid ? "text-foreground" : "text-white"}`}
             onClick={() => setOpen((v) => !v)}
             aria-label="Menu"
           >
