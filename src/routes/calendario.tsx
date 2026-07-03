@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { Calendar, ArrowUpRight } from "lucide-react";
-import { DESTINOS } from "@/lib/destinos";
+import { fetchDestinos, destinosQueryKey } from "@/lib/destinos";
 
 export const Route = createFileRoute("/calendario")({
   component: CalendarioPage,
