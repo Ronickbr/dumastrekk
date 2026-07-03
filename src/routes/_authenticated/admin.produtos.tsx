@@ -72,11 +72,13 @@ function AdminProdutos() {
   }
 
   const onEdit = (p: Produto) => {
+    const campoTam = p.personalizacao_campos.find((c) => c.nome === "tamanho");
     setEditingId(p.id);
     setForm({
       slug: p.slug, nome: p.nome, descricao: p.descricao, imagem: p.imagem,
       preco: String(p.preco), estoque: String(p.estoque), ativo: p.ativo,
-      camposJson: JSON.stringify(p.personalizacao_campos, null, 2),
+      temTamanho: !!campoTam,
+      tamanhos: campoTam?.opcoes?.join(", ") ?? "P, M, G, GG",
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -92,13 +94,16 @@ function AdminProdutos() {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    let campos: CampoPersonalizacao[] = [];
-    try { campos = JSON.parse(form.camposJson); if (!Array.isArray(campos)) throw new Error(); }
-    catch { return toast.error("Campos de personalização: JSON inválido"); }
-
     const preco = Number(form.preco);
     const estoque = Number(form.estoque);
     if (!form.nome || !form.descricao || !form.imagem || Number.isNaN(preco)) return toast.error("Preencha os campos obrigatórios");
+
+    let campos: CampoPersonalizacao[] = [];
+    if (form.temTamanho) {
+      const opcoes = form.tamanhos.split(",").map((s) => s.trim()).filter(Boolean);
+      if (opcoes.length === 0) return toast.error("Informe ao menos um tamanho");
+      campos = [{ nome: "tamanho", label: "Tamanho", tipo: "select", opcoes }];
+    }
 
     const slug = form.slug || slugify(form.nome);
     const payload = { slug, nome: form.nome.trim(), descricao: form.descricao.trim(), imagem: form.imagem.trim(), preco, estoque: Number.isFinite(estoque) ? estoque : 0, ativo: form.ativo, personalizacao_campos: campos as unknown as any };
