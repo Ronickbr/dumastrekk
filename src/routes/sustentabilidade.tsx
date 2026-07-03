@@ -8,10 +8,12 @@ export const Route = createFileRoute("/sustentabilidade")({
       { title: "Sustentabilidade — Dumas Trekk" },
       { name: "description", content: "Práticas ambientais, turismo responsável, compensação de carbono e projetos sociais." },
       { property: "og:title", content: "Sustentabilidade — Dumas Trekk" },
-      { property: "og:url", content: "/sustentabilidade" },
-      { property: "og:image", content: "/images/sustentabilidade.jpg" },
+      { property: "og:description", content: "Práticas ambientais, turismo responsável, compensação de carbono e projetos sociais." },
+      { property: "og:url", content: "https://dumastrekk.lovable.app/sustentabilidade" },
+      { property: "og:image", content: "https://dumastrekk.lovable.app/images/sustentabilidade.jpg" },
+      { name: "twitter:image", content: "https://dumastrekk.lovable.app/images/sustentabilidade.jpg" },
     ],
-    links: [{ rel: "canonical", href: "/sustentabilidade" }],
+    links: [{ rel: "canonical", href: "https://dumastrekk.lovable.app/sustentabilidade" }],
   }),
 });
 

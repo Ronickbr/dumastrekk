@@ -8,10 +8,12 @@ export const Route = createFileRoute("/sobre")({
       { title: "Sobre a Dumas Trekk" },
       { name: "description", content: "Nossa história, missão, valores e equipe de guias certificados." },
       { property: "og:title", content: "Sobre a Dumas Trekk" },
-      { property: "og:url", content: "/sobre" },
-      { property: "og:image", content: "/images/sobre-equipe.jpg" },
+      { property: "og:description", content: "Nossa história, missão, valores e equipe de guias certificados." },
+      { property: "og:url", content: "https://dumastrekk.lovable.app/sobre" },
+      { property: "og:image", content: "https://dumastrekk.lovable.app/images/sobre-equipe.jpg" },
+      { name: "twitter:image", content: "https://dumastrekk.lovable.app/images/sobre-equipe.jpg" },
     ],
-    links: [{ rel: "canonical", href: "/sobre" }],
+    links: [{ rel: "canonical", href: "https://dumastrekk.lovable.app/sobre" }],
   }),
 });
 

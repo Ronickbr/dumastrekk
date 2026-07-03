@@ -12,9 +12,10 @@ export const Route = createFileRoute("/destinos")({
       { title: "Destinos & Expedições — Dumas Trekk" },
       { name: "description", content: "Encontre trilhas, montanhas e expedições cuidadosamente planejadas. Filtre por nível, tipo, preço e duração." },
       { property: "og:title", content: "Destinos & Expedições — Dumas Trekk" },
-      { property: "og:url", content: "/destinos" },
+      { property: "og:description", content: "Encontre trilhas, montanhas e expedições cuidadosamente planejadas." },
+      { property: "og:url", content: "https://dumastrekk.lovable.app/destinos" },
     ],
-    links: [{ rel: "canonical", href: "/destinos" }],
+    links: [{ rel: "canonical", href: "https://dumastrekk.lovable.app/destinos" }],
   }),
 });
 

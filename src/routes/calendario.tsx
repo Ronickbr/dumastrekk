@@ -10,9 +10,10 @@ export const Route = createFileRoute("/calendario")({
       { title: "Calendário de Expedições — Dumas Trekk" },
       { name: "description", content: "Confira as próximas saídas, número de vagas e status de cada expedição." },
       { property: "og:title", content: "Calendário de Expedições — Dumas Trekk" },
-      { property: "og:url", content: "/calendario" },
+      { property: "og:description", content: "Confira as próximas saídas, número de vagas e status de cada expedição." },
+      { property: "og:url", content: "https://dumastrekk.lovable.app/calendario" },
     ],
-    links: [{ rel: "canonical", href: "/calendario" }],
+    links: [{ rel: "canonical", href: "https://dumastrekk.lovable.app/calendario" }],
   }),
 });
 

@@ -11,7 +11,10 @@ export const Route = createFileRoute("/blog")({
       { name: "description", content: "Dicas de trekking, preparação para expedições, listas de equipamentos e histórias de trilha." },
       { property: "og:title", content: "Blog — Dumas Trekk" },
       { property: "og:description", content: "Dicas de trekking, preparação para expedições e histórias de trilha." },
+      { property: "og:url", content: "https://dumastrekk.lovable.app/blog" },
+      { property: "og:type", content: "website" },
     ],
+    links: [{ rel: "canonical", href: "https://dumastrekk.lovable.app/blog" }],
   }),
 });
 

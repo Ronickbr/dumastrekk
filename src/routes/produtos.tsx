@@ -10,7 +10,9 @@ export const Route = createFileRoute("/produtos")({
       { name: "description", content: "Camisetas, canecas e itens personalizados para você levar a Dumas Trekk na trilha." },
       { property: "og:title", content: "Loja — Produtos personalizados Dumas Trekk" },
       { property: "og:description", content: "Camisetas, canecas e itens personalizados para trilheiros." },
+      { property: "og:url", content: "https://dumastrekk.lovable.app/produtos" },
     ],
+    links: [{ rel: "canonical", href: "https://dumastrekk.lovable.app/produtos" }],
   }),
 });
 
