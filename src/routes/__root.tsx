@@ -220,6 +220,9 @@ function Navbar() {
                 {n.label}
               </Link>
             ))}
+            <Link to={signedIn ? "/conta" : "/auth"} onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 text-sm font-medium hover:bg-muted">
+              {signedIn ? "Minha conta" : "Entrar / Cadastrar"}
+            </Link>
             <button onClick={toggleTheme} className="mt-2 flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-muted">
               {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               {dark ? "Modo claro" : "Modo escuro"}
