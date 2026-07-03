@@ -54,6 +54,11 @@ export const Route = createFileRoute("/produtos/$slug")({
   },
 });
 
+function tamanhoOpcoes(p: { personalizacao_campos: Array<{ nome: string; opcoes?: string[] }> }): string[] {
+  const c = p.personalizacao_campos.find((x) => x.nome === "tamanho");
+  return c?.opcoes ?? [];
+}
+
 function ProdutoDetalhe() {
   const { slug } = Route.useParams();
   const navigate = useNavigate();
@@ -62,7 +67,7 @@ function ProdutoDetalhe() {
     queryKey: ["produto", slug],
     queryFn: () => fetchProdutoBySlug(slug),
   });
-  const [personalizacao, setPersonalizacao] = useState<Record<string, string>>({});
+  const [tamanho, setTamanho] = useState<string>("");
   const [quantidade, setQuantidade] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -83,12 +88,10 @@ function ProdutoDetalhe() {
       navigate({ to: "/auth" });
       return;
     }
-    // valida campos obrigatórios
-    for (const campo of produto.personalizacao_campos) {
-      if (campo.tipo === "select" && !personalizacao[campo.nome]) {
-        toast.error(`Selecione ${campo.label}`);
-        return;
-      }
+    const tamanhos = tamanhoOpcoes(produto);
+    if (tamanhos.length > 0 && !tamanho) {
+      toast.error("Selecione o tamanho");
+      return;
     }
     setLoading(true);
     try {
@@ -96,7 +99,7 @@ function ProdutoDetalhe() {
         data: {
           produtoId: produto.id,
           quantidade,
-          personalizacao,
+          personalizacao: tamanho ? { tamanho } : {},
           origin: window.location.origin,
         },
       });
@@ -138,29 +141,24 @@ function ProdutoDetalhe() {
           </p>
 
           <div className="mt-8 space-y-4">
-            {produto.personalizacao_campos.map((campo) => (
-              <div key={campo.nome}>
-                <label className="mb-1.5 block text-xs font-medium text-muted-foreground">{campo.label}</label>
-                {campo.tipo === "select" ? (
-                  <select
-                    value={personalizacao[campo.nome] ?? ""}
-                    onChange={(e) => setPersonalizacao({ ...personalizacao, [campo.nome]: e.target.value })}
-                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary"
-                  >
-                    <option value="">Selecione...</option>
-                    {campo.opcoes?.map((o) => <option key={o} value={o}>{o}</option>)}
-                  </select>
-                ) : (
-                  <input
-                    type="text"
-                    value={personalizacao[campo.nome] ?? ""}
-                    onChange={(e) => setPersonalizacao({ ...personalizacao, [campo.nome]: e.target.value })}
-                    placeholder={`Digite ${campo.label.toLowerCase()}`}
-                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary"
-                  />
-                )}
+            {tamanhoOpcoes(produto).length > 0 && (
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-muted-foreground">Tamanho</label>
+                <div className="flex flex-wrap gap-2">
+                  {tamanhoOpcoes(produto).map((o) => (
+                    <button
+                      key={o}
+                      type="button"
+                      onClick={() => setTamanho(o)}
+                      className={`rounded-full border px-4 py-2 text-sm ${tamanho === o ? "border-primary bg-primary text-primary-foreground" : "border-input hover:bg-muted"}`}
+                    >
+                      {o}
+                    </button>
+                  ))}
+                </div>
               </div>
-            ))}
+            )}
+
 
             <div>
               <label className="mb-1.5 block text-xs font-medium text-muted-foreground">Quantidade</label>
