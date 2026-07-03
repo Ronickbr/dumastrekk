@@ -1,6 +1,9 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { Check, X, MapPin, Clock, Mountain, Thermometer, Calendar, ArrowLeft, MessageCircle } from "lucide-react";
+import { useState } from "react";
 import { DESTINOS } from "@/lib/destinos";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/destinos/$slug")({
   component: DestinoDetail,
@@ -38,6 +41,31 @@ export const Route = createFileRoute("/destinos/$slug")({
 
 function DestinoDetail() {
   const { destino: d } = Route.useLoaderData();
+  const navigate = useNavigate();
+  const [pessoas, setPessoas] = useState(1);
+  const [reservando, setReservando] = useState(false);
+
+  const onReservar = async () => {
+    setReservando(true);
+    const { data: session } = await supabase.auth.getSession();
+    if (!session.session) {
+      toast.info("Entre ou crie sua conta para reservar");
+      navigate({ to: "/auth" });
+      return;
+    }
+    const { error } = await supabase.from("reservas").insert({
+      user_id: session.session.user.id,
+      destino_slug: d.slug,
+      destino_nome: d.nome,
+      pessoas,
+      status: "pendente",
+    });
+    setReservando(false);
+    if (error) return toast.error("Não foi possível criar a reserva");
+    toast.success("Reserva criada! Confira em Minha conta.");
+    navigate({ to: "/conta" });
+  };
+
 
   return (
     <>
@@ -135,12 +163,12 @@ function DestinoDetail() {
               </label>
               <label className="block">
                 <span className="text-xs text-muted-foreground">Pessoas</span>
-                <input type="number" min={1} max={12} defaultValue={1} className="mt-1 w-full rounded-lg border border-input bg-background px-3 py-2" />
+                <input type="number" min={1} max={12} value={pessoas} onChange={(e) => setPessoas(Number(e.target.value))} className="mt-1 w-full rounded-lg border border-input bg-background px-3 py-2" />
               </label>
             </div>
 
-            <button className="mt-6 w-full rounded-full bg-primary py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90">
-              Reservar agora
+            <button onClick={onReservar} disabled={reservando} className="mt-6 w-full rounded-full bg-primary py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50">
+              {reservando ? "Reservando..." : "Reservar agora"}
             </button>
             <a
               href="https://wa.me/5511912345678"

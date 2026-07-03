@@ -8,10 +8,12 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
-import { Mountain, Menu, X, Moon, Sun, MessageCircle, Instagram, Mail, Phone, MapPin } from "lucide-react";
+import { Mountain, Menu, X, Moon, Sun, MessageCircle, Instagram, Mail, Phone, MapPin, UserRound } from "lucide-react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { supabase } from "@/integrations/supabase/client";
+import { Toaster } from "sonner";
 
 function NotFoundComponent() {
   return (
@@ -120,6 +122,17 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [dark, setDark] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSignedIn(!!data.session));
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED") {
+        setSignedIn(!!session);
+      }
+    });
+    return () => sub.subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -170,6 +183,21 @@ function Navbar() {
           >
             {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
+          {signedIn ? (
+            <Link
+              to="/conta"
+              className={`hidden items-center gap-2 rounded-full px-4 py-2 text-sm font-medium md:inline-flex ${scrolled ? "border border-input hover:bg-muted" : "border border-white/40 text-white hover:bg-white/10"}`}
+            >
+              <UserRound className="h-4 w-4" /> Minha conta
+            </Link>
+          ) : (
+            <Link
+              to="/auth"
+              className={`hidden items-center gap-2 rounded-full px-4 py-2 text-sm font-medium md:inline-flex ${scrolled ? "border border-input hover:bg-muted" : "border border-white/40 text-white hover:bg-white/10"}`}
+            >
+              Entrar
+            </Link>
+          )}
           <Link
             to="/destinos"
             className="hidden rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-sm transition-transform hover:scale-105 md:inline-flex"
@@ -193,6 +221,9 @@ function Navbar() {
                 {n.label}
               </Link>
             ))}
+            <Link to={signedIn ? "/conta" : "/auth"} onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 text-sm font-medium hover:bg-muted">
+              {signedIn ? "Minha conta" : "Entrar / Cadastrar"}
+            </Link>
             <button onClick={toggleTheme} className="mt-2 flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-muted">
               {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               {dark ? "Modo claro" : "Modo escuro"}
@@ -285,6 +316,8 @@ function RootComponent() {
       </main>
       <Footer />
       <WhatsAppFloat />
+      <Toaster position="top-center" richColors />
     </QueryClientProvider>
   );
 }
+
