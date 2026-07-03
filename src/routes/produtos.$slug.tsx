@@ -62,7 +62,7 @@ function ProdutoDetalhe() {
     queryKey: ["produto", slug],
     queryFn: () => fetchProdutoBySlug(slug),
   });
-  const [personalizacao, setPersonalizacao] = useState<Record<string, string>>({});
+  const [tamanho, setTamanho] = useState<string>("");
   const [quantidade, setQuantidade] = useState(1);
   const [loading, setLoading] = useState(false);
 
