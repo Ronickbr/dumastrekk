@@ -23,6 +23,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const { data: destinos = [] } = useQuery({ queryKey: destinosQueryKey, queryFn: fetchDestinos });
+  const destaques = destinos.filter((d) => d.destaque).length > 0 ? destinos.filter((d) => d.destaque) : destinos.slice(0, 4);
   return (
     <>
       {/* HERO */}
