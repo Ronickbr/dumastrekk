@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -10,7 +10,48 @@ import { criarCheckoutMercadoPago } from "@/lib/checkout.functions";
 
 export const Route = createFileRoute("/produtos/$slug")({
   component: ProdutoDetalhe,
-  head: () => ({ meta: [{ title: "Produto — Dumas Trekk" }] }),
+  loader: async ({ params }) => {
+    const produto = await fetchProdutoBySlug(params.slug);
+    if (!produto) throw notFound();
+    return { produto };
+  },
+  head: ({ loaderData, params }) => {
+    if (!loaderData) return { meta: [{ title: "Produto não encontrado — Dumas Trekk" }, { name: "robots", content: "noindex" }] };
+    const p = loaderData.produto;
+    const url = `https://dumastrekk.lovable.app/produtos/${params.slug}`;
+    return {
+      meta: [
+        { title: `${p.nome} — Loja Dumas Trekk` },
+        { name: "description", content: p.descricao },
+        { property: "og:title", content: p.nome },
+        { property: "og:description", content: p.descricao },
+        { property: "og:image", content: p.imagem },
+        { name: "twitter:image", content: p.imagem },
+        { property: "og:url", content: url },
+        { property: "og:type", content: "product" },
+        ...(p.ativo ? [] : [{ name: "robots", content: "noindex" } as const]),
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [{
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: p.nome,
+          description: p.descricao,
+          image: p.imagem,
+          url,
+          offers: {
+            "@type": "Offer",
+            price: p.preco,
+            priceCurrency: "BRL",
+            availability: p.estoque > 0 && p.ativo ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            url,
+          },
+        }),
+      }],
+    };
+  },
 });
 
 function ProdutoDetalhe() {

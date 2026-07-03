@@ -1,11 +1,49 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPostBySlug } from "@/lib/blog";
 import { ArrowLeft, Calendar } from "lucide-react";
 
 export const Route = createFileRoute("/blog/$slug")({
   component: PostPage,
-  head: () => ({ meta: [{ title: "Post — Dumas Trekk" }] }),
+  loader: async ({ params }) => {
+    const post = await fetchPostBySlug(params.slug);
+    if (!post) throw notFound();
+    return { post };
+  },
+  head: ({ loaderData, params }) => {
+    if (!loaderData) return { meta: [{ title: "Post não encontrado — Dumas Trekk" }, { name: "robots", content: "noindex" }] };
+    const p = loaderData.post;
+    const url = `https://dumastrekk.lovable.app/blog/${params.slug}`;
+    return {
+      meta: [
+        { title: `${p.titulo} — Dumas Trekk` },
+        { name: "description", content: p.resumo },
+        { property: "og:title", content: p.titulo },
+        { property: "og:description", content: p.resumo },
+        { property: "og:image", content: p.imagem },
+        { name: "twitter:image", content: p.imagem },
+        { property: "og:url", content: url },
+        { property: "og:type", content: "article" },
+        { property: "article:author", content: p.autor },
+        { property: "article:published_time", content: p.created_at },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [{
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: p.titulo,
+          description: p.resumo,
+          image: p.imagem,
+          datePublished: p.created_at,
+          author: { "@type": "Person", name: p.autor },
+          publisher: { "@type": "Organization", name: "Dumas Trekk", logo: { "@type": "ImageObject", url: "https://dumastrekk.lovable.app/logo-dumas.png" } },
+          mainEntityOfPage: url,
+        }),
+      }],
+    };
+  },
 });
 
 function PostPage() {
