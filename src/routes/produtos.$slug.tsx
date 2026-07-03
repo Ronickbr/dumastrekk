@@ -174,12 +174,21 @@ function ProdutoDetalhe() {
           </div>
 
           <div className="mt-8 rounded-2xl border border-border bg-secondary/40 p-5">
-            <div className="flex items-center justify-between text-sm">
+            <p className="mb-3 text-xs uppercase tracking-widest text-muted-foreground">Resumo do pedido</p>
+            <div className="space-y-1.5 text-sm">
+              <div className="flex justify-between"><span className="text-muted-foreground">Produto</span><span className="font-medium">{produto.nome}</span></div>
+              {tamanhoOpcoes(produto).length > 0 && (
+                <div className="flex justify-between"><span className="text-muted-foreground">Tamanho</span><span className="font-medium">{tamanho || "—"}</span></div>
+              )}
+              <div className="flex justify-between"><span className="text-muted-foreground">Quantidade</span><span className="font-medium">{quantidade}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Preço unitário</span><span className="font-medium">R$ {produto.preco.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</span></div>
+            </div>
+            <div className="mt-4 flex items-center justify-between border-t border-border pt-3">
               <span className="text-muted-foreground">Total</span>
               <span className="text-2xl font-semibold">R$ {total.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</span>
             </div>
             <button
-              disabled={loading || produto.estoque < 1}
+              disabled={loading || produto.estoque < 1 || (tamanhoOpcoes(produto).length > 0 && !tamanho)}
               onClick={handleBuy}
               className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
             >
