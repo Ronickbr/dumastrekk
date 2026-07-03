@@ -131,10 +131,14 @@ const NAV = [
 ] as const;
 
 function Navbar() {
+  const router = useRouter();
+  const pathname = router.state.location.pathname;
+  const hasDarkHero = pathname === "/";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [dark, setDark] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
+  const solid = scrolled || !hasDarkHero;
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSignedIn(!!data.session));
