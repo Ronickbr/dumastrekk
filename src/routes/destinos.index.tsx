@@ -5,7 +5,7 @@ import { Search } from "lucide-react";
 import { fetchDestinos, destinosQueryKey } from "@/lib/destinos";
 import { DestinoCard } from "@/components/DestinoCard";
 
-export const Route = createFileRoute("/destinos")({
+export const Route = createFileRoute("/destinos/")({
   component: DestinosPage,
   head: () => ({
     meta: [
