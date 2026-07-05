@@ -60,15 +60,21 @@ export type Database = {
           created_at: string
           data_expedicao: string | null
           descricao: string
+          descricao_longa: string | null
           destaque: boolean
           duracao: string
+          equipamentos: string[]
           estado: string
+          faq: Json
           imagem: string
+          incluso: string[]
           local: string
+          nao_incluso: string[]
           nivel: string
           nome: string
           pais: string
           preco_desde: number
+          roteiro: Json
           slug: string
           status: string
           tipo: string
@@ -80,15 +86,21 @@ export type Database = {
           created_at?: string
           data_expedicao?: string | null
           descricao: string
+          descricao_longa?: string | null
           destaque?: boolean
           duracao: string
+          equipamentos?: string[]
           estado: string
+          faq?: Json
           imagem: string
+          incluso?: string[]
           local: string
+          nao_incluso?: string[]
           nivel: string
           nome: string
           pais?: string
           preco_desde: number
+          roteiro?: Json
           slug: string
           status?: string
           tipo: string
@@ -100,15 +112,21 @@ export type Database = {
           created_at?: string
           data_expedicao?: string | null
           descricao?: string
+          descricao_longa?: string | null
           destaque?: boolean
           duracao?: string
+          equipamentos?: string[]
           estado?: string
+          faq?: Json
           imagem?: string
+          incluso?: string[]
           local?: string
+          nao_incluso?: string[]
           nivel?: string
           nome?: string
           pais?: string
           preco_desde?: number
+          roteiro?: Json
           slug?: string
           status?: string
           tipo?: string

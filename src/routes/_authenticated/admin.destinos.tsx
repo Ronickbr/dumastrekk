@@ -34,7 +34,13 @@ type FormState = {
   data: string;
   status: Destino["status"];
   descricao: string;
+  descricaoLonga: string;
   destaque: boolean;
+  roteiro: string;
+  incluso: string;
+  naoIncluso: string;
+  equipamentos: string;
+  faq: string;
 };
 
 const EMPTY: FormState = {
@@ -53,8 +59,34 @@ const EMPTY: FormState = {
   data: "",
   status: "Vagas abertas",
   descricao: "",
+  descricaoLonga: "",
   destaque: false,
+  roteiro: "",
+  incluso: "",
+  naoIncluso: "",
+  equipamentos: "",
+  faq: "",
 };
+
+// helpers para converter entre textarea (uma linha = um item) e arrays / objetos
+const linesToArray = (s: string): string[] =>
+  s.split("\n").map((l) => l.trim()).filter(Boolean);
+
+const arrayToLines = (a: string[] | null | undefined): string =>
+  (a ?? []).join("\n");
+
+const linesToPairs = <T extends string>(s: string, k1: T, k2: T): Record<T, string>[] =>
+  s
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .map((l) => {
+      const [a, ...rest] = l.split("|");
+      return { [k1]: (a ?? "").trim(), [k2]: rest.join("|").trim() } as Record<T, string>;
+    });
+
+const pairsToLines = (arr: Array<Record<string, string>>, k1: string, k2: string): string =>
+  (arr ?? []).map((it) => `${it[k1] ?? ""} | ${it[k2] ?? ""}`).join("\n");
 
 function slugify(s: string) {
   return s
@@ -132,7 +164,13 @@ function AdminDestinos() {
       data: d.data,
       status: d.status,
       descricao: d.descricao,
+      descricaoLonga: d.descricaoLonga,
       destaque: d.destaque,
+      roteiro: pairsToLines(d.roteiro as unknown as Array<Record<string, string>>, "titulo", "texto"),
+      incluso: arrayToLines(d.incluso),
+      naoIncluso: arrayToLines(d.naoIncluso),
+      equipamentos: arrayToLines(d.equipamentos),
+      faq: pairsToLines(d.faq as unknown as Array<Record<string, string>>, "q", "a"),
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -171,10 +209,16 @@ function AdminDestinos() {
       data_expedicao: form.data.trim() || null,
       status: form.status,
       descricao: form.descricao.trim(),
+      descricao_longa: form.descricaoLonga.trim() || null,
       destaque: form.destaque,
-    };
+      roteiro: linesToPairs(form.roteiro, "titulo", "texto"),
+      incluso: linesToArray(form.incluso),
+      nao_incluso: linesToArray(form.naoIncluso),
+      equipamentos: linesToArray(form.equipamentos),
+      faq: linesToPairs(form.faq, "q", "a"),
+    } as never;
 
-    if (!payload.nome || !payload.local || !payload.descricao || !payload.imagem || Number.isNaN(payload.preco_desde)) {
+    if (!form.nome || !form.local || !form.descricao || !form.imagem || Number.isNaN(Number(form.precoDesde))) {
       setSaving(false);
       return toast.error("Preencha nome, local, imagem, preço e descrição");
     }
@@ -276,11 +320,43 @@ function AdminDestinos() {
             </select>
           </Field>
           <div className="md:col-span-2">
-            <Field label="Descrição *">
-              <textarea required rows={4} value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} className={inputCls} />
+            <Field label="Descrição curta (usada nos cards e no topo do destino) *">
+              <textarea required rows={3} value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} className={inputCls} />
             </Field>
           </div>
-          <label className="flex items-center gap-2 text-sm">
+
+          <div className="md:col-span-2">
+            <Field label="Descrição longa (sobre a expedição — separe parágrafos com linha em branco)">
+              <textarea rows={6} value={form.descricaoLonga} onChange={(e) => setForm({ ...form, descricaoLonga: e.target.value })} className={inputCls} placeholder="Um texto mais aprofundado sobre a experiência, contexto, o que torna essa expedição única..." />
+            </Field>
+          </div>
+
+          <div className="md:col-span-2">
+            <Field label="Roteiro dia a dia — uma linha por dia, no formato: Título | Descrição">
+              <textarea rows={6} value={form.roteiro} onChange={(e) => setForm({ ...form, roteiro: e.target.value })} className={inputCls + " font-mono text-xs"} placeholder={"Chegada e briefing | Recepção no ponto de encontro e checagem de equipamentos\nPrimeira trilha | Caminhada em ritmo confortável com paradas técnicas\n..."} />
+            </Field>
+          </div>
+
+          <Field label="O que está incluso — um item por linha">
+            <textarea rows={6} value={form.incluso} onChange={(e) => setForm({ ...form, incluso: e.target.value })} className={inputCls + " font-mono text-xs"} placeholder={"Guias certificados\nRefeições completas\nHospedagem\nTransfer local"} />
+          </Field>
+          <Field label="Não incluso — um item por linha">
+            <textarea rows={6} value={form.naoIncluso} onChange={(e) => setForm({ ...form, naoIncluso: e.target.value })} className={inputCls + " font-mono text-xs"} placeholder={"Passagens até o ponto de encontro\nBebidas alcoólicas\nEquipamentos pessoais"} />
+          </Field>
+
+          <div className="md:col-span-2">
+            <Field label="Equipamentos necessários — um item por linha">
+              <textarea rows={4} value={form.equipamentos} onChange={(e) => setForm({ ...form, equipamentos: e.target.value })} className={inputCls + " font-mono text-xs"} placeholder={"Mochila 40L\nBota de trilha\nCapa de chuva"} />
+            </Field>
+          </div>
+
+          <div className="md:col-span-2">
+            <Field label="Perguntas frequentes — uma linha por pergunta, no formato: Pergunta | Resposta">
+              <textarea rows={5} value={form.faq} onChange={(e) => setForm({ ...form, faq: e.target.value })} className={inputCls + " font-mono text-xs"} placeholder={"Preciso ter experiência? | Depende do nível da expedição...\nComo funciona o cancelamento? | Cancelamentos com mais de 30 dias..."} />
+            </Field>
+          </div>
+
+          <label className="flex items-center gap-2 text-sm md:col-span-2">
             <input type="checkbox" checked={form.destaque} onChange={(e) => setForm({ ...form, destaque: e.target.checked })} />
             Exibir na home como destaque
           </label>
