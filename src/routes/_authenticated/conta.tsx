@@ -91,20 +91,12 @@ function ContaPage() {
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {isAdmin && (
-            <>
-              <Link to="/admin/destinos" className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/15">
-                <Shield className="h-4 w-4" /> Destinos
-              </Link>
-              <Link to="/admin/blog" className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/15">
-                <Shield className="h-4 w-4" /> Blog
-              </Link>
-              <Link to="/admin/produtos" className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/15">
-                <Shield className="h-4 w-4" /> Produtos
-              </Link>
-              <Link to="/admin/usuarios" className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/15">
-                <Shield className="h-4 w-4" /> Usuários
-              </Link>
-            </>
+            <Link
+              to="/admin"
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            >
+              <Shield className="h-4 w-4" /> Painel administrativo
+            </Link>
           )}
           <button
             onClick={onLogout}

@@ -235,7 +235,7 @@ function AdminDestinos() {
   };
 
   return (
-    <section className="mx-auto max-w-6xl px-6 pb-20 pt-32">
+    <section className="pb-16">
       <div className="mb-8 flex items-end justify-between">
         <div>
           <p className="text-xs uppercase tracking-widest text-primary">Administração</p>
