@@ -107,9 +107,9 @@ const PedidoFalhaRoute = PedidoFalhaRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const DestinosSlugRoute = DestinosSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => DestinosRoute,
+  id: '/destinos/$slug',
+  path: '/destinos/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/$slug',
@@ -300,6 +300,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreRoute: typeof SobreRoute
   SustentabilidadeRoute: typeof SustentabilidadeRoute
+  DestinosSlugRoute: typeof DestinosSlugRoute
   PedidoFalhaRoute: typeof PedidoFalhaRoute
   PedidoPendenteRoute: typeof PedidoPendenteRoute
   PedidoSucessoRoute: typeof PedidoSucessoRoute
@@ -415,10 +416,10 @@ declare module '@tanstack/react-router' {
     }
     '/destinos/$slug': {
       id: '/destinos/$slug'
-      path: '/$slug'
+      path: '/destinos/$slug'
       fullPath: '/destinos/$slug'
       preLoaderRoute: typeof DestinosSlugRouteImport
-      parentRoute: typeof DestinosRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blog/$slug': {
       id: '/blog/$slug'
@@ -517,6 +518,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreRoute: SobreRoute,
   SustentabilidadeRoute: SustentabilidadeRoute,
+  DestinosSlugRoute: DestinosSlugRoute,
   PedidoFalhaRoute: PedidoFalhaRoute,
   PedidoPendenteRoute: PedidoPendenteRoute,
   PedidoSucessoRoute: PedidoSucessoRoute,
