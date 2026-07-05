@@ -1,6 +1,9 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
+export type RoteiroDia = { titulo: string; texto: string };
+export type FAQItem = { q: string; a: string };
+
 export type Destino = {
   slug: string;
   nome: string;
@@ -17,12 +20,27 @@ export type Destino = {
   data: string;
   status: "Vagas abertas" | "Últimas vagas" | "Confirmada" | "Esgotada";
   descricao: string;
+  descricaoLonga: string;
   destaque: boolean;
+  roteiro: RoteiroDia[];
+  incluso: string[];
+  naoIncluso: string[];
+  equipamentos: string[];
+  faq: FAQItem[];
 };
 
 type Row = Database["public"]["Tables"]["destinos"]["Row"];
 
+function parseJsonArray<T>(v: unknown): T[] {
+  if (Array.isArray(v)) return v as T[];
+  if (typeof v === "string") {
+    try { const p = JSON.parse(v); return Array.isArray(p) ? (p as T[]) : []; } catch { return []; }
+  }
+  return [];
+}
+
 export function mapRowToDestino(r: Row): Destino {
+  const anyRow = r as unknown as Record<string, unknown>;
   return {
     slug: r.slug,
     nome: r.nome,
@@ -39,7 +57,13 @@ export function mapRowToDestino(r: Row): Destino {
     data: r.data_expedicao ?? "",
     status: r.status as Destino["status"],
     descricao: r.descricao,
+    descricaoLonga: (anyRow.descricao_longa as string | null) ?? "",
     destaque: r.destaque,
+    roteiro: parseJsonArray<RoteiroDia>(anyRow.roteiro),
+    incluso: (anyRow.incluso as string[] | null) ?? [],
+    naoIncluso: (anyRow.nao_incluso as string[] | null) ?? [],
+    equipamentos: (anyRow.equipamentos as string[] | null) ?? [],
+    faq: parseJsonArray<FAQItem>(anyRow.faq),
   };
 }
 
