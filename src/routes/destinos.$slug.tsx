@@ -123,7 +123,7 @@ function DestinoDetail() {
           {d.descricaoLonga && (
             <Block title="Sobre a expedição">
               <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
-                {d.descricaoLonga.split(/\n\s*\n/).map((p, i) => (
+                {d.descricaoLonga.split(/\n\s*\n/).map((p: string, i: number) => (
                   <p key={i}>{p}</p>
                 ))}
               </div>
