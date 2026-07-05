@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { Check, X, MapPin, Clock, Mountain, Thermometer, Calendar, ArrowLeft, MessageCircle } from "lucide-react";
 import { useState } from "react";
-import { fetchDestino } from "@/lib/destinos";
+import { fetchDestino, type RoteiroDia, type FAQItem } from "@/lib/destinos";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
