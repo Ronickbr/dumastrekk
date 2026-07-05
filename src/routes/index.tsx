@@ -42,7 +42,7 @@ function Home() {
           <span className="mb-6 inline-flex w-fit items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-white backdrop-blur-md">
             <Compass className="h-3.5 w-3.5" /> Expedições autorais desde 2015
           </span>
-          <h1 className="max-w-4xl font-serif text-5xl font-medium leading-[1.05] text-white md:text-7xl lg:text-8xl">
+          <h1 className="max-w-4xl text-balance font-serif text-5xl font-medium leading-[1.02] text-white md:text-7xl lg:text-8xl">
             Explore lugares que transformam vidas.
           </h1>
           <p className="mt-6 max-w-xl text-lg text-white/85 md:text-xl">
