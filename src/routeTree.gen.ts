@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SustentabilidadeRouteImport } from './routes/sustentabilidade'
 import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProdutosRouteImport } from './routes/produtos'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as CalendarioRouteImport } from './routes/calendario'
@@ -45,6 +46,11 @@ const SobreRoute = SobreRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProdutosRoute = ProdutosRouteImport.update({
@@ -152,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/calendario': typeof CalendarioRoute
   '/contato': typeof ContatoRoute
   '/produtos': typeof ProdutosRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/sustentabilidade': typeof SustentabilidadeRoute
@@ -175,6 +182,7 @@ export interface FileRoutesByTo {
   '/calendario': typeof CalendarioRoute
   '/contato': typeof ContatoRoute
   '/produtos': typeof ProdutosRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/sustentabilidade': typeof SustentabilidadeRoute
@@ -200,6 +208,7 @@ export interface FileRoutesById {
   '/calendario': typeof CalendarioRoute
   '/contato': typeof ContatoRoute
   '/produtos': typeof ProdutosRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/sustentabilidade': typeof SustentabilidadeRoute
@@ -225,6 +234,7 @@ export interface FileRouteTypes {
     | '/calendario'
     | '/contato'
     | '/produtos'
+    | '/reset-password'
     | '/sitemap.xml'
     | '/sobre'
     | '/sustentabilidade'
@@ -248,6 +258,7 @@ export interface FileRouteTypes {
     | '/calendario'
     | '/contato'
     | '/produtos'
+    | '/reset-password'
     | '/sitemap.xml'
     | '/sobre'
     | '/sustentabilidade'
@@ -272,6 +283,7 @@ export interface FileRouteTypes {
     | '/calendario'
     | '/contato'
     | '/produtos'
+    | '/reset-password'
     | '/sitemap.xml'
     | '/sobre'
     | '/sustentabilidade'
@@ -297,6 +309,7 @@ export interface RootRouteChildren {
   CalendarioRoute: typeof CalendarioRoute
   ContatoRoute: typeof ContatoRoute
   ProdutosRoute: typeof ProdutosRouteWithChildren
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreRoute: typeof SobreRoute
   SustentabilidadeRoute: typeof SustentabilidadeRoute
@@ -328,6 +341,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/produtos': {
@@ -515,6 +535,7 @@ const rootRouteChildren: RootRouteChildren = {
   CalendarioRoute: CalendarioRoute,
   ContatoRoute: ContatoRoute,
   ProdutosRoute: ProdutosRouteWithChildren,
+  ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreRoute: SobreRoute,
   SustentabilidadeRoute: SustentabilidadeRoute,
