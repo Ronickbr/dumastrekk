@@ -164,7 +164,13 @@ function AdminDestinos() {
       data: d.data,
       status: d.status,
       descricao: d.descricao,
+      descricaoLonga: d.descricaoLonga,
       destaque: d.destaque,
+      roteiro: pairsToLines(d.roteiro as unknown as Array<Record<string, string>>, "titulo", "texto"),
+      incluso: arrayToLines(d.incluso),
+      naoIncluso: arrayToLines(d.naoIncluso),
+      equipamentos: arrayToLines(d.equipamentos),
+      faq: pairsToLines(d.faq as unknown as Array<Record<string, string>>, "q", "a"),
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -203,10 +209,16 @@ function AdminDestinos() {
       data_expedicao: form.data.trim() || null,
       status: form.status,
       descricao: form.descricao.trim(),
+      descricao_longa: form.descricaoLonga.trim() || null,
       destaque: form.destaque,
-    };
+      roteiro: linesToPairs(form.roteiro, "titulo", "texto"),
+      incluso: linesToArray(form.incluso),
+      nao_incluso: linesToArray(form.naoIncluso),
+      equipamentos: linesToArray(form.equipamentos),
+      faq: linesToPairs(form.faq, "q", "a"),
+    } as never;
 
-    if (!payload.nome || !payload.local || !payload.descricao || !payload.imagem || Number.isNaN(payload.preco_desde)) {
+    if (!form.nome || !form.local || !form.descricao || !form.imagem || Number.isNaN(Number(form.precoDesde))) {
       setSaving(false);
       return toast.error("Preencha nome, local, imagem, preço e descrição");
     }
