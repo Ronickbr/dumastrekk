@@ -22,13 +22,13 @@ export const Route = createFileRoute("/_authenticated/admin")({
   }),
 });
 
-const NAV = [
+const NAV: Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/destinos", label: "Destinos", icon: Mountain },
   { to: "/admin/produtos", label: "Produtos", icon: ShoppingBag },
   { to: "/admin/blog", label: "Blog", icon: Newspaper },
   { to: "/admin/usuarios", label: "Usuários", icon: Users },
-] as const;
+];
 
 function AdminLayout() {
   const [state, setState] = useState<{ loading: boolean; isAdmin: boolean }>({
