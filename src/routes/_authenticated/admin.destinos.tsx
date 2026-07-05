@@ -34,7 +34,13 @@ type FormState = {
   data: string;
   status: Destino["status"];
   descricao: string;
+  descricaoLonga: string;
   destaque: boolean;
+  roteiro: string;
+  incluso: string;
+  naoIncluso: string;
+  equipamentos: string;
+  faq: string;
 };
 
 const EMPTY: FormState = {
@@ -53,8 +59,34 @@ const EMPTY: FormState = {
   data: "",
   status: "Vagas abertas",
   descricao: "",
+  descricaoLonga: "",
   destaque: false,
+  roteiro: "",
+  incluso: "",
+  naoIncluso: "",
+  equipamentos: "",
+  faq: "",
 };
+
+// helpers para converter entre textarea (uma linha = um item) e arrays / objetos
+const linesToArray = (s: string): string[] =>
+  s.split("\n").map((l) => l.trim()).filter(Boolean);
+
+const arrayToLines = (a: string[] | null | undefined): string =>
+  (a ?? []).join("\n");
+
+const linesToPairs = <T extends string>(s: string, k1: T, k2: T): Record<T, string>[] =>
+  s
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .map((l) => {
+      const [a, ...rest] = l.split("|");
+      return { [k1]: (a ?? "").trim(), [k2]: rest.join("|").trim() } as Record<T, string>;
+    });
+
+const pairsToLines = (arr: Array<Record<string, string>>, k1: string, k2: string): string =>
+  (arr ?? []).map((it) => `${it[k1] ?? ""} | ${it[k2] ?? ""}`).join("\n");
 
 function slugify(s: string) {
   return s
