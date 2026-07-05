@@ -94,28 +94,34 @@ function AuthPage() {
             Dumas Trekk
           </Link>
           <h1 className="font-serif text-2xl font-semibold">
-            {mode === "signin" ? "Entrar na sua conta" : "Criar sua conta"}
+            {mode === "signin" ? "Entrar na sua conta" : mode === "signup" ? "Criar sua conta" : "Recuperar senha"}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {mode === "signin"
               ? "Acesse suas reservas e perfil."
-              : "Comece sua próxima aventura."}
+              : mode === "signup"
+              ? "Comece sua próxima aventura."
+              : "Enviaremos um link para redefinir sua senha."}
           </p>
 
-          <button
-            onClick={onGoogle}
-            disabled={loading}
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-input bg-background px-4 py-2.5 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-50"
-          >
-            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.3-7.2 2.3-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.5 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.6l6.2 5.2c-.4.4 6.6-4.8 6.6-14.8 0-1.3-.1-2.3-.4-3.5z"/></svg>
-            Continuar com Google
-          </button>
+          {mode !== "forgot" && (
+            <>
+              <button
+                onClick={onGoogle}
+                disabled={loading}
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-input bg-background px-4 py-2.5 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-50"
+              >
+                <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.3-7.2 2.3-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.5 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.6l6.2 5.2c-.4.4 6.6-4.8 6.6-14.8 0-1.3-.1-2.3-.4-3.5z"/></svg>
+                Continuar com Google
+              </button>
 
-          <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
-            <div className="h-px flex-1 bg-border" /> ou <div className="h-px flex-1 bg-border" />
-          </div>
+              <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
+                <div className="h-px flex-1 bg-border" /> ou <div className="h-px flex-1 bg-border" />
+              </div>
+            </>
+          )}
 
-          <form onSubmit={onSubmit} className="space-y-3">
+          <form onSubmit={onSubmit} className={mode === "forgot" ? "mt-6 space-y-3" : "space-y-3"}>
             {mode === "signup" && (
               <input
                 type="text"
@@ -134,32 +140,59 @@ function AuthPage() {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm outline-none focus:border-primary"
             />
-            <input
-              type="password"
-              required
-              minLength={6}
-              placeholder="Senha (mín. 6 caracteres)"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm outline-none focus:border-primary"
-            />
+            {mode !== "forgot" && (
+              <input
+                type="password"
+                required
+                minLength={6}
+                placeholder="Senha (mín. 6 caracteres)"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm outline-none focus:border-primary"
+              />
+            )}
+            {mode === "signin" && (
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setMode("forgot")}
+                  className="text-xs font-medium text-primary hover:underline"
+                >
+                  Esqueci minha senha
+                </button>
+              </div>
+            )}
             <button
               type="submit"
               disabled={loading}
               className="w-full rounded-full bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
             >
-              {loading ? "Aguarde..." : mode === "signin" ? "Entrar" : "Criar conta"}
+              {loading
+                ? "Aguarde..."
+                : mode === "signin"
+                ? "Entrar"
+                : mode === "signup"
+                ? "Criar conta"
+                : "Enviar link de recuperação"}
             </button>
           </form>
 
           <p className="mt-5 text-center text-sm text-muted-foreground">
-            {mode === "signin" ? "Ainda não tem conta?" : "Já tem uma conta?"}{" "}
-            <button
-              onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-              className="font-medium text-primary hover:underline"
-            >
-              {mode === "signin" ? "Cadastre-se" : "Entrar"}
-            </button>
+            {mode === "forgot" ? (
+              <button onClick={() => setMode("signin")} className="font-medium text-primary hover:underline">
+                Voltar para entrar
+              </button>
+            ) : (
+              <>
+                {mode === "signin" ? "Ainda não tem conta?" : "Já tem uma conta?"}{" "}
+                <button
+                  onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+                  className="font-medium text-primary hover:underline"
+                >
+                  {mode === "signin" ? "Cadastre-se" : "Entrar"}
+                </button>
+              </>
+            )}
           </p>
         </div>
       </div>
