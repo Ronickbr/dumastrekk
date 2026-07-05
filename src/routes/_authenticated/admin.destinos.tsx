@@ -320,11 +320,43 @@ function AdminDestinos() {
             </select>
           </Field>
           <div className="md:col-span-2">
-            <Field label="Descrição *">
-              <textarea required rows={4} value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} className={inputCls} />
+            <Field label="Descrição curta (usada nos cards e no topo do destino) *">
+              <textarea required rows={3} value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} className={inputCls} />
             </Field>
           </div>
-          <label className="flex items-center gap-2 text-sm">
+
+          <div className="md:col-span-2">
+            <Field label="Descrição longa (sobre a expedição — separe parágrafos com linha em branco)">
+              <textarea rows={6} value={form.descricaoLonga} onChange={(e) => setForm({ ...form, descricaoLonga: e.target.value })} className={inputCls} placeholder="Um texto mais aprofundado sobre a experiência, contexto, o que torna essa expedição única..." />
+            </Field>
+          </div>
+
+          <div className="md:col-span-2">
+            <Field label="Roteiro dia a dia — uma linha por dia, no formato: Título | Descrição">
+              <textarea rows={6} value={form.roteiro} onChange={(e) => setForm({ ...form, roteiro: e.target.value })} className={inputCls + " font-mono text-xs"} placeholder={"Chegada e briefing | Recepção no ponto de encontro e checagem de equipamentos\nPrimeira trilha | Caminhada em ritmo confortável com paradas técnicas\n..."} />
+            </Field>
+          </div>
+
+          <Field label="O que está incluso — um item por linha">
+            <textarea rows={6} value={form.incluso} onChange={(e) => setForm({ ...form, incluso: e.target.value })} className={inputCls + " font-mono text-xs"} placeholder={"Guias certificados\nRefeições completas\nHospedagem\nTransfer local"} />
+          </Field>
+          <Field label="Não incluso — um item por linha">
+            <textarea rows={6} value={form.naoIncluso} onChange={(e) => setForm({ ...form, naoIncluso: e.target.value })} className={inputCls + " font-mono text-xs"} placeholder={"Passagens até o ponto de encontro\nBebidas alcoólicas\nEquipamentos pessoais"} />
+          </Field>
+
+          <div className="md:col-span-2">
+            <Field label="Equipamentos necessários — um item por linha">
+              <textarea rows={4} value={form.equipamentos} onChange={(e) => setForm({ ...form, equipamentos: e.target.value })} className={inputCls + " font-mono text-xs"} placeholder={"Mochila 40L\nBota de trilha\nCapa de chuva"} />
+            </Field>
+          </div>
+
+          <div className="md:col-span-2">
+            <Field label="Perguntas frequentes — uma linha por pergunta, no formato: Pergunta | Resposta">
+              <textarea rows={5} value={form.faq} onChange={(e) => setForm({ ...form, faq: e.target.value })} className={inputCls + " font-mono text-xs"} placeholder={"Preciso ter experiência? | Depende do nível da expedição...\nComo funciona o cancelamento? | Cancelamentos com mais de 30 dias..."} />
+            </Field>
+          </div>
+
+          <label className="flex items-center gap-2 text-sm md:col-span-2">
             <input type="checkbox" checked={form.destaque} onChange={(e) => setForm({ ...form, destaque: e.target.checked })} />
             Exibir na home como destaque
           </label>
