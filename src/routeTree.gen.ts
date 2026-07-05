@@ -13,13 +13,13 @@ import { Route as SustentabilidadeRouteImport } from './routes/sustentabilidade'
 import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ProdutosRouteImport } from './routes/produtos'
-import { Route as DestinosRouteImport } from './routes/destinos'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as CalendarioRouteImport } from './routes/calendario'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DestinosIndexRouteImport } from './routes/destinos.index'
 import { Route as ProdutosSlugRouteImport } from './routes/produtos.$slug'
 import { Route as PedidoSucessoRouteImport } from './routes/pedido.sucesso'
 import { Route as PedidoPendenteRouteImport } from './routes/pedido.pendente'
@@ -52,11 +52,6 @@ const ProdutosRoute = ProdutosRouteImport.update({
   path: '/produtos',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DestinosRoute = DestinosRouteImport.update({
-  id: '/destinos',
-  path: '/destinos',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContatoRoute = ContatoRouteImport.update({
   id: '/contato',
   path: '/contato',
@@ -86,6 +81,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DestinosIndexRoute = DestinosIndexRouteImport.update({
+  id: '/destinos/',
+  path: '/destinos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProdutosSlugRoute = ProdutosSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -107,9 +107,9 @@ const PedidoFalhaRoute = PedidoFalhaRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const DestinosSlugRoute = DestinosSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => DestinosRoute,
+  id: '/destinos/$slug',
+  path: '/destinos/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/$slug',
@@ -151,7 +151,6 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRouteWithChildren
   '/calendario': typeof CalendarioRoute
   '/contato': typeof ContatoRoute
-  '/destinos': typeof DestinosRouteWithChildren
   '/produtos': typeof ProdutosRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
@@ -163,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/pedido/pendente': typeof PedidoPendenteRoute
   '/pedido/sucesso': typeof PedidoSucessoRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
+  '/destinos/': typeof DestinosIndexRoute
   '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/destinos': typeof AuthenticatedAdminDestinosRoute
   '/admin/produtos': typeof AuthenticatedAdminProdutosRoute
@@ -174,7 +174,6 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogRouteWithChildren
   '/calendario': typeof CalendarioRoute
   '/contato': typeof ContatoRoute
-  '/destinos': typeof DestinosRouteWithChildren
   '/produtos': typeof ProdutosRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
@@ -186,6 +185,7 @@ export interface FileRoutesByTo {
   '/pedido/pendente': typeof PedidoPendenteRoute
   '/pedido/sucesso': typeof PedidoSucessoRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
+  '/destinos': typeof DestinosIndexRoute
   '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/destinos': typeof AuthenticatedAdminDestinosRoute
   '/admin/produtos': typeof AuthenticatedAdminProdutosRoute
@@ -199,7 +199,6 @@ export interface FileRoutesById {
   '/blog': typeof BlogRouteWithChildren
   '/calendario': typeof CalendarioRoute
   '/contato': typeof ContatoRoute
-  '/destinos': typeof DestinosRouteWithChildren
   '/produtos': typeof ProdutosRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
@@ -211,6 +210,7 @@ export interface FileRoutesById {
   '/pedido/pendente': typeof PedidoPendenteRoute
   '/pedido/sucesso': typeof PedidoSucessoRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
+  '/destinos/': typeof DestinosIndexRoute
   '/_authenticated/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/_authenticated/admin/destinos': typeof AuthenticatedAdminDestinosRoute
   '/_authenticated/admin/produtos': typeof AuthenticatedAdminProdutosRoute
@@ -224,7 +224,6 @@ export interface FileRouteTypes {
     | '/blog'
     | '/calendario'
     | '/contato'
-    | '/destinos'
     | '/produtos'
     | '/sitemap.xml'
     | '/sobre'
@@ -236,6 +235,7 @@ export interface FileRouteTypes {
     | '/pedido/pendente'
     | '/pedido/sucesso'
     | '/produtos/$slug'
+    | '/destinos/'
     | '/admin/blog'
     | '/admin/destinos'
     | '/admin/produtos'
@@ -247,7 +247,6 @@ export interface FileRouteTypes {
     | '/blog'
     | '/calendario'
     | '/contato'
-    | '/destinos'
     | '/produtos'
     | '/sitemap.xml'
     | '/sobre'
@@ -259,6 +258,7 @@ export interface FileRouteTypes {
     | '/pedido/pendente'
     | '/pedido/sucesso'
     | '/produtos/$slug'
+    | '/destinos'
     | '/admin/blog'
     | '/admin/destinos'
     | '/admin/produtos'
@@ -271,7 +271,6 @@ export interface FileRouteTypes {
     | '/blog'
     | '/calendario'
     | '/contato'
-    | '/destinos'
     | '/produtos'
     | '/sitemap.xml'
     | '/sobre'
@@ -283,6 +282,7 @@ export interface FileRouteTypes {
     | '/pedido/pendente'
     | '/pedido/sucesso'
     | '/produtos/$slug'
+    | '/destinos/'
     | '/_authenticated/admin/blog'
     | '/_authenticated/admin/destinos'
     | '/_authenticated/admin/produtos'
@@ -296,14 +296,15 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRouteWithChildren
   CalendarioRoute: typeof CalendarioRoute
   ContatoRoute: typeof ContatoRoute
-  DestinosRoute: typeof DestinosRouteWithChildren
   ProdutosRoute: typeof ProdutosRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreRoute: typeof SobreRoute
   SustentabilidadeRoute: typeof SustentabilidadeRoute
+  DestinosSlugRoute: typeof DestinosSlugRoute
   PedidoFalhaRoute: typeof PedidoFalhaRoute
   PedidoPendenteRoute: typeof PedidoPendenteRoute
   PedidoSucessoRoute: typeof PedidoSucessoRoute
+  DestinosIndexRoute: typeof DestinosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -334,13 +335,6 @@ declare module '@tanstack/react-router' {
       path: '/produtos'
       fullPath: '/produtos'
       preLoaderRoute: typeof ProdutosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/destinos': {
-      id: '/destinos'
-      path: '/destinos'
-      fullPath: '/destinos'
-      preLoaderRoute: typeof DestinosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contato': {
@@ -385,6 +379,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/destinos/': {
+      id: '/destinos/'
+      path: '/destinos'
+      fullPath: '/destinos/'
+      preLoaderRoute: typeof DestinosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/produtos/$slug': {
       id: '/produtos/$slug'
       path: '/$slug'
@@ -415,10 +416,10 @@ declare module '@tanstack/react-router' {
     }
     '/destinos/$slug': {
       id: '/destinos/$slug'
-      path: '/$slug'
+      path: '/destinos/$slug'
       fullPath: '/destinos/$slug'
       preLoaderRoute: typeof DestinosSlugRouteImport
-      parentRoute: typeof DestinosRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blog/$slug': {
       id: '/blog/$slug'
@@ -494,18 +495,6 @@ const BlogRouteChildren: BlogRouteChildren = {
 
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
-interface DestinosRouteChildren {
-  DestinosSlugRoute: typeof DestinosSlugRoute
-}
-
-const DestinosRouteChildren: DestinosRouteChildren = {
-  DestinosSlugRoute: DestinosSlugRoute,
-}
-
-const DestinosRouteWithChildren = DestinosRoute._addFileChildren(
-  DestinosRouteChildren,
-)
-
 interface ProdutosRouteChildren {
   ProdutosSlugRoute: typeof ProdutosSlugRoute
 }
@@ -525,14 +514,15 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRouteWithChildren,
   CalendarioRoute: CalendarioRoute,
   ContatoRoute: ContatoRoute,
-  DestinosRoute: DestinosRouteWithChildren,
   ProdutosRoute: ProdutosRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreRoute: SobreRoute,
   SustentabilidadeRoute: SustentabilidadeRoute,
+  DestinosSlugRoute: DestinosSlugRoute,
   PedidoFalhaRoute: PedidoFalhaRoute,
   PedidoPendenteRoute: PedidoPendenteRoute,
   PedidoSucessoRoute: PedidoSucessoRoute,
+  DestinosIndexRoute: DestinosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
