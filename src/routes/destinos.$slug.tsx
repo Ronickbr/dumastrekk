@@ -82,6 +82,12 @@ function DestinoDetail() {
   };
 
 
+  const roteiro = d.roteiro.length ? d.roteiro : ROTEIRO_DEFAULT;
+  const incluso = d.incluso.length ? d.incluso : INCLUSO_DEFAULT;
+  const naoIncluso = d.naoIncluso.length ? d.naoIncluso : NAO_INCLUSO_DEFAULT;
+  const equipamentos = d.equipamentos.length ? d.equipamentos : EQUIP_DEFAULT;
+  const faq = d.faq.length ? d.faq : FAQ_DEFAULT;
+
   return (
     <>
       {/* Hero destino */}
@@ -92,7 +98,12 @@ function DestinoDetail() {
           <Link to="/destinos" className="mb-6 inline-flex w-fit items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs backdrop-blur hover:bg-white/20">
             <ArrowLeft className="h-3.5 w-3.5" /> Todos os destinos
           </Link>
-          <p className="inline-flex items-center gap-1 text-sm text-white/80"><MapPin className="h-4 w-4" /> {d.local} · {d.estado}, {d.pais}</p>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full bg-primary/90 px-3 py-1 text-xs font-medium text-primary-foreground">{d.status}</span>
+            <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white backdrop-blur">{d.nivel}</span>
+            <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white backdrop-blur">{d.tipo}</span>
+          </div>
+          <p className="mt-4 inline-flex items-center gap-1 text-sm text-white/80"><MapPin className="h-4 w-4" /> {d.local} · {d.estado}, {d.pais}</p>
           <h1 className="mt-2 max-w-3xl font-serif text-5xl md:text-7xl">{d.nome}</h1>
           <p className="mt-4 max-w-xl text-lg text-white/85">{d.descricao}</p>
         </div>
@@ -104,14 +115,24 @@ function DestinoDetail() {
           {/* stats */}
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             <InfoStat icon={<Clock />} label="Duração" value={d.duracao} />
-            <InfoStat icon={<Mountain />} label="Altitude" value={d.altitude} />
-            <InfoStat icon={<Thermometer />} label="Clima" value={d.clima} />
-            <InfoStat icon={<Calendar />} label="Próxima saída" value={d.data} />
+            <InfoStat icon={<Mountain />} label="Altitude" value={d.altitude || "—"} />
+            <InfoStat icon={<Thermometer />} label="Clima" value={d.clima || "—"} />
+            <InfoStat icon={<Calendar />} label="Próxima saída" value={d.data || "Sob consulta"} />
           </div>
+
+          {d.descricaoLonga && (
+            <Block title="Sobre a expedição">
+              <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
+                {d.descricaoLonga.split(/\n\s*\n/).map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
+            </Block>
+          )}
 
           <Block title="Roteiro dia a dia">
             <ol className="space-y-6">
-              {ROTEIRO.map((r, i) => (
+              {roteiro.map((r, i) => (
                 <li key={i} className="flex gap-5">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary font-serif text-primary-foreground">{i + 1}</span>
                   <div>
@@ -126,14 +147,14 @@ function DestinoDetail() {
           <div className="grid gap-8 md:grid-cols-2">
             <Block title="O que está incluso">
               <ul className="space-y-3 text-sm">
-                {INCLUSO.map((t) => (
+                {incluso.map((t) => (
                   <li key={t} className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />{t}</li>
                 ))}
               </ul>
             </Block>
             <Block title="Não incluso">
               <ul className="space-y-3 text-sm">
-                {NAO_INCLUSO.map((t) => (
+                {naoIncluso.map((t) => (
                   <li key={t} className="flex items-start gap-2"><X className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />{t}</li>
                 ))}
               </ul>
@@ -142,7 +163,7 @@ function DestinoDetail() {
 
           <Block title="Equipamentos necessários">
             <div className="flex flex-wrap gap-2">
-              {EQUIP.map((e) => (
+              {equipamentos.map((e) => (
                 <span key={e} className="rounded-full border border-border bg-secondary/50 px-3 py-1 text-xs">{e}</span>
               ))}
             </div>
@@ -150,7 +171,7 @@ function DestinoDetail() {
 
           <Block title="Perguntas frequentes">
             <div className="divide-y divide-border">
-              {FAQ.map((f, i) => (
+              {faq.map((f, i) => (
                 <details key={i} className="group py-4">
                   <summary className="flex cursor-pointer items-center justify-between font-medium">
                     {f.q}<span className="text-primary transition-transform group-open:rotate-45">+</span>
@@ -173,7 +194,7 @@ function DestinoDetail() {
               <label className="block">
                 <span className="text-xs text-muted-foreground">Data</span>
                 <select className="mt-1 w-full rounded-lg border border-input bg-background px-3 py-2">
-                  <option>{d.data}</option>
+                  <option>{d.data || "Sob consulta"}</option>
                 </select>
               </label>
               <label className="block">
@@ -220,17 +241,17 @@ function Block({ title, children }: { title: string; children: React.ReactNode }
   );
 }
 
-const ROTEIRO = [
+const ROTEIRO_DEFAULT = [
   { titulo: "Chegada e briefing", texto: "Recepção no ponto de encontro, checagem de equipamentos e alinhamento da expedição com os guias." },
   { titulo: "Primeira trilha", texto: "Início da caminhada em ritmo confortável, com paradas técnicas e almoço na natureza." },
   { titulo: "Imersão", texto: "Dia dedicado ao contato profundo com o ambiente, fotografia e descanso." },
   { titulo: "Travessia principal", texto: "O grande dia: percurso mais desafiador com vistas inesquecíveis." },
   { titulo: "Retorno", texto: "Descida gradual, almoço de encerramento e transfer de volta." },
 ];
-const INCLUSO = ["Guias certificados", "Refeições completas", "Hospedagem em pousadas / camping", "Transfer local", "Seguro aventura", "Kit primeiros socorros"];
-const NAO_INCLUSO = ["Passagens até o ponto de encontro", "Bebidas alcoólicas", "Equipamentos pessoais", "Extras não previstos"];
-const EQUIP = ["Mochila 40L", "Bota de trilha", "Capa de chuva", "Lanterna", "Roupas em camadas", "Garrafa 1L", "Protetor solar", "Chapéu"];
-const FAQ = [
+const INCLUSO_DEFAULT = ["Guias certificados", "Refeições completas", "Hospedagem em pousadas / camping", "Transfer local", "Seguro aventura", "Kit primeiros socorros"];
+const NAO_INCLUSO_DEFAULT = ["Passagens até o ponto de encontro", "Bebidas alcoólicas", "Equipamentos pessoais", "Extras não previstos"];
+const EQUIP_DEFAULT = ["Mochila 40L", "Bota de trilha", "Capa de chuva", "Lanterna", "Roupas em camadas", "Garrafa 1L", "Protetor solar", "Chapéu"];
+const FAQ_DEFAULT = [
   { q: "Preciso ter experiência?", a: "Depende do nível da expedição. Para Fácil e Moderado, qualquer pessoa com bom condicionamento consegue participar." },
   { q: "Como funciona o cancelamento?", a: "Cancelamentos com mais de 30 dias têm reembolso integral menos taxas. Consulte a política completa." },
   { q: "Quantas pessoas por grupo?", a: "Máximo de 12 aventureiros por saída, garantindo experiência de qualidade e baixo impacto." },
