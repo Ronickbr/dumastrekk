@@ -14,7 +14,7 @@ export function DestinoCard({ d }: { d: Destino }) {
     <Link
       to="/destinos/$slug"
       params={{ slug: d.slug }}
-      className="group relative flex flex-col overflow-hidden rounded-3xl bg-card shadow-sm ring-1 ring-border/60 transition-all hover:-translate-y-1 hover:shadow-xl"
+      className="hover-lift group relative flex flex-col overflow-hidden rounded-3xl bg-card ring-1 ring-border/60"
     >
       <div className="relative aspect-[4/5] overflow-hidden">
         <img
