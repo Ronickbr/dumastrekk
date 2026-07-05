@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
     ],
     links: [
       { rel: "canonical", href: "https://dumastrekk.lovable.app/" },
-      { rel: "preload", as: "image", href: "/images/hero-dumas.jpg", fetchpriority: "high" },
+      { rel: "preload", as: "image", href: "/images/hero-dumas.jpg", fetchPriority: "high" },
     ],
   }),
 });
