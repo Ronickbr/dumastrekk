@@ -123,3 +123,15 @@
   backdrop-filter: blur(14px) saturate(140%);
   border: 1px solid rgb(255 255 255 / 0.12);
 }
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility hover-lift {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -20px color-mix(in oklab, var(--color-foreground) 25%, transparent);
+  }
+}
