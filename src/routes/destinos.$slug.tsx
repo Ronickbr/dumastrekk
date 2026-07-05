@@ -82,11 +82,11 @@ function DestinoDetail() {
   };
 
 
-  const roteiro = d.roteiro.length ? d.roteiro : ROTEIRO_DEFAULT;
-  const incluso = d.incluso.length ? d.incluso : INCLUSO_DEFAULT;
-  const naoIncluso = d.naoIncluso.length ? d.naoIncluso : NAO_INCLUSO_DEFAULT;
-  const equipamentos = d.equipamentos.length ? d.equipamentos : EQUIP_DEFAULT;
-  const faq = d.faq.length ? d.faq : FAQ_DEFAULT;
+  const roteiro: RoteiroDia[] = d.roteiro.length ? d.roteiro : ROTEIRO_DEFAULT;
+  const incluso: string[] = d.incluso.length ? d.incluso : INCLUSO_DEFAULT;
+  const naoIncluso: string[] = d.naoIncluso.length ? d.naoIncluso : NAO_INCLUSO_DEFAULT;
+  const equipamentos: string[] = d.equipamentos.length ? d.equipamentos : EQUIP_DEFAULT;
+  const faq: FAQItem[] = d.faq.length ? d.faq : FAQ_DEFAULT;
 
   return (
     <>
