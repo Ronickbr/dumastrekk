@@ -135,3 +135,7 @@
     box-shadow: 0 20px 40px -20px color-mix(in oklab, var(--color-foreground) 25%, transparent);
   }
 }
+
+#lovable-badge {
+  display: none !important;
+}
