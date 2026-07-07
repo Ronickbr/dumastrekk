@@ -30,13 +30,12 @@ function CalendarioPage() {
     <>
       <section className="relative bg-forest-deep pb-20 pt-40 text-white">
         <div className="mx-auto max-w-7xl px-6">
-          <p className="text-xs uppercase tracking-widest text-white/70">Calendário</p>
-          <h1 className="mt-2 max-w-3xl font-serif text-5xl md:text-6xl">Próximas saídas & vagas disponíveis</h1>
+          <h1 className="max-w-3xl font-serif text-5xl md:text-6xl leading-tight">Próximas saídas & vagas disponíveis</h1>
           <p className="mt-4 max-w-xl text-white/80">Reserve com antecedência — nossos grupos têm no máximo 12 pessoas.</p>
         </div>
       </section>
       <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="overflow-hidden rounded-3xl border border-border bg-card">
+        <div className="overflow-hidden rounded-md border border-border bg-card">
           <table className="w-full text-left text-sm">
             <thead className="bg-secondary/50 text-xs uppercase tracking-widest text-muted-foreground">
               <tr>

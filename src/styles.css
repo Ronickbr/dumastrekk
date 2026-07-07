@@ -37,60 +37,59 @@
   --color-forest-moss: var(--forest-moss);
 }
 
-/* Light — Outdoor moderno: charcoal / burnt orange / peach / sage */
+/* Light — Outdoor moderno: Forest Green / Earth Brown / Background Cream / Vibrant Orange */
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.985 0.003 60);
-  --foreground: oklch(0.2 0.01 60);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.01 60);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.01 60);
-  /* Burnt orange — primary de ação */
-  --primary: oklch(0.6 0.13 40);
-  --primary-foreground: oklch(0.985 0.003 60);
-  --secondary: oklch(0.955 0.006 60);
-  --secondary-foreground: oklch(0.22 0.01 60);
-  --muted: oklch(0.955 0.006 60);
-  --muted-foreground: oklch(0.5 0.012 60);
-  /* Sage — accent complementar */
-  --accent: oklch(0.68 0.07 135);
-  --accent-foreground: oklch(0.18 0.02 140);
+  --background: oklch(0.972 0.008 85);
+  --foreground: oklch(0.21 0.015 150);
+  --card: oklch(0.985 0.004 85);
+  --card-foreground: oklch(0.21 0.015 150);
+  --popover: oklch(0.985 0.004 85);
+  --popover-foreground: oklch(0.21 0.015 150);
+  /* Vibrant Orange — primary de ação */
+  --primary: oklch(0.632 0.22 45);
+  --primary-foreground: oklch(0.985 0.003 85);
+  --secondary: oklch(0.94 0.01 85);
+  --secondary-foreground: oklch(0.21 0.015 150);
+  --muted: oklch(0.94 0.01 85);
+  --muted-foreground: oklch(0.45 0.02 65);
+  /* Forest Green — accent complementar */
+  --accent: oklch(0.284 0.045 150);
+  --accent-foreground: oklch(0.972 0.008 85);
   --destructive: oklch(0.55 0.2 27);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.91 0.006 60);
-  --input: oklch(0.91 0.006 60);
-  --ring: oklch(0.6 0.13 40);
-  /* Charcoal profundo para seções escuras */
-  --forest-deep: oklch(0.2 0.01 60);
-  /* Peach quente para gradientes */
-  --forest-moss: oklch(0.78 0.09 55);
-  --stone-earth: oklch(0.55 0.02 70);
+  --border: oklch(0.88 0.01 85);
+  --input: oklch(0.88 0.01 85);
+  --ring: oklch(0.632 0.22 45);
+  /* Forest deep para seções escuras */
+  --forest-deep: oklch(0.18 0.03 150);
+  --forest-moss: oklch(0.284 0.045 150);
+  --stone-earth: oklch(0.291 0.038 65);
 }
 
 .dark {
-  --background: oklch(0.16 0.008 60);
-  --foreground: oklch(0.96 0.004 60);
-  --card: oklch(0.21 0.01 60);
-  --card-foreground: oklch(0.96 0.004 60);
-  --popover: oklch(0.21 0.01 60);
-  --popover-foreground: oklch(0.96 0.004 60);
-  --primary: oklch(0.72 0.13 45);
-  --primary-foreground: oklch(0.16 0.008 60);
-  --secondary: oklch(0.26 0.012 60);
-  --secondary-foreground: oklch(0.96 0.004 60);
-  --muted: oklch(0.26 0.012 60);
-  --muted-foreground: oklch(0.72 0.012 60);
-  --accent: oklch(0.75 0.08 135);
-  --accent-foreground: oklch(0.16 0.008 60);
+  --background: oklch(0.14 0.02 150);
+  --foreground: oklch(0.96 0.006 85);
+  --card: oklch(0.18 0.02 150);
+  --card-foreground: oklch(0.96 0.006 85);
+  --popover: oklch(0.18 0.02 150);
+  --popover-foreground: oklch(0.96 0.006 85);
+  --primary: oklch(0.632 0.22 45);
+  --primary-foreground: oklch(0.14 0.02 150);
+  --secondary: oklch(0.22 0.02 150);
+  --secondary-foreground: oklch(0.96 0.006 85);
+  --muted: oklch(0.22 0.02 150);
+  --muted-foreground: oklch(0.72 0.012 85);
+  --accent: oklch(0.284 0.045 150);
+  --accent-foreground: oklch(0.14 0.02 150);
   --destructive: oklch(0.65 0.2 27);
   --destructive-foreground: oklch(0.98 0 0);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.72 0.13 45);
-  --forest-deep: oklch(0.14 0.008 60);
-  --forest-moss: oklch(0.78 0.09 55);
-  --stone-earth: oklch(0.5 0.02 70);
+  --ring: oklch(0.632 0.22 45);
+  --forest-deep: oklch(0.12 0.02 150);
+  --forest-moss: oklch(0.284 0.045 150);
+  --stone-earth: oklch(0.291 0.038 65);
 }
 
 @layer base {

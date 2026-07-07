@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-07T00:07:00Z",
+  "title": "Design System: DumasTrekk",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Forest Green",
+        "canonical": "oklch(28.4% 0.045 150)",
+        "tonalRamp": ["#080f0b", "#0f1c15", "#16281d", "#1d3527", "#2a4d39", "#407557", "#64a47e", "#a8cfb7", "#f0f6f2"]
+      },
+      "secondary": {
+        "role": "secondary",
+        "displayName": "Earth Brown",
+        "canonical": "oklch(29.1% 0.038 65)",
+        "tonalRamp": ["#160f0b", "#271b13", "#3d2b1f", "#553c2b", "#704f39", "#92684b", "#b28a6c", "#d1b7a2", "#f4eee9"]
+      },
+      "accent": {
+        "role": "accent",
+        "displayName": "Vibrant Orange",
+        "canonical": "oklch(63.2% 0.22 45)",
+        "tonalRamp": ["#4a1503", "#822605", "#ba3608", "#e0420b", "#ff6b35", "#ff8f66", "#ffb299", "#ffd4cc", "#fff4f2"]
+      },
+      "neutral-bg": {
+        "role": "neutral",
+        "displayName": "Background Cream",
+        "canonical": "oklch(97.2% 0.008 85)",
+        "tonalRamp": ["#1f1e1b", "#3d3b37", "#615e57", "#87837b", "#b2aea5", "#d6d2c9", "#eeebe4", "#f9f7f2", "#ffffff"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Títulos principais de páginas e destinos." },
+      "body": { "displayName": "Body", "purpose": "Textos descritivos e roteiros informativos." }
+    },
+    "shadows": [
+      {
+        "name": "interactive-focus",
+        "value": "0 4px 12px rgba(26, 47, 35, 0.08)",
+        "purpose": "Feedback ativo em hovers e focos de elementos clicáveis."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Transição padrão para hover e estados ativos."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Botão principal de ação (CTAs, reservas).",
+      "html": "<button class=\"ds-btn-primary\">RESERVAR AGORA</button>",
+      "css": ".ds-btn-primary { background: #ff6b35; color: #ffffff; padding: 10px 20px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; transition: background 0.15s ease, box-shadow 0.15s ease; } .ds-btn-primary:hover { background: #e0531b; box-shadow: 0 4px 12px rgba(26, 47, 35, 0.08); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "O Diário de Bordo do Explorador",
+    "overview": "O DumasTrekk possui um visual limpo, com tipografia de alta legibilidade e grande destaque para fotografia de aventuras e conteúdos de ecoturismo premium. O design serve para transmitir segurança, exclusividade e contato genuíno com a natureza.",
+    "keyCharacteristics": [
+      "Foco em fotografia imersiva de alta qualidade.",
+      "Tipografia moderna e estruturada baseada na fonte Inter.",
+      "Estrutura limpa e organizada, evitando excesso de ornamentos visuais."
+    ],
+    "rules": [
+      {
+        "name": "The 10% Accent Rule",
+        "body": "O Laranja Vibrante (#ff6b35) deve cobrir no máximo 10% de qualquer tela. Ele atua como o guia de foco absoluto do usuário.",
+        "section": "colors"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "Superfícies são representadas de forma plana. Sombras só surgem como feedback dinâmico a ações do usuário.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do Manter a proporção da regra de 10% para a cor de destaque Laranja Vibrante.",
+      "Do Garantir contraste de texto mínimo de 4.5:1, utilizando Forest Green para textos sobre Background Cream.",
+      "Do Limitar o comprimento de linha das descrições a no máximo 75 caracteres."
+    ],
+    "donts": [
+      "Don't Usar gradientes coloridos ou degradês no texto de títulos.",
+      "Don't Utilizar cantos arredondados excessivamente grandes (superiores a 16px) em cards ou contêineres principais.",
+      "Don't Utilizar faixas de bordas laterais coloridas de destaque nos cards para sinalizar status ou categorias."
+    ]
+  }
+}

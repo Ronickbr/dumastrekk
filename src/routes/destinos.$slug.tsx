@@ -185,7 +185,7 @@ function DestinoDetail() {
 
         {/* Sidebar reserva */}
         <aside className="lg:sticky lg:top-28 lg:self-start">
-          <div className="rounded-3xl border border-border bg-card p-6 shadow-lg">
+          <div className="rounded-md border border-border bg-card p-6 shadow-lg">
             <p className="text-xs uppercase tracking-widest text-muted-foreground">Investimento desde</p>
             <p className="mt-1 font-serif text-4xl">R$ {d.precoDesde.toLocaleString("pt-BR")}</p>
             <p className="mt-1 text-xs text-muted-foreground">por pessoa · parcelável em até 10x</p>
@@ -224,7 +224,7 @@ function DestinoDetail() {
 
 function InfoStat({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-4">
+    <div className="rounded-md border border-border bg-card p-4">
       <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">{icon}</div>
       <p className="mt-3 text-xs uppercase tracking-widest text-muted-foreground">{label}</p>
       <p className="font-serif text-lg">{value}</p>

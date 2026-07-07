@@ -24,8 +24,8 @@ function SobrePage() {
         <img src="/images/sobre-equipe.jpg" alt="Equipe Dumas Trekk" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70" />
         <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-6 pb-16 pt-32 text-white">
-          <p className="text-xs uppercase tracking-widest text-white/80">Sobre nós</p>
-          <h1 className="mt-2 max-w-3xl font-serif text-4xl leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">Nascemos para tirar você da rotina — com segurança e propósito.</h1>
+          <h1 className="max-w-3xl font-serif text-4xl leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">Nascemos para tirar você da rotina — com segurança e propósito.</h1>
+          <p className="mt-4 font-serif italic text-white/85 text-xl">A história e a essência da Dumas Trekk</p>
         </div>
       </section>
 
@@ -48,7 +48,7 @@ function SobrePage() {
             { icon: <Users />, t: "Equipe", d: "15 guias certificados em condução, resgate e primeiros socorros." },
             { icon: <Award />, t: "Reconhecimento", d: "Prêmio ABETA de melhor operadora de aventura 2024." },
           ].map((x) => (
-            <div key={x.t} className="rounded-3xl border border-border bg-card p-8">
+            <div key={x.t} className="rounded-md border border-border bg-card p-8">
               <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">{x.icon}</div>
               <h3 className="mt-5 font-serif text-2xl">{x.t}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{x.d}</p>

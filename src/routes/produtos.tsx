@@ -22,8 +22,8 @@ function ProdutosPage() {
   return (
     <section className="mx-auto max-w-7xl px-6 pb-24 pt-32">
       <div className="mb-14 text-center">
-        <p className="text-xs uppercase tracking-[0.2em] text-primary">Loja Dumas</p>
-        <h1 className="mt-3 font-serif text-4xl leading-tight text-balance md:text-6xl">Vista a expedição.</h1>
+        <h1 className="font-serif text-4xl leading-tight text-balance md:text-6xl">Vista a expedição.</h1>
+        <p className="mt-3 font-serif italic text-primary/80 text-lg">Loja oficial Dumas Trekk</p>
         <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
           Produtos oficiais com a logo Dumas Trekk — feitos para durar tanto quanto suas memórias na trilha.
         </p>
@@ -32,7 +32,7 @@ function ProdutosPage() {
       {isLoading ? (
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="animate-pulse overflow-hidden rounded-3xl bg-card ring-1 ring-border/60">
+            <div key={i} className="animate-pulse overflow-hidden rounded-md bg-card ring-1 ring-border/60">
               <div className="aspect-square bg-muted" />
               <div className="space-y-3 p-6">
                 <div className="h-4 w-3/4 rounded bg-muted" />
@@ -51,7 +51,7 @@ function ProdutosPage() {
               key={p.id}
               to="/produtos/$slug"
               params={{ slug: p.slug }}
-              className="hover-lift group relative flex flex-col overflow-hidden rounded-3xl bg-card ring-1 ring-border/60"
+              className="hover-lift group relative flex flex-col overflow-hidden rounded-md bg-card ring-1 ring-border/60"
             >
               <div className="relative aspect-square overflow-hidden bg-muted">
                 <img

@@ -64,12 +64,27 @@ function Home() {
           </div>
         </div>
         {/* Faixa de destaque na base */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/10 bg-black/30 backdrop-blur-md">
-          <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-6 py-5 text-white md:grid-cols-4">
-            <Stat n="+120" label="Expedições realizadas" />
-            <Stat n="+2.400" label="Aventureiros guiados" />
-            <Stat n="15" label="Guias certificados" />
-            <Stat n="4.9★" label="Avaliação média" />
+        <div className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/10 bg-black/40 backdrop-blur-md">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 px-6 py-4 text-xs tracking-wider text-white/90">
+            <div className="flex items-center gap-2">
+              <Compass className="h-4 w-4 text-primary" />
+              <span><strong>+120</strong> EXPEDIÇÕES REALIZADAS</span>
+            </div>
+            <div className="h-4 w-px bg-white/20 hidden md:block" />
+            <div className="flex items-center gap-2">
+              <Users className="h-4 w-4 text-primary" />
+              <span><strong>+2.400</strong> AVENTUREIROS GUIADOS</span>
+            </div>
+            <div className="h-4 w-px bg-white/20 hidden md:block" />
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="h-4 w-4 text-primary" />
+              <span><strong>15</strong> GUIAS CERTIFICADOS</span>
+            </div>
+            <div className="h-4 w-px bg-white/20 hidden md:block" />
+            <div className="flex items-center gap-2">
+              <Star className="h-4 w-4 text-primary fill-primary" />
+              <span><strong>4.9★</strong> AVALIAÇÃO MÉDIA</span>
+            </div>
           </div>
         </div>
       </section>
@@ -88,8 +103,8 @@ function Home() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-widest text-primary">Próximas expedições</p>
-              <h2 className="mt-2 max-w-2xl font-serif text-4xl md:text-5xl">Destinos que marcam para sempre</h2>
+              <h2 className="max-w-2xl font-serif text-4xl md:text-5xl leading-tight">Destinos que marcam para sempre</h2>
+              <p className="mt-3 text-muted-foreground text-sm">Nossas próximas saídas planejadas e guiadas para você explorar.</p>
             </div>
             <Link to="/destinos" className="group inline-flex items-center gap-1 text-sm font-medium text-primary">
               Ver todos <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -103,12 +118,12 @@ function Home() {
 
       {/* SOBRE / MANIFESTO */}
       <section className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-2 md:items-center">
-        <div className="relative overflow-hidden rounded-3xl">
+        <div className="relative overflow-hidden rounded-md">
           <img src="/images/sobre-equipe.jpg" alt="Guias Dumas Trekk em briefing" loading="lazy" className="aspect-[5/4] w-full object-cover" />
         </div>
         <div>
-          <p className="text-xs uppercase tracking-widest text-primary">A Dumas Trekk</p>
-          <h2 className="mt-2 font-serif text-4xl md:text-5xl">Aventura com raiz, cuidado e propósito.</h2>
+          <h2 className="font-serif text-4xl md:text-5xl leading-tight">Aventura com raiz, cuidado e propósito.</h2>
+          <p className="mt-3 font-serif italic text-primary/80 text-lg">O manifesto da Dumas Trekk</p>
           <p className="mt-6 text-lg text-muted-foreground">
             Nascemos da vontade de mostrar que aventura de verdade é feita com respeito. Cada expedição é planejada por
             quem conhece o terreno, valoriza o local e caminha lado a lado com você.
@@ -134,11 +149,11 @@ function Home() {
       {/* DEPOIMENTOS */}
       <section className="bg-forest-deep py-24 text-white">
         <div className="mx-auto max-w-7xl px-6">
-          <p className="text-xs uppercase tracking-widest text-white/60">Depoimentos</p>
-          <h2 className="mt-2 max-w-3xl font-serif text-4xl md:text-5xl">Histórias que nossos aventureiros levam para casa.</h2>
+          <h2 className="max-w-3xl font-serif text-4xl md:text-5xl leading-tight">Histórias que levamos na mochila.</h2>
+          <p className="mt-3 text-white/70 text-sm">O relato sincero de quem já caminhou conosco pelas trilhas.</p>
           <div className="mt-14 grid gap-8 md:grid-cols-3">
             {TESTIMONIALS.map((t, i) => (
-              <blockquote key={i} className="glass-dark rounded-3xl p-8">
+              <blockquote key={i} className="glass-dark rounded-md p-8">
                 <div className="flex text-accent">{[...Array(5)].map((_, k) => <Star key={k} className="h-4 w-4 fill-current" />)}</div>
                 <p className="mt-4 text-white/90">"{t.quote}"</p>
                 <footer className="mt-6 text-sm text-white/70">— {t.name}, {t.trip}</footer>
@@ -150,12 +165,11 @@ function Home() {
 
       {/* INSTAGRAM CTA */}
       <section className="mx-auto max-w-7xl px-6 py-24">
-        <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-forest-deep via-primary to-forest-moss p-10 text-white md:p-16">
+        <div className="overflow-hidden rounded-md bg-gradient-to-br from-forest-deep via-primary to-forest-moss p-10 text-white md:p-16">
           <div className="grid gap-8 md:grid-cols-2 md:items-center">
             <div>
-              <p className="text-xs uppercase tracking-widest text-white/70">Instagram</p>
-              <h2 className="mt-2 font-serif text-4xl md:text-5xl">Acompanhe cada passo em @dumastrekk</h2>
-              <p className="mt-4 max-w-lg text-white/85">Reels, bastidores e as próximas saídas em primeira mão.</p>
+              <h2 className="font-serif text-4xl md:text-5xl leading-tight">Acompanhe cada passo no @dumastrekk</h2>
+              <p className="mt-4 max-w-lg text-white/85">Momentos reais das trilhas, bastidores e o cotidiano das nossas expedições.</p>
               <a href="https://www.instagram.com/dumastrekk/" target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-foreground hover:scale-105 transition-transform">
                 <Instagram className="h-4 w-4" /> Seguir no Instagram
               </a>
@@ -169,7 +183,7 @@ function Home() {
                 "/images/sobre-equipe.jpg",
                 "/images/sustentabilidade.jpg",
               ].map((src, i) => (
-                <div key={i} className="aspect-square overflow-hidden rounded-xl">
+                <div key={i} className="aspect-square overflow-hidden rounded-sm">
                   <img src={src} alt="Feed" loading="lazy" className="h-full w-full object-cover" />
                 </div>
               ))}
@@ -192,7 +206,7 @@ function Stat({ n, label }: { n: string; label: string }) {
 
 function Pillar({ icon, title, text }: { icon: React.ReactNode; title: string; text: string }) {
   return (
-    <div className="rounded-3xl border border-border bg-card p-8 transition-all hover:-translate-y-1 hover:shadow-lg">
+    <div className="rounded-md border border-border bg-card p-8 transition-all hover:-translate-y-1 hover:shadow-lg">
       <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">{icon}</div>
       <h3 className="mt-6 font-serif text-2xl">{title}</h3>
       <p className="mt-3 text-sm text-muted-foreground">{text}</p>
