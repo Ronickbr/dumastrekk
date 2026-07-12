@@ -12,13 +12,13 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Expedições de trekking, ecoturismo e aventura com segurança e propósito. Reserve sua próxima experiência com a Dumas Trekk." },
       { property: "og:title", content: "Dumas Trekk — Explore lugares que transformam vidas" },
       { property: "og:description", content: "Trekking, ecoturismo e aventuras cuidadosamente planejadas." },
-      { property: "og:image", content: "https://dumastrekk.lovable.app/images/hero-dumas.jpg" },
-      { name: "twitter:image", content: "https://dumastrekk.lovable.app/images/hero-dumas.jpg" },
+      { property: "og:image", content: "https://dumastrekk.lovable.app/__l5e/assets-v1/78356d9a-aef4-424d-9fac-1871deddb5bb/insta-373.jpg" },
+      { name: "twitter:image", content: "https://dumastrekk.lovable.app/__l5e/assets-v1/78356d9a-aef4-424d-9fac-1871deddb5bb/insta-373.jpg" },
       { property: "og:url", content: "https://dumastrekk.lovable.app/" },
     ],
     links: [
       { rel: "canonical", href: "https://dumastrekk.lovable.app/" },
-      { rel: "preload", as: "image", href: "/images/hero-dumas.jpg", fetchPriority: "high" },
+      { rel: "preload", as: "image", href: "/__l5e/assets-v1/78356d9a-aef4-424d-9fac-1871deddb5bb/insta-373.jpg", fetchPriority: "high" },
     ],
   }),
 });
@@ -31,7 +31,7 @@ function Home() {
       {/* HERO */}
       <section className="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
         <img
-          src="/images/hero-dumas.jpg"
+          src="/__l5e/assets-v1/78356d9a-aef4-424d-9fac-1871deddb5bb/insta-373.jpg"
           alt="Aventureiro em cume de montanha ao amanhecer"
           className="absolute inset-0 h-full w-full object-cover"
           width={1920}
