@@ -176,18 +176,19 @@ function Home() {
             </div>
             <div className="grid grid-cols-3 gap-3">
               {[
-                "/images/destino-chapada.jpg",
-                "/images/destino-pico.jpg",
-                "/images/destino-cachoeira.jpg",
-                "/images/destino-acampamento.jpg",
-                "/images/sobre-equipe.jpg",
-                "/images/sustentabilidade.jpg",
+                "/__l5e/assets-v1/4c264150-f7cf-4d5c-ae05-e0987f508247/insta-401.jpg",
+                "/__l5e/assets-v1/a68698de-3529-4e83-9ad4-dc6006bbb994/insta-392.jpg",
+                "/__l5e/assets-v1/947b6b6f-3763-44b7-b7ac-6eca3606b07d/insta-391.jpg",
+                "/__l5e/assets-v1/c971ae60-c990-4b3d-a348-82b0c1491fba/insta-39.jpg",
+                "/__l5e/assets-v1/d4da7c4c-c0c7-4edf-a249-882cac23a4ad/insta-381.jpg",
+                "/__l5e/assets-v1/7808c4aa-2320-46e9-b9cb-2dbea7761977/insta-38.jpg",
               ].map((src, i) => (
-                <div key={i} className="aspect-square overflow-hidden rounded-sm">
-                  <img src={src} alt="Feed" loading="lazy" className="h-full w-full object-cover" />
-                </div>
+                <a key={i} href="https://www.instagram.com/dumastrekk/" target="_blank" rel="noreferrer" className="group aspect-square overflow-hidden rounded-sm">
+                  <img src={src} alt="Feed @dumastrekk" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                </a>
               ))}
             </div>
+
           </div>
         </div>
       </section>
