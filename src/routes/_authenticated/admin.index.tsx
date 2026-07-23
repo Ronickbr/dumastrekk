@@ -53,7 +53,7 @@ async function fetchRecent() {
       .limit(5),
     supabase
       .from("pedidos")
-      .select("id, valor_total, status, quantidade, created_at")
+      .select("id, valor_total, status, quantidade, created_at, mp_payment_id")
       .order("created_at", { ascending: false })
       .limit(5),
   ]);
@@ -182,7 +182,12 @@ function AdminDashboard() {
                   <p className="text-sm font-semibold">
                     R$ {Number(p.valor_total).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                   </p>
-                  <StatusBadge status={p.status} />
+                  <StatusBadge status={p.status} confirmed={Boolean(p.mp_payment_id)} />
+                  {p.status === "pago" && !p.mp_payment_id && (
+                    <p className="mt-1 text-[10px] text-amber-700 dark:text-amber-300">
+                      aguardando confirmação do MP
+                    </p>
+                  )}
                 </div>
               </li>
             ))}
@@ -257,18 +262,21 @@ function Panel({
   );
 }
 
-function StatusBadge({ status }: { status: string }) {
+function StatusBadge({ status, confirmed = true }: { status: string; confirmed?: boolean }) {
+  // Nunca pinta como "pago" (verde) se ainda não houve confirmação do webhook do MP.
+  const effective = status === "pago" && !confirmed ? "aguardando" : status;
   const map: Record<string, string> = {
     pendente: "bg-amber-100 text-amber-900 dark:bg-amber-900/30 dark:text-amber-200",
     confirmada: "bg-emerald-100 text-emerald-900 dark:bg-emerald-900/30 dark:text-emerald-200",
     cancelada: "bg-rose-100 text-rose-900 dark:bg-rose-900/30 dark:text-rose-200",
     pago: "bg-emerald-100 text-emerald-900 dark:bg-emerald-900/30 dark:text-emerald-200",
     aguardando: "bg-amber-100 text-amber-900 dark:bg-amber-900/30 dark:text-amber-200",
+    falha: "bg-rose-100 text-rose-900 dark:bg-rose-900/30 dark:text-rose-200",
   };
-  const cls = map[status] ?? "bg-muted text-foreground/70";
+  const cls = map[effective] ?? "bg-muted text-foreground/70";
   return (
     <span className={`inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wide ${cls}`}>
-      {status}
+      {effective}
     </span>
   );
 }
