@@ -30,6 +30,7 @@ import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as ApiPublicMercadopagoWebhookRouteImport } from './routes/api/public/mercadopago-webhook'
 import { Route as AuthenticatedAdminUsuariosRouteImport } from './routes/_authenticated/admin.usuarios'
 import { Route as AuthenticatedAdminProdutosRouteImport } from './routes/_authenticated/admin.produtos'
 import { Route as AuthenticatedAdminDestinosRouteImport } from './routes/_authenticated/admin.destinos'
@@ -139,6 +140,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const ApiPublicMercadopagoWebhookRoute =
+  ApiPublicMercadopagoWebhookRouteImport.update({
+    id: '/api/public/mercadopago-webhook',
+    path: '/api/public/mercadopago-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedAdminUsuariosRoute =
   AuthenticatedAdminUsuariosRouteImport.update({
     id: '/usuarios',
@@ -187,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/admin/destinos': typeof AuthenticatedAdminDestinosRoute
   '/admin/produtos': typeof AuthenticatedAdminProdutosRoute
   '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
+  '/api/public/mercadopago-webhook': typeof ApiPublicMercadopagoWebhookRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -212,6 +220,7 @@ export interface FileRoutesByTo {
   '/admin/destinos': typeof AuthenticatedAdminDestinosRoute
   '/admin/produtos': typeof AuthenticatedAdminProdutosRoute
   '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
+  '/api/public/mercadopago-webhook': typeof ApiPublicMercadopagoWebhookRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
@@ -240,6 +249,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/destinos': typeof AuthenticatedAdminDestinosRoute
   '/_authenticated/admin/produtos': typeof AuthenticatedAdminProdutosRoute
   '/_authenticated/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
+  '/api/public/mercadopago-webhook': typeof ApiPublicMercadopagoWebhookRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -268,6 +278,7 @@ export interface FileRouteTypes {
     | '/admin/destinos'
     | '/admin/produtos'
     | '/admin/usuarios'
+    | '/api/public/mercadopago-webhook'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -293,6 +304,7 @@ export interface FileRouteTypes {
     | '/admin/destinos'
     | '/admin/produtos'
     | '/admin/usuarios'
+    | '/api/public/mercadopago-webhook'
     | '/admin'
   id:
     | '__root__'
@@ -320,6 +332,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/destinos'
     | '/_authenticated/admin/produtos'
     | '/_authenticated/admin/usuarios'
+    | '/api/public/mercadopago-webhook'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -340,6 +353,7 @@ export interface RootRouteChildren {
   PedidoPendenteRoute: typeof PedidoPendenteRoute
   PedidoSucessoRoute: typeof PedidoSucessoRoute
   DestinosIndexRoute: typeof DestinosIndexRoute
+  ApiPublicMercadopagoWebhookRoute: typeof ApiPublicMercadopagoWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -491,6 +505,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/api/public/mercadopago-webhook': {
+      id: '/api/public/mercadopago-webhook'
+      path: '/api/public/mercadopago-webhook'
+      fullPath: '/api/public/mercadopago-webhook'
+      preLoaderRoute: typeof ApiPublicMercadopagoWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin/usuarios': {
       id: '/_authenticated/admin/usuarios'
       path: '/usuarios'
@@ -593,6 +614,7 @@ const rootRouteChildren: RootRouteChildren = {
   PedidoPendenteRoute: PedidoPendenteRoute,
   PedidoSucessoRoute: PedidoSucessoRoute,
   DestinosIndexRoute: DestinosIndexRoute,
+  ApiPublicMercadopagoWebhookRoute: ApiPublicMercadopagoWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

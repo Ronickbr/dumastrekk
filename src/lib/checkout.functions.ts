@@ -89,6 +89,7 @@ export const criarCheckoutMercadoPago = createServerFn({ method: "POST" })
         failure: `${data.origin}/pedido/falha?pedido=${pedido.id}`,
       },
       auto_return: "approved",
+      notification_url: `${data.origin}/api/public/mercadopago-webhook`,
       metadata: {
         pedido_id: pedido.id,
         produto_slug: produto.slug,
