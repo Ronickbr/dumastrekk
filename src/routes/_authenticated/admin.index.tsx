@@ -53,7 +53,7 @@ async function fetchRecent() {
       .limit(5),
     supabase
       .from("pedidos")
-      .select("id, valor_total, status, quantidade, created_at")
+      .select("id, valor_total, status, quantidade, created_at, mp_payment_id")
       .order("created_at", { ascending: false })
       .limit(5),
   ]);
