@@ -182,7 +182,12 @@ function AdminDashboard() {
                   <p className="text-sm font-semibold">
                     R$ {Number(p.valor_total).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                   </p>
-                  <StatusBadge status={p.status} />
+                  <StatusBadge status={p.status} confirmed={Boolean(p.mp_payment_id)} />
+                  {p.status === "pago" && !p.mp_payment_id && (
+                    <p className="mt-1 text-[10px] text-amber-700 dark:text-amber-300">
+                      aguardando confirmação do MP
+                    </p>
+                  )}
                 </div>
               </li>
             ))}
