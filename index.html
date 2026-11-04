@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dumastrekk | Trekking e Aventuras na Natureza</title>
+<meta name="description" content="Trilhas, trekking e ecoturismo com guias especializados. Descubra os melhores roteiros de aventura com a Dumastrekk.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  /* ========== RESET & VARIÁVEIS ========== */
+  :root{
+    --primary:#c2410c;
+    --primary-dark:#9a3408;
+    --secondary:#0f3d2e;
+    --dark:#0b1220;
+    --light:#f8fafc;
+    --gray:#64748b;
+    --gray-light:#f1f5f9;
+    --accent:#f59e0b;
+    --max-width:1200px;
+    --radius:12px;
+    --shadow:0 10px 30px -10px rgba(0,0,0,0.3);
+    --shadow-lg:0 20px 50px -10px rgba(0,0,0,0.4);
+    --transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',sans-serif;
+    background:#0b1220;
+    color:#e2e8f0;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{font-family:'Playfair Display',serif;color:#fff}
+  h2{font-size:2.5rem;font-weight:800;line-height:1.15}
+  h3{font-size:1.75rem;font-weight:700}
+  p{color:#cbd5e1}
+  a{color:inherit;text-decoration:none}
+  ul{list-style:none}
+  img{max-width:100%;display:block;border-radius:var(--radius)}
+  .container{max-width:var(--max-width);margin:0 auto;padding:0 1.5rem}
+  .btn{
+    display:inline-flex;align-items:center;gap:.5rem;
+    padding:1rem 1.75rem;border-radius:var(--radius);
+    font-weight:600;font-size:1rem;cursor:pointer;border:none;
+    transition:var(--transition);text-align:center;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+    color:#fff;box-shadow:0 4px 20px rgba(194,65,12,0.35);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(194,65,12,0.45);filter:brightness(1.1)}
+  .btn-outline{
+    background:transparent;border:2px solid rgba(255,255,255,0.4);color:#fff;
+  }
+  .btn-outline:hover{border-color:#fff;background:rgba(255,255,255,0.05)}
+  .section{padding:6rem 0}
+  .section-title{text-align:center;margin-bottom:1rem}
+  .section-title span{color:var(--primary)}
+  .section-title h2{font-size:2.25rem;margin-bottom:.5rem}
+  .section-subtitle{color:#94a3b8;max-width:700px;margin:0 auto 3rem;font-size:1.1rem}
+  .badge{
+    display:inline-block;padding:.35rem .9rem;border-radius:999px;
+    font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  }
+  .badge-easy{background:#14532d;color:#86efac}
+  .badge-medium{background:#b45309;color:#fde68a}
+  .badge-hard{background:#7f1d1d;color:#fecaca}
+  .reveal{opacity:0;transform:translateY(30px);transition:all .8s ease}
+  .reveal.active{opacity:1;transform:none}
+  .delay-1{transition-delay:.15s}
+  .delay-2{transition-delay:.3s}
+  .delay-3{transition-delay:.45s}
+
+  /* ========== NAVBAR ========== */
+  nav{
+    position:fixed;top:0;width:100%;z-index:1000;
+    background:rgba(11,18,32,0.8);backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  .nav-inner{display:flex;justify-content:space-between;align-items:center;height:72px}
+  .logo{font-family:'Playfair Display',serif;font-weight:900;font-size:1.5rem;color:#fff;letter-spacing:-.02em}
+  .logo span{color:var(--primary)}
+  .nav-links{display:flex;gap:2.5rem;align-items:center}
+  .nav-links a{color:#cbd5e1;font-weight:500;font-size:.95rem;transition:color .3s}
+  .nav-links a:hover{color:#fff}
+  .nav-mobile{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
+  .mobile-menu{
+    position:fixed;top:72px;right:-100%;width:80%;max-width:320px;
+    height:calc(100vh - 72px);background:#0f172a;flex-direction:column;
+    padding:2rem;z-index:1001;transition:right .4s ease;box-shadow:-10px 0 30px rgba(0,0,0,0.5)
+  }
+  .mobile-menu.open{right:0}
+  .mobile-menu a{display:block;padding:1rem 0;color:#cbd5e1;font-weight:600;border-bottom:1px solid rgba(255,255,255,0.06)}
+  .mobile-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
+
+  /* ========== HERO ========== */
+  .hero{
+    position:relative;height:100vh;min-height:700px;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute;inset:0;z-index:0;
+  }
+  .hero-bg video{width:100%;height:100%;object-fit:cover}
+  .hero-bg::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(11,18,32,0.6) 0%,rgba(11,18,32,0.9) 60%,#0b1220 100%);
+  }
+  .hero-content{position:relative;z-index:2;text-align:center;max-width:900px;padding:0 1.5rem}
+  .hero-kicker{font-size:.9rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--primary);margin-bottom:1rem;display:block}
+  .hero h1{font-size:4rem;line-height:1.1;margin-bottom:1.5rem}
+  .hero p{font-size:1.25rem;color:#cbd5e1;margin-bottom:2rem;max-width:650px;margin-left:auto;margin-right:auto}
+  .hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+  .hero-stats{
+    position:relative;z-index:2;margin-top:3rem;
+    display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;
+    background:rgba(15,23,42,0.6);backdrop-filter:blur(10px);
+    padding:2rem 3rem;border-radius:var(--radius);border:1px solid rgba(255,255,255,0.08)
+  }
+  .stat h4{font-size:2rem;color:#fff;margin-bottom:.25rem;font-family:'Inter',sans-serif;font-weight:800}
+  .stat span{color:#94a3b8;font-size:.95rem}
+
+  /* ========== DESTINOS ========== */
+  .destinos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+  .card{
+    background:#1e293b;border-radius:var(--radius);overflow:hidden;border:1px solid rgba(255,255,255,0.06);
+    transition:var(--transition);position:relative
+  }
+  .card:hover{transform:translateY(-8px);border-color:rgba(194,65,12,0.4);box-shadow:var(--shadow-lg)}
+  .card-img{height:260px;overflow:hidden;position:relative}
+  .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+  .card:hover .card-img img{transform:scale(1.08)}
+  .card-tag{position:absolute;top:1rem;left:1rem;z-index:2}
+  .card-body{padding:1.5rem}
+  .card h3{font-size:1.25rem;margin-bottom:.5rem}
+  .card p{font-size:.95rem;color:#94a3b8;margin-bottom:1rem}
+  .card-meta{display:flex;gap:1rem;font-size:.9rem;color:#94a3b8;margin-bottom:1rem}
+  .card-meta i{color:var(--primary);margin-right:.4rem}
+  .card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.06)}
+  .price{font-weight:800;font-size:1.25rem;color:#fff}
+  .price small{font-weight:400;font-size:.85rem;color:#94a3b8}
+
+  /* ========== POR QUE / FEATURES ========== */
+  .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem}
+  .feature{
+    background:#1e293b;padding:2rem;border-radius:var(--radius);
+    border:1px solid rgba(255,255,255,0.06);transition:var(--transition)
+  }
+  .feature:hover{border-color:rgba(194,65,12,0.3);transform:translateY(-4px)}
+  .feature i{font-size:2rem;color:var(--primary);margin-bottom:1rem}
+  .feature h3{font-size:1.3rem;margin-bottom:.75rem}
+  .feature p{font-size:.95rem;color:#94a3b8}
+
+  /* ========== GALERIA ========== */
+  .galeria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+  .galeria-item{height:320px;overflow:hidden;border-radius:var(--radius);position:relative;cursor:pointer}
+  .galeria-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+  .galeria-item:hover img{transform:scale(1.1)}
+  .galeria-item::after{
+    content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);
+    opacity:0;transition:opacity .3s
+  }
+  .galeria-item:hover::after{opacity:1}
+
+  /* ========== DEPOIMENTOS ========== */
+  .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem}
+  .testimonial{
+    background:#1e293b;padding:2.5rem;border-radius:var(--radius);
+    border:1px solid rgba(255,255,255,0.06);display:flex;flex-direction:column;gap:1rem
+  }
+  .stars{color:var(--accent);font-size:1.2rem;gap:.2rem;display:flex}
+  .testimonial p{color:#cbd5e1;font-style:italic;font-size:1rem}
+  .author{display:flex;align-items:center;gap:1rem;margin-top:auto}
+  .author img{width:40px;height:40px;border-radius:50%;object-fit:cover}
+  .author-info h4{color:#fff;font-size:1rem;margin-bottom:.1rem}
+  .author-info span{font-size:.85rem;color:#94a3b8}
+
+  /* ========== CTA ========== */
+  .cta{
+    background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);
+    border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);
+    padding:4rem 2rem;text-align:center;margin-top:1rem
+  }
+  .cta h2{font-size:2.5rem;margin-bottom:1rem}
+  .cta p{color:#94a3b8;margin-bottom:2rem;font-size:1.1rem}
+  .whatsapp-float{
+    position:fixed;bottom:2rem;right:2rem;z-index:999;
+    background:#25d366;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:1.75rem;box-shadow:0 4px 20px rgba(37,211,102,0.4);transition:transform .3s
+  }
+  .whatsapp-float:hover{transform:scale(1.1) rotate(-5deg)}
+  .whatsapp-float i{animation:pulse 2s infinite}
+  @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+
+  /* ========== RODAPÉ ========== */
+  footer{background:#0a0e1a;border-top:1px solid rgba(255,255,255,0.06);padding:4rem 0 2rem}
+  .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:3rem;margin-bottom:3rem}
+  .footer-brand{font-family:'Playfair Display',serif;font-weight:900;font-size:1.5rem;color:#fff;margin-bottom:1rem}
+  .footer-brand span{color:var(--primary)}
+  .footer-col p{color:#94a3b8;font-size:.95rem;line-height:1.8;margin-bottom:1rem}
+  .footer-col h4{color:#fff;font-size:1.1rem;margin-bottom:1rem}
+  .footer-col ul li{margin-bottom:.6rem}
+  .footer-col ul li a{color:#94a3b8;font-size:.95rem;transition:color .3s}
+  .footer-col ul li a:hover{color:#fff}
+  .socials{display:flex;gap:1rem;margin-top:1rem}
+  .socials a{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;color:#fff;transition:var(--transition)}
+  .socials a:hover{background:var(--primary);transform:translateY(-3px)}
+  .newsletter{background:rgba(255,255,255,0.03);padding:2rem;border-radius:var(--radius);border:1px solid rgba(255,255,255,0.06)}
+  .newsletter h4{color:#fff;margin-bottom:1rem}
+  .news-form{display:flex;gap:.5rem;flex-wrap:wrap}
+  .news-form input{flex:1;padding:1rem;border-radius:var(--radius);border:none;background:#0f172a;color:#fff;outline:none}
+  .news-form input::placeholder{color:#64748b}
+  .news-form button{background:var(--primary);color:#fff;border:none;padding:1rem 1.5rem;border-radius:var(--radius);font-weight:600;cursor:pointer;transition:opacity .3s}
+  .news-form button:hover{opacity:.9}
+  .copyright{color:#64748b;font-size:.9rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:2rem}
+
+  /* ========== MODAL CONTATO ========== */
+  .modal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:1.5rem}
+  .modal.open{display:flex}
+  .modal-content{
+    background:#1e293b;border-radius:var(--radius);padding:2.5rem;max-width:500px;width:100%;position:relative;
+    border:1px solid rgba(255,255,255,0.08);box-shadow:var(--shadow-lg)
+  }
+  .modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:#94a3b8;font-size:1.5rem;cursor:pointer}
+  .modal h3{color:#fff;margin-bottom:1.5rem}
+  .form-group{margin-bottom:1.25rem}
+  .form-group label{display:block;color:#cbd5e1;font-size:.9rem;margin-bottom:.5rem;font-weight:500}
+  .form-group input,.form-group textarea{
+    width:100%;padding:1rem;border-radius:var(--radius);border:1px solid rgba(255,255,255,0.12);
+    background:#0f172a;color:#fff;outline:none;font-family:inherit;font-size:.95rem
+  }
+  .form-group input::placeholder,.form-group textarea::placeholder{color:#64748b}
+  .form-group textarea{resize:none;height:100px}
+  .btn-send{width:100;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;border:none;padding:1rem;border-radius:var(--radius);font-weight:600;cursor:pointer;transition:var(--transition)}
+  .btn-send:hover{transform:translateY(-2px);opacity:.95}
+
+  @media(max-width:768px){
+    .nav-links{display:none}
+    .nav-mobile{display:block}
+    .hero h1{font-size:2.75rem}
+    .hero-stats{gap:1.5rem;padding:1.5rem 2rem}
+    .stat h4{font-size:1.5rem}
+    h2{font-size:2rem}
+    .whatsapp-float{width:50px;height:50px;font-size:1.4rem;bottom:1rem;right:1rem}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="#" class="logo">DUMA<span>STREKK</span></a>
+    <div class="nav-links">
+      <a href="#inicio">Início</a>
+      <a href="#destinos">Destinos</a>
+      <a href="#sobre">Experiências</a>
+      <a href="#galeria">Galeria</a>
+      <a href="#contato">Reservar</a>
+    </div>
+    <button class="nav-mobile" id="btnMobile"><i class="fa-solid fa-bars"></i></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="btnCloseMobile"><i class="fa-solid fa-xmark"></i></button>
+  <a href="#inicio">Início</a>
+  <a href="#destinos">Destinos</a>
+  <a href="#sobre">Experiências</a>
+  <a href="#galeria">Galeria</a>
+  <a href="#contato">Reservar</a>
+</div>
+
+<section class="hero" id="inicio">
+  <div class="hero-bg">
+    <video playsinline muted autoplay loop poster="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=1920&q=80">
+      <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-content">
+    <span class="hero-kicker">Ecoturismo &nbsp;•&nbsp; Trekking &nbsp;•&nbsp; Aventura</span>
+    <h1>Desça da cidade.<br>Suba para o essencial.</h1>
+    <p>Trilhas guiadas, segurança e conexão real com a natureza. A Dumastrekk leva você aos lugares mais impressionantes com roteiros pensados para todos os níveis.</p>
+    <div class="hero-actions">
+      <a href="#destinos" class="btn btn-primary">Ver roteiros <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#contato" class="btn btn-outline">Fale pelo WhatsApp <i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat reveal delay-1"><h4>50+</h4><span>trilhas mapeadas</span></div>
+      <div class="stat reveal delay-2"><h4>12</h4><span>estados atendidos</span></div>
+      <div class="stat reveal delay-3"><h4>500+</h4><span>aventureiros guiados</span></div>
+    </div>
+  </div>
+  <a href="#destinos" class="scroll-down"><i class="fa-solid fa-chevron-down"></i></a>
+</section>
+
+<section class="section" id="destinos">
+  <div class="container">
+    <div class="section-title reveal">
+      <span>Nossos roteiros</span>
+      <h2>Destinos que transformam</h2>
+    </div>
+    <p class="section-subtitle reveal delay-1">Escolha sua próxima aventura. Do iniciante ao experiente, temos o caminho certo para você.</p>
+    <div class="destinos-grid">
+      <article class="card reveal delay-1">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80" alt="Trilha na montanha">
+          <span class="card-tag badge badge-medium">Intermediário</span>
+        </div>
+        <div class="card-body">
+          <h3>Serra dos Órgãos — RJ</h3>
+          <p>Travessia de dois dias com pernoite em abrigo e vistas icônicas do Dedo de Deus.</p>
+          <div class="card-meta"><i class="fa-solid fa-clock"></i> 2 dias · <i class="fa-solid fa-location-dot"></i> Rio de Janeiro</div>
+          <div class="card-footer">
+            <div class="price">R$ 480 <small>/ pessoa</small></div>
+            <a href="#contato" class="btn btn-primary" style="padding:.6rem 1rem;font-size:.9rem">Reservar</a>
+          </div>
+        </div>
+      </article>
+      <article class="card reveal delay-2">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80" alt="Montanhas">
+          <span class="card-tag badge badge-hard">Avançado</span>
+        </div>
+        <div class="card-body">
+          <h3>Monte Roraima — AM</h3>
+          <p>Expedição ao topo do tepui mais famoso da Amazônia, com paisagens de outro mundo.</p>
+          <div class="card-meta"><i class="fa-solid fa-clock"></i> 6 dias · <i class="fa-solid fa-location-dot"></i> Amazonas</div>
+          <div class="card-footer">
+            <div class="price">R$ 3.200 <small>/ pessoa</small></div>
+            <a href="#contato" class="btn btn-primary" style="padding:.6rem 1rem;font-size:.9rem">Reservar</a>
+          </div>
+        </div>
+      </article>
+      <article class="card reveal delay-3">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abdac?auto=format&fit=crop&w=800&q=80" alt="Floresta">
+          <span class="card-tag badge badge-easy">Iniciante</span>
+        </div>
+        <div class="card-body">
+          <h3>Chapada dos Veadeiros — GO</h3>
+          <p>Cachoeiras de quartzito, trilhas leves e céu estrelado no cerrado brasileiro.</p>
+          <div class="card-meta"><i class="fa-solid fa-clock"></i> 1 dia · <i class="fa-solid fa-location-dot"></i> Goiás</div>
+          <div class="card-footer">
+            <div class="price">R$ 180 <small>/ pessoa</small></div>
+            <a href="#contato" class="btn btn-primary" style="padding:.6rem 1rem;font-size:.9rem">Reservar</a>
+          </div>
+        </div>
+      </article>
+      <article class="card reveal delay-1">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1533234436177-02b9c26f5e0c?auto=format&fit=crop&w=800&q=80" alt="Pedra e natureza">
+          <span class="card-tag badge badge-medium">Intermediário</span>
+        </div>
+        <div class="card-body">
+          <h3>Pedra do Baú — SP</h3>
+          <p>Escalada de rocha e travessia com uma das vistas mais espetaculares de São Paulo.</p>
+          <div class="card-meta"><i class="fa-solid fa-clock"></i> 1 dia · <i class="fa-solid fa-location-dot"></i> São Paulo</div>
+          <div class="card-footer">
+            <div class="price">R$ 320 <small>/ pessoa</small></div>
+            <a href="#contato" class="btn btn-primary" style="padding:.6rem 1rem;font-size:.9rem">Reservar</a>
+          </div>
+        </div>
+      </article>
+      <article class="card reveal delay-2">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80" alt="Lago e montanha">
+          <span class="card-tag badge badge-easy">Iniciante</span>
+        </div>
+        <div class="card-body">
+          <h3>Lençóis Maranhenses — MA</h3>
+          <p>Caminhada entre lagoas de água cristalina e dunas brancas no pôr do sol.</p>
+          <div class="card-meta"><i class="fa-solid fa-clock"></i> 3 dias · <i class="fa-solid fa-location-dot"></i> Maranhão</div>
+          <div class="card-footer">
+            <div class="price">R$ 950 <small>/ pessoa</small></div>
+            <a href="#contato" class="btn btn-primary" style="padding:.6rem 1rem;font-size:.9rem">Reservar</a>
+          </div>
+        </div>
+      </article>
+      <article class="card reveal delay-3">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1469474877025-ba41695ef408?auto=format&fit=crop&w=800&q=80" alt="Cachoeira">
+          <span class="card-tag badge badge-hard">Avançado</span>
+        </div>
+        <div class="card-body">
+          <h3>Pico da Neblina — AM</h3>
+          <p>O ponto mais alto do Brasil. Expedição técnica com suporte completo de guias.</p>
+          <div class="card-meta"><i class="fa-solid fa-clock"></i> 8 dias · <i class="fa-solid fa-location-dot"></i> Amazonas</div>
+          <div class="card-footer">
+            <div class="price">R$ 4.500 <small>/ pessoa</small></div>
+            <a href="#contato" class="btn btn-primary" style="padding:.6rem 1rem;font-size:.9rem">Reservar</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="sobre">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature reveal delay-1">
+        <i class="fa-solid fa-mountain-sun"></i>
+        <h3>Guias certificados</h3>
+        <p>Profissionais treinados em primeiros socorros e navegação em trilhas de longa distância.</p>
+      </div>
+      <div class="feature reveal delay-2">
+        <i class="fa-solid fa-shield-halved"></i>
+        <h3>Segurança em primeiro lugar</h3>
+        <p>Equipamentos inspecionados, planos de emergência e grupos pequenos para atendimento personalizado.</p>
+      </div>
+      <div class="feature reveal delay-3">
+        <i class="fa-solid fa-leaf"></i>
+        <h3>Ecoturismo responsável</h3>
+        <p>Deixe apenas pegadas. Nossas trilhas seguem princípios de impacto mínimo e preservação ambiental.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="galeria">
+  <div class="container">
+    <div class="section-title reveal">
+      <span>Momentos reais</span>
+      <h2>Galeria da trilha</h2>
+    </div>
+    <div class="galeria-grid">
+      <div class="galeria-item reveal"><img src="https://images.unsplash.com/photo-1469474948220-37d09b2a4a51?auto=format&fit=crop&w=600&q=80" alt="Trilha"></div>
+      <div class="galeria-item reveal delay-1"><img src="https://images.unsplash.com/photo-1504208398865-e88f71198e5f?auto=format&fit=crop&w=600&q=80" alt="Montanha"></div>
+      <div class="galeria-item reveal delay-2"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80" alt="Cachoeira"></div>
+      <div class="galeria-item reveal delay-3"><img src="https://images.unsplash.com/photo-1526426772815-f7a04b21f4d4?auto=format&fit=crop&w=600&q=80" alt="Paisagem"></div>
+      <div class="galeria-item reveal"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80" alt="Aventura"></div>
+      <div class="galeria-item reveal delay-1"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80" alt="Montanhas"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:4rem">
+  <div class="container">
+    <div class="section-title reveal">
+      <span>O que dizem</span>
+      <h2>Depoimentos</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial reveal delay-1">
+        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p>"Experiência incrível na Serra dos Órgãos. Guia atencioso, segurança impecável e paisagens de tirar o fôlego."</p>
+        <div class="author">
+          <img src="https://i.pravatar.cc/100?img=11" alt="Ana">
+          <div class="author-info"><h4>Ana Silva</h4><span>São Paulo, SP</span></div>
+        </div>
+      </div>
+      <div class="testimonial reveal delay-2">
+        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p>"Minha primeira trilha e já quero a próxima. A Dumastrekk torna o acesso à natureza simples e seguro."</p>
+        <div class="author">
+          <img src="https://i.pravatar.cc/100?img=5" alt="Carlos">
+          <div class="author-info"><h4>Carlos Mendes</h4><span>Rio de Janeiro, RJ</span></div>
+        </div>
+      </div>
+      <div class="testimonial reveal delay-3">
+        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p>Profissionalismo do começo ao fim. A expedição ao Monte Roraima foi marcante."</p>
+        <div class="author">
+          <img src="https://i.pravatar.cc/100?img=9" alt="Fernanda">
+          <div class="author-info"><h4>Fernanda Costa</h4><span>Belo Horizonte, MG</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="cta reveal">
+      <h2>Pronto para sua próxima aventura?</h2>
+      <p>Fale com nossa equipe pelo WhatsApp e garanta sua vaga nos próximos roteiros.</p>
+      <a href="https://wa.me/5511999999999" class="btn btn-primary" target="_blank">Começar pelo WhatsApp <i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-brand">DUMA<span>STREKK</span></div>
+        <p>Trekking e ecoturismo com guias certificados. Aventure-se com segurança e responsabilidade ambiental.</p>
+        <div class="socials">
+          <a href="https://www.instagram.com/dumastrekk/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Rápido</h4>
+        <ul>
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#destinos">Destinos</a></li>
+          <li><a href="#sobre">Experiências</a></li>
+          <li><a href="#galeria">Galeria</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="mailto:contato@dumastrekk.com.br"><i class="fa-solid fa-envelope" style="margin-right:.5rem;color:var(--primary)"></i> contato@dumastrekk.com.br</a></li>
+          <li><a href="https://wa.me/5511999999999" target="_blank"><i class="fa-brands fa-whatsapp" style="margin-right:.5rem;color:var(--primary)"></i> +55 11 9999-9999</a></li>
+          <li><i class="fa-solid fa-location-dot" style="margin-right:.5rem;color:var(--primary)"></i> São Paulo, SP — Brasil</li>
+        </ul>
+      </div>
+      <div class="footer-col newsletter">
+        <h4>Novidades na trilha</h4>
+        <form class="news-form" onsubmit="event.preventDefault();alert('Inscrição feita com sucesso!');">
+          <input type="email" placeholder="Seu e-mail" required>
+          <button type="submit">Inscrever</button>
+        </form>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2026 Dumastrekk Trekking & Aventura. Todos os direitos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<div class="modal" id="modalContato">
+  <div class="modal-content">
+    <button class="modal-close" id="btnFecharModal"><i class="fa-solid fa-xmark"></i></button>
+    <h3>Fale conosco</h3>
+    <form onsubmit="event.preventDefault(); alert('Mensagem enviada! Entraremos em contato em breve.'); document.getElementById('modalContato').classList.remove('open');">
+      <div class="form-group">
+        <label>Nome completo</label>
+        <input type="text" placeholder="Seu nome" required>
+      </div>
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" placeholder="seu@email.com" required>
+      </div>
+      <div class="form-group">
+        <label>Roteiro de interesse</label>
+        <input type="text" placeholder="Ex: Serra dos Órgãos, Monte Roraima...">
+      </div>
+      <div class="form-group">
+        <label>Mensagem</label>
+        <textarea placeholder="Quantas pessoas, datas previstas..." required></textarea>
+      </div>
+      <button type="submit" class="btn-send">Enviar mensagem</button>
+    </form>
+  </div>
+</div>
+
+<a href="https://wa.me/5511999999999" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+
+<script>
+  /* Menu mobile */
+  const btnMobile = document.getElementById('btnMobile');
+  const btnCloseMobile = document.getElementById('btnCloseMobile');
+  const mobileMenu = document.getElementById('mobileMenu');
+  function toggleMenu(){ mobileMenu.classList.toggle('open'); }
+  btnMobile.addEventListener('click', toggleMenu);
+  btnCloseMobile.addEventListener('click', toggleMenu);
+  document.querySelectorAll('.mobile-menu a').forEach(a=>a.addEventListener('click', toggleMenu));
+
+  /* Modal contato */
+  const btnAbrir = document.querySelectorAll('a[href="#contato"]');
+  const modal = document.getElementById('modalContato');
+  const btnFechar = document.getElementById('btnFecharModal');
+  btnAbrir.forEach(b=>b.addEventListener('click',(e)=>{ e.preventDefault(); modal.classList.add('open'); }));
+  btnFechar.addEventListener('click',()=>modal.classList.remove('open'));
+  modal.addEventListener('click',(e)=>{ if(e.target===modal) modal.classList.remove('open'); });
+
+  /* Reveal ao scroll */
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){ entry.target.classList.add('active'); observer.unobserve(entry.target); }
+    });
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+  /* Smooth scroll para links internos */
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',(e)=>{
+      const id=a.getAttribute('href');
+      if(id&&document.querySelector(id)){ e.preventDefault(); document.querySelector(id).scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+</script>
+</body>
+</html>
